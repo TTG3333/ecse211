@@ -8,7 +8,8 @@ It must be run on the robot.
 from utils import sound
 from utils.brick import TouchSensor, EV3UltrasonicSensor, wait_ready_sensors, reset_brick
 from time import sleep
-
+import os
+os.chdir(os.path.dirname(__file__))
 
 DELAY_SEC = 0.01  # seconds of delay between measurements
 US_SENSOR_DATA_FILE = "../data_analysis/us_sensor.csv"
@@ -24,8 +25,9 @@ wait_ready_sensors(True) # Input True to see what the robot is trying to initial
 print("Done waiting.")
 
 
-def collect_continuous_us_data():
+def collect_continuous_us_data(): 
     "Collect continuous data from the ultrasonic sensor between two button presses."
+    output_file = None
     try:
         output_file = open(US_SENSOR_DATA_FILE, "w")
         while not TOUCH_SENSOR.is_pressed():
@@ -43,7 +45,8 @@ def collect_continuous_us_data():
         pass
     finally:
         print("Done collecting US distance samples")
-        output_file.close()
+        if output_file:
+            output_file.close()
         reset_brick() # Turn off everything on the brick's hardware, and reset it
         exit()
 
