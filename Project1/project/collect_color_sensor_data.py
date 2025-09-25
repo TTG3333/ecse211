@@ -14,7 +14,7 @@ COLOR_SENSOR_DATA_FILE = "../data_analysis/color_sensor.csv"
 # complete this based on your hardware setup
 _ = EV3ColorSensor(...)
 _ = TouchSensor(...)
-
+# this is a comment
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
 
 
