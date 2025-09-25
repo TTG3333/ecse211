@@ -11,14 +11,14 @@ from utils.brick import TouchSensor, wait_ready_sensors
 SOUND = sound.Sound(duration=0.3, pitch="A4", volume=85)
 TOUCH_SENSOR = TouchSensor(1)
 
-SOUND_D4 = sound.Sound(duration=0.25, pitch="D4", volume=85)
-SOUND_D5 = sound.Sound(duration=0.5, pitch="D5", volume=85)
-SOUND_A4 = sound.Sound(duration=0.75, pitch="D4", volume=85)
-SOUND_GS4 = sound.Sound(duration=0.5, pitch="G#4", volume=85)
-SOUND_G4long = sound.Sound(duration=0.5, pitch="G4", volume=85)
-SOUND_G4short = sound.Sound(duration=0.25, pitch="G4", volume=85)
-SOUND_F4long = sound.Sound(duration=0.5, pitch="F4", volume=85)
-SOUND_F4short = sound.Sound(duration=0.25, pitch="F4", volume=85)
+SOUND_D4 = sound.Sound(duration=0.12, pitch="D4", volume=85)
+SOUND_D5 = sound.Sound(duration=0.24, pitch="D5", volume=85)
+SOUND_A4 = sound.Sound(duration=0.36, pitch="D4", volume=85)
+SOUND_GS4 = sound.Sound(duration=0.24, pitch="G#4", volume=85)
+SOUND_G4long = sound.Sound(duration=0.24, pitch="G4", volume=85)
+SOUND_G4short = sound.Sound(duration=0.12, pitch="G4", volume=85)
+SOUND_F4long = sound.Sound(duration=0.24, pitch="F4", volume=85)
+SOUND_F4short = sound.Sound(duration=0.12, pitch="F4", volume=85)
 
 
 wait_ready_sensors() # Note: Touch sensors actually have no initialization time
