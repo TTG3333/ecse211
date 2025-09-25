@@ -28,30 +28,30 @@ wait_ready_sensors() # Note: Touch sensors actually have no initialization time
 def play_sound():
     "Play a single note."
     SOUND.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
 
 def play_thefunny():
     "Play Megalovania"
     SOUND_D4.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_D4.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_D5.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_A4.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_GS4.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_G4long.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_F4long.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_D4.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_F4short.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
     SOUND_G4short.play()
-    time.sleep(0.2)
+    time.sleep(0.5)
 
 
 def play_sound_on_button_press():
