@@ -3,7 +3,7 @@
 from matplotlib import pyplot as plt
 
 DELAY_SEC = 0.01
-DATA_FILES = ["us_sensor_10cm.csv", "us_sensor_20cm.csv", "us_sensor_30cm.csv"]
+DATA_FILES = ["us_sensor_10cm2.csv", "us_sensor_20cm2.csv", "us_sensor_30cm2.csv"]
 
 distances = []
 for us_sensor_data_file in DATA_FILES:
