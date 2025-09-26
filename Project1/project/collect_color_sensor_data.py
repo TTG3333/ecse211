@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+# In this part, you will implement a discrete color sampler using the touch sensor.
+# In the collect_color_sensor_data.py file, complete the collect_color_sensor_data() function
+# such that when the touch sensor is pressed once, the program reads and prints the RGB values
+# from the color sensor once, then writes the values to a file. The number of measurements should
+# be equal to the number of touch sensor presses.
+
+# The code should contain:
+# •	A statement to open the output file (refer to collect_us_sensor_data.py for an example).
+# •	A while loop that continuously samples the color sensor.
+# •	An if statement that checks for the touch sensor status.
+# •	An action to write the color sensor reading to the output file when conditions are met.
+
 
 """
 This test is used to collect data from the color sensor.
@@ -6,21 +18,46 @@ It must be run on the robot.
 """
 
 # Add your imports here, if any
-from utils.brick import EV3ColorSensor, wait_ready_sensors, TouchSensor
+from utils.brick import BP, EV3ColorSensor, wait_ready_sensors, TouchSensor, SensorError
+from time import sleep
 
 
 COLOR_SENSOR_DATA_FILE = "../data_analysis/color_sensor.csv"
 
+SENSOR_POLL_SLEEP = 0.05
+
 # complete this based on your hardware setup
-_ = EV3ColorSensor(...)
-_ = TouchSensor(...)
-# this is a comment
-wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
+C_SENSOR = EV3ColorSensor(3)
+T_SENSOR = TouchSensor(1)
+
+wait_ready_sensors(True)  # Input True to see what the robot is trying to initialize! False to be silent.
 
 
 def collect_color_sensor_data():
-    "Collect color sensor data."
-    ...
+    """Collect color sensor data."""
+    try:
+        f = open(COLOR_SENSOR_DATA_FILE, "w+")
+        num_samples = 0  # keep track of number of sample points
+        while True:
+            try:
+                if T_SENSOR.is_pressed():
+                    num_samples += 1
+                    print(f"Sample point #{num_samples}")
+                    red, gre, blu, lum = C_SENSOR.get_value()
+                    f.write(f"{red},{gre},{blu}\n")
+                    while T_SENSOR.is_pressed():  # avoid taking multiple samples for one button press
+                        sleep(SENSOR_POLL_SLEEP)
+            except SensorError as error:
+                print(error)
+                exit()
+    except KeyboardInterrupt:  # stop sampling with (Ctrl-C)
+        pass
+    finally:
+        print("Done collecting color samples")
+        print(f"Collected {num_samples} samples")
+        f.close()
+        BP.reset_all()  # Turn off everything on the brick's hardware, and reset it
+        exit()
 
 
 if __name__ == "__main__":
