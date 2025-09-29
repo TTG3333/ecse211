@@ -6,10 +6,10 @@
 # be equal to the number of touch sensor presses.
 
 # The code should contain:
-# •	A statement to open the output file (refer to collect_us_sensor_data.py for an example).
-# •	A while loop that continuously samples the color sensor.
-# •	An if statement that checks for the touch sensor status.
-# •	An action to write the color sensor reading to the output file when conditions are met.
+# -	A statement to open the output file (refer to collect_us_sensor_data.py for an example).
+# -	A while loop that continuously samples the color sensor.
+# -	An if statement that checks for the touch sensor status.
+# -	An action to write the color sensor reading to the output file when conditions are met.
 
 
 """
@@ -38,7 +38,7 @@ def collect_color_sensor_data():
     try:
         while not T_SENSOR.is_pressed():  # wait for the user to press the touch sensor to start
             sleep(SENSOR_POLL_SLEEP)
-        sleep(0.5)  # debounce delay
+        sleep(1)  # debounce delay
         f = open(COLOR_SENSOR_DATA_FILE, "w+")
         num_samples = 0  # keep track of number of sample points
         while True:
