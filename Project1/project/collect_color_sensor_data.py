@@ -36,10 +36,14 @@ wait_ready_sensors(True)  # Input True to see what the robot is trying to initia
 def collect_color_sensor_data():
     """Collect color sensor data."""
     try:
+        while not T_SENSOR.is_pressed:  # wait for the user to press the touch sensor to start
+            sleep(SENSOR_POLL_SLEEP)
         f = open(COLOR_SENSOR_DATA_FILE, "w+")
         num_samples = 0  # keep track of number of sample points
         while True:
             try:
+                if T_SENSOR.is_pressed:  # wait for the user to press the touch sensor to start
+                    break
                 num_samples += 1
                 print(f"Sample point #{num_samples}")
                 red, gre, blu, lum = C_SENSOR.get_value()
