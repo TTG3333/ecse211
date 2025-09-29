@@ -38,12 +38,12 @@ def collect_color_sensor_data():
     try:
         while not T_SENSOR.is_pressed():  # wait for the user to press the touch sensor to start
             sleep(SENSOR_POLL_SLEEP)
-        sleep(1)  # debounce delay
+        sleep(1)  # debounce delay so that the script doesn't immediately stop
         f = open(COLOR_SENSOR_DATA_FILE, "w+")
         num_samples = 0  # keep track of number of sample points
         while True:
             try:
-                if T_SENSOR.is_pressed():  # wait for the user to press the touch sensor to start
+                if T_SENSOR.is_pressed():  # check to see if the button is pressed again to stop
                     break
                 num_samples += 1
                 red, gre, blu, lum = C_SENSOR.get_value()
@@ -60,7 +60,6 @@ def collect_color_sensor_data():
         print(f"Collected {num_samples} samples")
         f.close()
         BP.reset_all()  # Turn off everything on the brick's hardware, and reset it
-        exit()
 
 
 if __name__ == "__main__":
