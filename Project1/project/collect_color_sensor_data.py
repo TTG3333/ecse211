@@ -40,13 +40,12 @@ def collect_color_sensor_data():
         num_samples = 0  # keep track of number of sample points
         while True:
             try:
-                if T_SENSOR.is_pressed():
-                    num_samples += 1
-                    print(f"Sample point #{num_samples}")
-                    red, gre, blu, lum = C_SENSOR.get_value()
-                    f.write(f"{red},{gre},{blu}\n")
-                    while T_SENSOR.is_pressed():  # avoid taking multiple samples for one button press
-                        sleep(SENSOR_POLL_SLEEP)
+                num_samples += 1
+                print(f"Sample point #{num_samples}")
+                red, gre, blu, lum = C_SENSOR.get_value()
+                f.write(f"{red},{gre},{blu}\n")
+                print(f"Color sensor reading: R={red}, G={gre}, B={blu}")
+                sleep(SENSOR_POLL_SLEEP)  # wait before polling the sensor again
             except SensorError as error:
                 print(error)
                 exit()
