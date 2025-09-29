@@ -38,6 +38,7 @@ def collect_color_sensor_data():
     try:
         while not T_SENSOR.is_pressed():  # wait for the user to press the touch sensor to start
             sleep(SENSOR_POLL_SLEEP)
+        sleep(0.5)  # debounce delay
         f = open(COLOR_SENSOR_DATA_FILE, "w+")
         num_samples = 0  # keep track of number of sample points
         while True:
