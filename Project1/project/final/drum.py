@@ -2,8 +2,6 @@ from utils.brick import Motor
 
 DRUM_MOTOR = Motor("D")
 DRUM_MOTOR.reset_encoder()
-DRUM_MOTOR.set_limits(power=75, dps=360*10) # (Max 100 BPM)
-DRUM_MOTOR.set_power(75) # Discovered that 100 Power crashes the pi...
 
 def drum_at_bpm(bpm: int):
     # Rotates the drum motor at a certain BPM.
