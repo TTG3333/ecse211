@@ -1,7 +1,8 @@
 from utils.brick import Motor
 
 DRUM_MOTOR = Motor("D")
-DRUM_MOTOR.set_limits(power=100, dps=360*6) # (Max 100 BPM)
+DRUM_MOTOR.set_limits(power=100, dps=360*10) # (Max 100 BPM)
+DRUM_MOTOR.set_power(100)
 DRUM_MOTOR.reset_encoder()
 
 def drum_at_bpm(bpm: int):
@@ -16,8 +17,8 @@ if __name__ == "__main__":
     # Test area for drum motor
     import time
 
-    drum_at_bpm(60)
+    drum_at_bpm(30)
     time.sleep(10)
     stop_drum()
     time.sleep(2)
-    drum_at_bpm(120)
+    drum_at_bpm(100)
