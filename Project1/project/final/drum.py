@@ -10,6 +10,9 @@ def drum_at_bpm_rot(bpm: int):
 def stop_drum():
     DRUM_MOTOR.set_dps(0)
 
+# drum_bpm
+# drum_stop
+
 if __name__ == "__main__":
     # Test area for drum motor
     import time
