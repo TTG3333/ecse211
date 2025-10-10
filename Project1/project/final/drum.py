@@ -12,7 +12,6 @@ def drum_at_bpm(bpm: int):
 def stop_drum():
     DRUM_MOTOR.set_dps(0)
 
-
 if __name__ == "__main__":
     # Test area for drum motor
     import time
@@ -20,9 +19,4 @@ if __name__ == "__main__":
     drum_at_bpm(30)
     time.sleep(2)
     print("Stopping drum")
-    stop_drum()
-    time.sleep(2)
-    print("Starting drum at 100 BPM")
-    drum_at_bpm(100)
-    time.sleep(2)
     stop_drum()
