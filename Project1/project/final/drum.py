@@ -18,5 +18,8 @@ if __name__ == "__main__":
 
     drum_at_bpm(30)
     time.sleep(2)
-    print("Stopping drum")
+    stop_drum()
+    time.sleep(2)
+    drum_at_bpm(60)
+    time.sleep(2)
     stop_drum()
