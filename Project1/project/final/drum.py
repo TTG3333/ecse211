@@ -18,10 +18,11 @@ if __name__ == "__main__":
     import time
 
     drum_at_bpm(30)
-    time.sleep(10)
+    time.sleep(2)
     print("Stopping drum")
     stop_drum()
     time.sleep(2)
     print("Starting drum at 100 BPM")
     drum_at_bpm(100)
+    time.sleep(2)
     stop_drum()
