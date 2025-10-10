@@ -22,3 +22,4 @@ if __name__ == "__main__":
     stop_drum()
     time.sleep(2)
     drum_at_bpm(100)
+    stop_drum()
