@@ -7,7 +7,7 @@ DRUM_MOTOR.reset_encoder()
 
 def drum_at_bpm(bpm: int):
     # Rotates the drum motor at a certain BPM.
-    DRUM_MOTOR.set_dps((-1) * 360 * bpm / 60)
+    DRUM_MOTOR.set_dps(360 * bpm / 60)
 
 def stop_drum():
     DRUM_MOTOR.set_dps(0)
