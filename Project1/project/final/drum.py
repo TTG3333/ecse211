@@ -14,10 +14,10 @@ if __name__ == "__main__":
     # Test area for drum motor
     import time
 
-    drum_at_bpm(30)
+    drum_at_bpm(60)
     time.sleep(2)
     stop_drum()
     time.sleep(2)
-    drum_at_bpm(60)
+    drum_at_bpm(200)
     time.sleep(2)
     stop_drum()
