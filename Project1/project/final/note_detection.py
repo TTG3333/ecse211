@@ -1,12 +1,12 @@
+import time
 from utils import sound
-from utils.brick import TouchSensor, EV3UltrasonicSensor, wait_ready_sensors, reset_brick
-from time import sleep
+from utils.brick import TouchSensor, EV3UltrasonicSensor, reset_brick, wait_ready_sensors
 
 DELAY_SEC = 0.01
-TOUCH_SENSOR = TouchSensor(1)  # enter correct port
-US_SENSOR = EV3UltrasonicSensor(2)  # enter correct port
+EMERGENCY_STOP = TouchSensor(1)
+US_SENSOR = EV3UltrasonicSensor(3)
 
-wait_ready_sensors(True)
+NOTES = ["A4", "B4", "C4", "D4"]
 
 def mapping_distance(distance):
     """
@@ -17,43 +17,27 @@ def mapping_distance(distance):
     if distance is None:  # account for failed readings
         return None
     elif distance <= 7:
-        return "A4"
+        return NOTES[0]
     elif distance <= 12:
-        return "B4"
+        return NOTES[1]
     elif distance <= 17:
-        return "C4"
+        return NOTES[2]
     elif distance <= 22:
-        return "D4"
+        return NOTES[3]
     else:
         return None  # discard odd values (e.g. 255)
+    
+def runner():
+    distance = US_SENSOR.get_value()
+    flute_note = mapping_distance(distance)
 
-def note_detection():
-    # start on first button press
-    while not TOUCH_SENSOR.is_pressed():
-        pass
-    sleep(0.5)
-    note_being_played = False  # wait for key to be lowered before playing another sound
-
-    try:
-        while not TOUCH_SENSOR.is_pressed():  # halt at emergency stop
-            distance = US_SENSOR.get_value()
-            flute_note = mapping_distance(distance)
-
-            if flute_note and not note_being_played:
-                SOUND = sound.Sound(duration=0.3, pitch=flute_note, volume=85)
-                SOUND.play()
-                SOUND.wait_done()
-                note_being_played = True
-
-            elif flute_note is None:
-                note_being_played = False
-
-            sleep(DELAY_SEC)
-    except BaseException:
-        pass
-    finally:
-        reset_brick()
-        exit()
+    if flute_note:
+        SOUND = sound.Sound(duration=0.3, pitch=flute_note, volume=85)
+        SOUND.play()
+        SOUND.wait_done()
 
 if __name__ == "__main__":
-    note_detection()
+    wait_ready_sensors()
+    while True:
+        runner()
+        time.sleep(0.1)
