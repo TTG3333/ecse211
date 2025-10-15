@@ -13,7 +13,7 @@ BPMS = [30, 60, 120, 180]  # Off, Slow, Medium, Fast
 
 def next_state():
     global STATE
-    STATE = (STATE + 1) % 4
+    STATE = (STATE + 1) % (BPMS.__len__() + 1)
 
 def set_drum_bpm(bpm: int):
     DRUM_MOTOR.set_dps(6 * bpm)
@@ -27,7 +27,7 @@ def runner():
         print(f"STATE: {STATE}")
         if STATE == 0:
             stop_drum()
-        elif STATE in [1, 2, 3, 4]:
+        else:
             set_drum_bpm(BPMS[STATE - 1])
 
 # -- Testing Section -- #
