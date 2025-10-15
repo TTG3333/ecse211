@@ -28,6 +28,7 @@ def runner():
             stop_drum()
         else:
             set_drum_bpm(BPMS[STATE - 1])
+        time.sleep(0.5)  # Debounce delay
 
 # -- Testing Section -- #
 if __name__ == "__main__":

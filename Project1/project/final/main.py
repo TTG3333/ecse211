@@ -33,6 +33,7 @@ def main():
         while True:
             if EMERGENCY_STOP.is_pressed():
                 ESTOP_PRESSED = not ESTOP_PRESSED
+                time.sleep(0.5)  # Debounce delay
             time.sleep(0.1)
 
     t1 = threading.Thread(target=drum_handler)
