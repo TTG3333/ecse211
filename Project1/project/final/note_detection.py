@@ -16,6 +16,48 @@ for s in NOTE_SOUNDS.values():
 CURRENT_NOTE = None
 CURRENT_SOUND = None
 
+class NoiseEliminator:
+    """ Helper class to filter out noise in sensor readings
+    Keeps a rolling list of the last `total_vals` readings,
+    uses a circular buffer to store them."""
+    def __init__(self, total_vals, min_vals):
+        self.total_vals = total_vals
+        self.min_vals = min_vals
+        self.values = [None] * total_vals
+        self.index = 0
+    
+    def add_value(self, value):
+        self.values[self.index] = value
+        self.index = (self.index + 1) % self.total_vals
+    
+    def get_filtered_value(self):
+        """ Returns the most common value in the buffer,
+        if it appears at least `min_vals` times. Otherwise returns None."""
+        organized = {}
+        for v in self.values:
+            if v in organized:
+                organized[v] += 1
+            else:
+                organized[v] = 1
+        highest = max(organized.keys(), key=lambda k: organized[k], default=None)
+        if highest is not None and organized[highest] >= self.min_vals:
+            return highest
+    
+    def get_median_value(self):
+        """ Returns the median value in the buffer, ignoring None values.
+        If not enough valid values, returns None."""
+        valid_values = [v for v in self.values if v is not None]
+        if not valid_values or len(valid_values) < self.min_vals:
+            return None
+        sorted_values = sorted(valid_values)
+        mid = len(sorted_values) // 2
+        if len(sorted_values) % 2 == 0:
+            return (sorted_values[mid - 1] + sorted_values[mid]) / 2
+        else:
+            return sorted_values[mid]
+
+NOISE_HANDLER = NoiseEliminator(10, 8)
+
 def mapping_distance(distance):
     """
     Change the values to the distance of the keys used.
@@ -52,6 +94,8 @@ def play_note(note):
 def runner(us_sensor):
     distance = us_sensor.get_value()
     flute_note = mapping_distance(distance)
+    NOISE_HANDLER.add_value(flute_note)
+    flute_note = NOISE_HANDLER.get_median_value()
     # print(f"Distance: {distance} cm - Flute Note: {flute_note}")
     play_note(flute_note)
 
