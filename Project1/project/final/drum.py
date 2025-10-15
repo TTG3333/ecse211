@@ -21,7 +21,7 @@ def stop_drum():
 def runner(speed_picker):
     if speed_picker.is_pressed():
         next_state() # Increment to next state
-        print(f"STATE: {STATE}")
+        print(f"Motor Speed: {STATE if STATE == 0 else BPMS[STATE - 1]} BPM")
         if STATE == 0:
             stop_drum()
         else:
