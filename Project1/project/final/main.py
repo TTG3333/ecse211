@@ -43,6 +43,7 @@ def main():
         while True:
             if EMERGENCY_STOP.is_pressed():
                 ESTOP_PRESSED = not ESTOP_PRESSED
+                print(f"Emergency Stop {'Activated' if ESTOP_PRESSED else 'Deactivated'}")
                 time.sleep(0.5)  # Debounce delay
             time.sleep(0.1)
 

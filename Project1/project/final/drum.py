@@ -16,6 +16,8 @@ def set_drum_bpm(bpm: int):
     DRUM_MOTOR.set_dps(6 * bpm)
 
 def stop_drum():
+    global STATE
+    STATE = 0
     DRUM_MOTOR.set_dps(0)
 
 def runner(speed_picker):
