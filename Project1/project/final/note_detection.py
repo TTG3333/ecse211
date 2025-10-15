@@ -90,6 +90,13 @@ def play_note(note):
             CURRENT_SOUND = NOTE_SOUNDS[note]
             CURRENT_SOUND.play()
         CURRENT_NOTE = note
+
+def stop_note():
+    global CURRENT_NOTE, CURRENT_SOUND
+    if CURRENT_SOUND is not None:
+        CURRENT_SOUND.stop()
+        CURRENT_SOUND = None
+    CURRENT_NOTE = None
     
 def runner(us_sensor):
     distance = us_sensor.get_value()

@@ -19,21 +19,25 @@ def main():
 
     # Note handling part:
     def drum_handler():
+        global ESTOP_PRESSED
         while True:
             if ESTOP_PRESSED:
                 drum.stop_drum()
             else:
                 drum.runner(SPEED_PICKER)
-            time.sleep(0.15)
+            time.sleep(0.1)
 
     def note_handler():
+        global ESTOP_PRESSED
         while True:
             if not ESTOP_PRESSED:
                 note_detection.runner(US_SENSOR)
             else:
-                time.sleep(0.1)
+                note_detection.stop_note()
+            time.sleep(0.1)
 
     def estop_handler():
+        global ESTOP_PRESSED
         while True:
             if EMERGENCY_STOP.is_pressed():
                 ESTOP_PRESSED = not ESTOP_PRESSED
