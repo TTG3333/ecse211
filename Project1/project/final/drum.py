@@ -2,9 +2,6 @@ import time
 from utils import sound
 from utils.brick import Motor, TouchSensor, wait_ready_sensors
 
-SOUND_1 = sound.Sound(duration=0.1, pitch="A4", volume=85)
-SOUND_2 = sound.Sound(duration=0.1, pitch="C4", volume=85)
-
 EMERGENCY_STOP = TouchSensor(1)
 SPEED_PICKER = TouchSensor(2)
 
@@ -12,7 +9,7 @@ STATE = 0
 DRUM_MOTOR = Motor("A")
 DRUM_MOTOR.reset_encoder()
 
-BPMS = [30, 60, 120]  # Off, Slow, Medium, Fast
+BPMS = [30, 60, 120, 180]  # Off, Slow, Medium, Fast
 
 def next_state():
     global STATE
@@ -30,7 +27,7 @@ def runner():
         print(f"STATE: {STATE}")
         if STATE == 0:
             stop_drum()
-        elif STATE in [1, 2, 3]:
+        elif STATE in [1, 2, 3, 4]:
             set_drum_bpm(BPMS[STATE - 1])
 
 # -- Testing Section -- #
