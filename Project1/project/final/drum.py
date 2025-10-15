@@ -26,17 +26,10 @@ def stop_drum():
 def runner():
     if SPEED_PICKER.is_pressed():
         next_state() # Increment to next state
-        match STATE:
-            case 0: # (Off)
-                stop_drum()
-            case 1: # (Slow)
-                set_drum_bpm(BPMS[0])
-            case 2: # (Medium)
-                set_drum_bpm(BPMS[1])
-            case 3: # (Fast)
-                set_drum_bpm(BPMS[2])
-            case _:
-                pass
+        if STATE == 0:
+            stop_drum()
+        elif STATE in [1, 2, 3]:
+            set_drum_bpm(BPMS[STATE - 1])
 
 # -- Testing Section -- #
 if __name__ == "__main__":
