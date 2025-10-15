@@ -16,13 +16,13 @@ def mapping_distance(distance):
     """
     if distance is None:  # account for failed readings
         return None
-    elif distance <= 7:
+    elif distance <= 5:
         return NOTES[0]
-    elif distance <= 12:
+    elif distance <= 7:
         return NOTES[1]
-    elif distance <= 17:
+    elif distance <= 10:
         return NOTES[2]
-    elif distance <= 22:
+    elif distance <= 13:
         return NOTES[3]
     else:
         return None  # discard odd values (e.g. 255)
@@ -34,7 +34,7 @@ def runner():
     print(f"Flute Note: {flute_note}")
 
     if flute_note:
-        SOUND = sound.Sound(duration=0.3, pitch=flute_note, volume=85)
+        SOUND = sound.Sound(duration=0.1, pitch=flute_note, volume=100)
         SOUND.play()
         SOUND.wait_done()
 
