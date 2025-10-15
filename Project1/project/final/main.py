@@ -13,7 +13,7 @@ def main():
     def drum_handler():
         while True:
             drum.runner()
-            time.sleep(0.1)
+            time.sleep(0.15)
 
     def note_handler():
         while True:
