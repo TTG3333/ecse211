@@ -29,7 +29,9 @@ def mapping_distance(distance):
     
 def runner():
     distance = US_SENSOR.get_value()
+    print(f"Distance: {distance} cm")
     flute_note = mapping_distance(distance)
+    print(f"Flute Note: {flute_note}")
 
     if flute_note:
         SOUND = sound.Sound(duration=0.3, pitch=flute_note, volume=85)

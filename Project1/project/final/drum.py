@@ -26,6 +26,7 @@ def stop_drum():
 def runner():
     if SPEED_PICKER.is_pressed():
         next_state() # Increment to next state
+        print(f"STATE: {STATE}")
         if STATE == 0:
             stop_drum()
         elif STATE in [1, 2, 3]:
