@@ -93,9 +93,11 @@ def play_note(note):
     
 def runner(us_sensor):
     distance = us_sensor.get_value()
+    NOISE_HANDLER.add_value(distance)
+    distance = NOISE_HANDLER.get_median_value()
     flute_note = mapping_distance(distance)
-    NOISE_HANDLER.add_value(flute_note)
-    flute_note = NOISE_HANDLER.get_median_value()
+    # NOISE_HANDLER.add_value(flute_note)
+    # flute_note = NOISE_HANDLER.get_filtered_value()
     # print(f"Distance: {distance} cm - Flute Note: {flute_note}")
     play_note(flute_note)
 
