@@ -1,5 +1,5 @@
-from . import drum
-from . import note_detection
+import drum
+import note_detection
 
 import time
 import threading
