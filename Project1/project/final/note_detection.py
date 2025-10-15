@@ -1,4 +1,6 @@
 import time
+import threading
+
 from utils import sound
 from utils.brick import TouchSensor, EV3UltrasonicSensor, reset_brick, wait_ready_sensors
 
@@ -28,15 +30,18 @@ def mapping_distance(distance):
     else:
         return None  # discard odd values (e.g. 255)
     
+def play_note(note):
+    SOUND = sound.Sound(duration=0.1, pitch=note, volume=100)
+    SOUND.play()
+    SOUND.wait_done()
+    
 def runner():
     distance = US_SENSOR.get_value()
     flute_note = mapping_distance(distance)
     print(f"Distance: {distance} cm - Flute Note: {flute_note}")
 
     if flute_note:
-        SOUND = sound.Sound(duration=0.1, pitch=flute_note, volume=100)
-        SOUND.play()
-        SOUND.wait_done() # This yields, main may need to use multithreading.
+        threading.Thread(target=play_note, args=(flute_note,)).start()
 
 if __name__ == "__main__":
     wait_ready_sensors()
