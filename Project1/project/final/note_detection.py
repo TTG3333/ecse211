@@ -9,6 +9,8 @@ US_SENSOR = EV3UltrasonicSensor(3)
 
 DISTANCES = [5, 7, 10, 13]
 NOTES = ["C4", "E4", "G4", "C5"]
+CURRENT_NOTE = None
+CURRENT_SOUND = None
 
 def mapping_distance(distance):
     """
@@ -30,17 +32,21 @@ def mapping_distance(distance):
         return None  # discard odd values (e.g. 255)
     
 def play_note(note):
-    SOUND = sound.Sound(duration=0.1, pitch=note, volume=100)
-    SOUND.play()
-    SOUND.wait_done()
+    global CURRENT_NOTE, CURRENT_SOUND
+    if note != CURRENT_NOTE:
+        if CURRENT_SOUND is not None:
+            CURRENT_SOUND.stop()
+            CURRENT_SOUND = None
+        if note is not None:
+            CURRENT_SOUND = sound.Sound(duration=120, pitch=note, volume=100)
+            CURRENT_SOUND.play()
+        CURRENT_NOTE = note
     
 def runner():
     distance = US_SENSOR.get_value()
     flute_note = mapping_distance(distance)
     print(f"Distance: {distance} cm - Flute Note: {flute_note}")
-
-    if flute_note:
-        play_note(flute_note)
+    play_note(flute_note)
 
 if __name__ == "__main__":
     wait_ready_sensors()
