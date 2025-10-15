@@ -33,7 +33,7 @@ def runner():
     print(f"Distance: {distance} cm - Flute Note: {flute_note}")
 
     if flute_note:
-        SOUND = sound.Sound(duration=0.1, pitch=flute_note, volume=100)
+        SOUND = sound.Sound(duration=1, pitch=flute_note, volume=100)
         SOUND.play()
         SOUND.wait_done() # This yields, main may need to use multithreading.
 
