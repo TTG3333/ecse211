@@ -6,6 +6,7 @@ from utils.brick import wait_ready_sensors
 
 DELAY_SEC = 0.01
 
+MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
 DISTANCES = [5, 7, 10, 13]
 NOTES = ["C4", "E4", "G4", "C5"]
 CURRENT_NOTE = None
@@ -18,6 +19,8 @@ def mapping_distance(distance):
     Discard any value above the distance of the furthest key
     """
     if distance is None:  # account for failed readings
+        return None
+    elif distance < MIN_DISTANCE:
         return None
     elif distance <= DISTANCES[0]:
         return NOTES[0]
