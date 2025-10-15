@@ -1,6 +1,7 @@
-import drum
-import note_detection
+from . import drum
+from . import note_detection
 import time
+
 from utils.brick import wait_ready_sensors
 
 def main():
