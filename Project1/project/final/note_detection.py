@@ -6,6 +6,7 @@ DELAY_SEC = 0.01
 EMERGENCY_STOP = TouchSensor(1)
 US_SENSOR = EV3UltrasonicSensor(3)
 
+DISTANCES = [5, 7, 10, 13]
 NOTES = ["C4", "E4", "G4", "C5"]
 
 def mapping_distance(distance):
@@ -16,13 +17,13 @@ def mapping_distance(distance):
     """
     if distance is None:  # account for failed readings
         return None
-    elif distance <= 5:
+    elif distance <= DISTANCES[0]:
         return NOTES[0]
-    elif distance <= 7:
+    elif distance <= DISTANCES[1]:
         return NOTES[1]
-    elif distance <= 10:
+    elif distance <= DISTANCES[2]:
         return NOTES[2]
-    elif distance <= 13:
+    elif distance <= DISTANCES[3]:
         return NOTES[3]
     else:
         return None  # discard odd values (e.g. 255)
@@ -35,8 +36,7 @@ def runner():
     if flute_note:
         SOUND = sound.Sound(duration=0.1, pitch=flute_note, volume=100)
         SOUND.play()
-        time.sleep(0.1)
-        #SOUND.wait_done() # This yields, main may need to use multithreading.
+        SOUND.wait_done() # This yields, main may need to use multithreading.
 
 if __name__ == "__main__":
     wait_ready_sensors()
