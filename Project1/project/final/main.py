@@ -11,7 +11,9 @@ ESTOP_PRESSED = False
 EMERGENCY_STOP = TouchSensor(1)
 
 def main():
+    print("Initializing sensors...")
     wait_ready_sensors()
+    print("Sensors ready. Starting main loop.")
 
     # Note handling part:
     def drum_handler():
