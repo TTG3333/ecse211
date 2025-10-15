@@ -13,12 +13,11 @@ def main():
     def drum_handler():
         while True:
             drum.runner()
-            time.sleep(0.25)
+            time.sleep(0.1)
 
     def note_handler():
         while True:
             note_detection.runner()
-            time.sleep(0.1)
 
     t1 = threading.Thread(target=drum_handler)
     t2 = threading.Thread(target=note_handler)
