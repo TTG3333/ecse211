@@ -15,6 +15,7 @@ DRUM_MOTOR.reset_encoder()
 BPMS = [30, 60, 120]  # Off, Slow, Medium, Fast
 
 def next_state():
+    global STATE
     STATE = (STATE + 1) % 4
 
 def set_drum_bpm(bpm: int):
