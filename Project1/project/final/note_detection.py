@@ -36,6 +36,7 @@ def mapping_distance(distance):
 def play_note(note):
     global CURRENT_NOTE, CURRENT_SOUND
     if note != CURRENT_NOTE:
+        print(f"Playing note: {note}")
         if CURRENT_SOUND is not None:
             CURRENT_SOUND.stop()
             CURRENT_SOUND = None
