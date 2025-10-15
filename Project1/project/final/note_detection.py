@@ -2,7 +2,7 @@ import time
 import threading
 
 from utils import sound
-from utils.brick import wait_ready_sensors
+from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
 
 DELAY_SEC = 0.01
 
@@ -51,7 +51,8 @@ def runner(us_sensor):
     play_note(flute_note)
 
 if __name__ == "__main__":
+    US_SENSOR = EV3UltrasonicSensor(3)
     wait_ready_sensors()
     while True:
-        runner()
+        runner(US_SENSOR)
         time.sleep(0.1)

@@ -1,6 +1,6 @@
 import time
 from utils import sound
-from utils.brick import Motor, wait_ready_sensors
+from utils.brick import Motor, wait_ready_sensors, TouchSensor
 
 STATE = 0
 DRUM_MOTOR = Motor("A")
@@ -30,7 +30,8 @@ def runner(speed_picker):
 
 # -- Testing Section -- #
 if __name__ == "__main__":
+    SPEED_PICKER = TouchSensor(2)
     wait_ready_sensors()
     while True:
-        runner()
+        runner(SPEED_PICKER)
         time.sleep(0.1)
