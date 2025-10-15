@@ -4,11 +4,13 @@ import note_detection
 import time
 import threading
 
-from utils.brick import wait_ready_sensors, TouchSensor
+from utils.brick import wait_ready_sensors, TouchSensor, EV3UltrasonicSensor
 
 ESTOP_PRESSED = False
 
 EMERGENCY_STOP = TouchSensor(1)
+SPEED_PICKER = TouchSensor(2)
+US_SENSOR = EV3UltrasonicSensor(3)
 
 def main():
     print("Initializing sensors...")
@@ -21,13 +23,13 @@ def main():
             if ESTOP_PRESSED:
                 drum.stop_drum()
             else:
-                drum.runner()
+                drum.runner(SPEED_PICKER)
             time.sleep(0.15)
 
     def note_handler():
         while True:
             if not ESTOP_PRESSED:
-                note_detection.runner()
+                note_detection.runner(US_SENSOR)
             else:
                 time.sleep(0.1)
 
@@ -46,4 +48,4 @@ def main():
     t3.start()
 
 if __name__ == "__main__":
-    main()
+  

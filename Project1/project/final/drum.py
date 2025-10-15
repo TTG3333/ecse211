@@ -1,8 +1,6 @@
 import time
 from utils import sound
-from utils.brick import Motor, TouchSensor, wait_ready_sensors
-
-SPEED_PICKER = TouchSensor(2)
+from utils.brick import Motor, wait_ready_sensors
 
 STATE = 0
 DRUM_MOTOR = Motor("A")
@@ -20,8 +18,8 @@ def set_drum_bpm(bpm: int):
 def stop_drum():
     DRUM_MOTOR.set_dps(0)
 
-def runner():
-    if SPEED_PICKER.is_pressed():
+def runner(speed_picker):
+    if speed_picker.is_pressed():
         next_state() # Increment to next state
         print(f"STATE: {STATE}")
         if STATE == 0:

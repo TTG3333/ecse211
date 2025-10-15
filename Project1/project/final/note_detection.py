@@ -2,10 +2,9 @@ import time
 import threading
 
 from utils import sound
-from utils.brick import EV3UltrasonicSensor, reset_brick, wait_ready_sensors
+from utils.brick import wait_ready_sensors
 
 DELAY_SEC = 0.01
-US_SENSOR = EV3UltrasonicSensor(3)
 
 DISTANCES = [5, 7, 10, 13]
 NOTES = ["C4", "E4", "G4", "C5"]
@@ -42,8 +41,8 @@ def play_note(note):
             CURRENT_SOUND.play()
         CURRENT_NOTE = note
     
-def runner():
-    distance = US_SENSOR.get_value()
+def runner(us_sensor):
+    distance = us_sensor.get_value()
     flute_note = mapping_distance(distance)
     print(f"Distance: {distance} cm - Flute Note: {flute_note}")
     play_note(flute_note)
