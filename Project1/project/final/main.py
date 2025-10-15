@@ -32,10 +32,9 @@ def main():
     def note_handler():
         global ESTOP_PRESSED
         while True:
-            if not ESTOP_PRESSED:
-                note_detection.runner(US_SENSOR)
-            else:
+            if ESTOP_PRESSED:
                 note_detection.stop_note()
+            note_detection.runner(US_SENSOR, stopped=ESTOP_PRESSED)
             time.sleep(0.1)
 
     def estop_handler():

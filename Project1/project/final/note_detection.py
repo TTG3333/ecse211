@@ -98,15 +98,16 @@ def stop_note():
         CURRENT_SOUND = None
     CURRENT_NOTE = None
     
-def runner(us_sensor):
+def runner(us_sensor, stopped=False):
     distance = us_sensor.get_value()
     NOISE_HANDLER.add_value(distance)
-    distance = NOISE_HANDLER.get_median_value()
-    flute_note = mapping_distance(distance)
-    # NOISE_HANDLER.add_value(flute_note)
-    # flute_note = NOISE_HANDLER.get_filtered_value()
-    # print(f"Distance: {distance} cm - Flute Note: {flute_note}")
-    play_note(flute_note)
+    if not stopped:
+        distance = NOISE_HANDLER.get_median_value()
+        flute_note = mapping_distance(distance)
+        # NOISE_HANDLER.add_value(flute_note)
+        # flute_note = NOISE_HANDLER.get_filtered_value()
+        # print(f"Distance: {distance} cm - Flute Note: {flute_note}")
+        play_note(flute_note)
 
 if __name__ == "__main__":
     US_SENSOR = EV3UltrasonicSensor(3)
