@@ -1,3 +1,4 @@
+print("Importing modules...")
 import drum
 import note_detection
 
@@ -5,6 +6,7 @@ import time
 import threading
 
 from utils.brick import wait_ready_sensors, TouchSensor, EV3UltrasonicSensor
+print("Modules imported.")
 
 ESTOP_PRESSED = False
 
