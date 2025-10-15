@@ -40,7 +40,8 @@ def play_note(note):
             CURRENT_SOUND.stop()
             CURRENT_SOUND = None
         if note is not None:
-            CURRENT_SOUND = sound.Sound(duration=120, pitch=note, volume=100)
+            CURRENT_SOUND = sound.Sound(duration=0.1, pitch=note, volume=100)
+            CURRENT_SOUND.repeat_sound(1200, 0)  # Repeat for a long time
             CURRENT_SOUND.play()
         CURRENT_NOTE = note
     
