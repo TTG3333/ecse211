@@ -40,15 +40,15 @@ def play_note(note):
             CURRENT_SOUND.stop()
             CURRENT_SOUND = None
         if note is not None:
-            CURRENT_SOUND = sound.Sound(duration=0.1, pitch=note, volume=100)
-            CURRENT_SOUND.repeat_sound(1200, 0)  # Repeat for a long time
+            CURRENT_SOUND = sound.Sound(duration=0.2, pitch=note, volume=100)
+            CURRENT_SOUND.repeat_sound(600, 0)  # Repeat for a long time
             CURRENT_SOUND.play()
         CURRENT_NOTE = note
     
 def runner(us_sensor):
     distance = us_sensor.get_value()
     flute_note = mapping_distance(distance)
-    print(f"Distance: {distance} cm - Flute Note: {flute_note}")
+    # print(f"Distance: {distance} cm - Flute Note: {flute_note}")
     play_note(flute_note)
 
 if __name__ == "__main__":
