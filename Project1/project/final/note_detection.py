@@ -2,10 +2,9 @@ import time
 import threading
 
 from utils import sound
-from utils.brick import TouchSensor, EV3UltrasonicSensor, reset_brick, wait_ready_sensors
+from utils.brick import EV3UltrasonicSensor, reset_brick, wait_ready_sensors
 
 DELAY_SEC = 0.01
-EMERGENCY_STOP = TouchSensor(1)
 US_SENSOR = EV3UltrasonicSensor(3)
 
 DISTANCES = [5, 7, 10, 13]

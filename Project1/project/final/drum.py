@@ -2,7 +2,6 @@ import time
 from utils import sound
 from utils.brick import Motor, TouchSensor, wait_ready_sensors
 
-EMERGENCY_STOP = TouchSensor(1)
 SPEED_PICKER = TouchSensor(2)
 
 STATE = 0
@@ -13,7 +12,7 @@ BPMS = [120, 180, 240, 300]  # Off, Slow, Medium, Fast
 
 def next_state():
     global STATE
-    STATE = (STATE + 1) % (BPMS.__len__() + 1)
+    STATE = (STATE + 1) % (len(BPMS) + 1)
 
 def set_drum_bpm(bpm: int):
     DRUM_MOTOR.set_dps(6 * bpm)
