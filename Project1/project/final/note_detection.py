@@ -56,7 +56,7 @@ class NoiseEliminator:
         else:
             return sorted_values[mid]
 
-NOISE_HANDLER = NoiseEliminator(10, 8)
+NOISE_HANDLER = NoiseEliminator(20, 16)
 
 def mapping_distance(distance):
     """
