@@ -9,7 +9,7 @@ STATE = 0
 DRUM_MOTOR = Motor("A")
 DRUM_MOTOR.reset_encoder()
 
-BPMS = [30, 60, 120, 180]  # Off, Slow, Medium, Fast
+BPMS = [120, 180, 240, 300]  # Off, Slow, Medium, Fast
 
 def next_state():
     global STATE

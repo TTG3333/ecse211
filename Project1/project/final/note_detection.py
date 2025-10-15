@@ -41,7 +41,7 @@ def runner():
     print(f"Distance: {distance} cm - Flute Note: {flute_note}")
 
     if flute_note:
-        threading.Thread(target=play_note, args=(flute_note,)).start()
+        play_note(flute_note)
 
 if __name__ == "__main__":
     wait_ready_sensors()
