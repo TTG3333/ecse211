@@ -6,7 +6,7 @@ DELAY_SEC = 0.01
 EMERGENCY_STOP = TouchSensor(1)
 US_SENSOR = EV3UltrasonicSensor(3)
 
-NOTES = ["A4", "B4", "C4", "D4"]
+NOTES = ["C4", "D4", "E4", "F4"]
 
 def mapping_distance(distance):
     """
