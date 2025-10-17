@@ -110,7 +110,7 @@ def runner(us_sensor, stopped=False):
     distance = us_sensor.get_value()
     NOISE_HANDLER.add_value(distance)
     if not stopped:
-        distance = NOISE_HANDLER.get_most_repeated()
+        distance = NOISE_HANDLER.get_filtered_value()
         #distance = NOISE_HANDLER.get_median_value()
         flute_note = mapping_distance(distance)
         # NOISE_HANDLER.add_value(flute_note)
