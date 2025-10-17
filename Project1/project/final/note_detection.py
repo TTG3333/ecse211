@@ -32,19 +32,21 @@ class NoiseEliminator:
         self.index = (self.index + 1) % self.total_vals
     
     def get_filtered_value(self):
-        """ Returns the most common value in the buffer,
-        if it appears at least `min_vals` times. Otherwise returns None."""
+        """ Returns the most repeated value in the buffer, ignoring None values.
+        If not enough valid values, returns None."""
+        valid_values = [v for v in self.values if v is not None]
+        if not valid_values or len(valid_values) < self.min_vals:
+            return None
+        
         organized = {}
-        for v in self.values:
+        for v in valid_values:
             k = round(v / DIST_ERR) * DIST_ERR
             if k in organized:
                 organized[k] += 1
             else:
                 organized[k] = 1
-                
-        highest = max(organized.keys(), key=lambda k: organized[k], default=None)
-        if highest is not None and organized[highest] >= self.min_vals:
-            return highest
+        highest = max(organized.keys(), key=lambda k: organized[k])
+        return highest
     
     def get_median_value(self):
         """ Returns the median value in the buffer, ignoring None values.
@@ -108,7 +110,7 @@ def runner(us_sensor, stopped=False):
     distance = us_sensor.get_value()
     NOISE_HANDLER.add_value(distance)
     if not stopped:
-        distance = NOISE_HANDLER.get_filtered_value()
+        distance = NOISE_HANDLER.get_most_repeated()
         #distance = NOISE_HANDLER.get_median_value()
         flute_note = mapping_distance(distance)
         # NOISE_HANDLER.add_value(flute_note)
