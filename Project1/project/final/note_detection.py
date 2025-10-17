@@ -4,6 +4,7 @@ import threading
 from utils import sound
 from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
 
+DIST_ERR = 0.2
 DELAY_SEC = 0.01
 
 MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
@@ -57,6 +58,23 @@ class NoiseEliminator:
             # This code caused issues, because it would often play higher notes due to averaging
         else:
             return sorted_values[mid]
+        
+    def get_most_repeated(self):
+        """ Returns the most repeated value in the buffer, ignoring None values.
+        If not enough valid values, returns None."""
+        valid_values = [v for v in self.values if v is not None]
+        if not valid_values or len(valid_values) < self.min_vals:
+            return None
+        organized = {}
+        for v in valid_values:
+            k = round(v / DIST_ERR) * DIST_ERR
+            if k in organized:
+                organized[k] += 1
+            else:
+                organized[k] = 1
+        highest = max(organized.keys(), key=lambda k: organized[k])
+        return highest
+
 
 NOISE_HANDLER = NoiseEliminator(20, 16)
 
@@ -104,7 +122,8 @@ def runner(us_sensor, stopped=False):
     distance = us_sensor.get_value()
     NOISE_HANDLER.add_value(distance)
     if not stopped:
-        distance = NOISE_HANDLER.get_median_value()
+        distance = NOISE_HANDLER.get_most_repeated()
+        #distance = NOISE_HANDLER.get_median_value()
         flute_note = mapping_distance(distance)
         # NOISE_HANDLER.add_value(flute_note)
         # flute_note = NOISE_HANDLER.get_filtered_value()
