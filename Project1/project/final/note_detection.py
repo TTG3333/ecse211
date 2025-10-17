@@ -47,6 +47,7 @@ class NoiseEliminator:
         """ Returns the median value in the buffer, ignoring None values.
         If not enough valid values, returns None."""
         valid_values = [v for v in self.values if v is not None]
+        print(valid_values)
         if not valid_values or len(valid_values) < self.min_vals:
             return None
         sorted_values = sorted(valid_values)
