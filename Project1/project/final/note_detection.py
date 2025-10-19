@@ -7,7 +7,7 @@ DIST_ERR = 0.2
 DELAY_SEC = 0.01
 
 MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
-DISTANCES = [5, 7, 10, 13]
+DISTANCES = [6, 8, 11, 14]
 NOTES = ["C4", "E4", "G4", "C5"]
 NOTE_SOUNDS = {note:sound.Sound(duration=4, pitch=note, volume=80) for note in NOTES}
 for s in NOTE_SOUNDS.values():

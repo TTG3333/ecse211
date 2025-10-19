@@ -35,7 +35,7 @@ def main():
             if ESTOP_PRESSED:
                 note_detection.stop_note()
             note_detection.runner(US_SENSOR, stopped=ESTOP_PRESSED)
-            time.sleep(0.05)
+            time.sleep(0.01)
 
     def estop_handler():
         global ESTOP_PRESSED
