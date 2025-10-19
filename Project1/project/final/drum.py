@@ -1,5 +1,4 @@
 import time
-from utils import sound
 from utils.brick import Motor, wait_ready_sensors, TouchSensor
 
 STATE = 0

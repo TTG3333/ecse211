@@ -1,5 +1,4 @@
 import time
-import threading
 
 from utils import sound
 from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
