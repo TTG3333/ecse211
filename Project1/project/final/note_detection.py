@@ -8,8 +8,8 @@ DELAY_SEC = 0.01
 
 MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
 DISTANCES = [6, 8, 11, 14]
-NOTES = ["C4", "E4", "G4", "C5"]
-NOTE_SOUNDS = {note:sound.Sound(duration=4, pitch=note, volume=80) for note in NOTES}
+NOTES = ["D4", "F#4", "A4", "D5"]
+NOTE_SOUNDS = {note:sound.Sound(duration=4, pitch=note, volume=70) for note in NOTES}
 for s in NOTE_SOUNDS.values():
     s.repeat_sound(30, 0)  # Repeat for a long time
 
