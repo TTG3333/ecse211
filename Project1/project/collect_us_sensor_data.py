@@ -12,13 +12,13 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 DELAY_SEC = 0.01  # seconds of delay between measurements
-US_SENSOR_DATA_FILE = "../data_analysis/us_sensor_wall1.csv"
+US_SENSOR_DATA_FILE = "../data_analysis/us_sensor_wall4.csv"
 SOUND = sound.Sound(duration=0.3, pitch="A4", volume=60)
 
 print("Program start.\nWaiting for sensors to turn on...")
 
-TOUCH_SENSOR = TouchSensor(1)
-US_SENSOR = EV3UltrasonicSensor(2)
+TOUCH_SENSOR = TouchSensor(2)
+US_SENSOR = EV3UltrasonicSensor(3)
 
 
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
