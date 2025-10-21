@@ -12,7 +12,7 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 DELAY_SEC = 0.01  # seconds of delay between measurements
-US_SENSOR_DATA_FILE = "../data_analysis/us_sensor.csv"
+US_SENSOR_DATA_FILE = "../data_analysis/us_sensor_wall1.csv"
 SOUND = sound.Sound(duration=0.3, pitch="A4", volume=60)
 
 print("Program start.\nWaiting for sensors to turn on...")
