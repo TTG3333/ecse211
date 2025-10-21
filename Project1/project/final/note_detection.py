@@ -7,9 +7,9 @@ DIST_ERR = 0.2
 DELAY_SEC = 0.01
 
 MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
-DISTANCES = [6, 8, 11, 14]
-NOTES = ["C5", "D5", "E5", "F5"]
-NOTE_SOUNDS = {note:sound.Sound(duration=3, pitch=note, volume=55) for note in NOTES}
+DISTANCES = [7, 9, 12, 14]
+NOTES = ["D5", "E5", "F5", "G5"]
+NOTE_SOUNDS = {note:sound.Sound(duration=3, pitch=note, volume=65) for note in NOTES}
 for s in NOTE_SOUNDS.values():
     s.repeat_sound(40, 0)  # Repeat for a long time
 
@@ -63,7 +63,7 @@ class NoiseEliminator:
             return sorted_values[mid]
 
 
-NOISE_HANDLER = NoiseEliminator(20, 16)
+NOISE_HANDLER = NoiseEliminator(30, 24)
 
 def mapping_distance(distance):
     """
