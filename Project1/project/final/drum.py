@@ -8,18 +8,22 @@ DRUM_MOTOR.reset_encoder()
 BPMS = [120, 180, 240, 300]  # Off, Slow, Medium, Fast
 
 def next_state():
+    """Increment the motor state to the next, or roll around if the end has been reached"""
     global STATE
     STATE = (STATE + 1) % (len(BPMS) + 1)
 
 def set_drum_bpm(bpm: int):
+    """Set the drum motor speed in BPM"""
     DRUM_MOTOR.set_dps(6 * bpm)
 
 def stop_drum():
+    """Stop the drum motor and reset state"""
     global STATE
     STATE = 0
     DRUM_MOTOR.set_dps(0)
 
 def runner(speed_picker):
+    """Main runner function to handle drum speed changes based on speed picker sensor"""
     if speed_picker.is_pressed():
         next_state() # Increment to next state
         print(f"Motor Speed: {STATE if STATE == 0 else BPMS[STATE - 1]} BPM")
