@@ -6,8 +6,8 @@ from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
 DIST_ERR = 0.2
 DELAY_SEC = 0.01
 
-MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
-DISTANCES = [7, 9, 12, 14]
+MIN_DISTANCE = 4 # Ignore anything below this distance (cm)
+DISTANCES = [6, 8.5, 11, 13]
 NOTES = ["D5", "E5", "F5", "G5"]
 NOTE_SOUNDS = {note:sound.Sound(duration=3, pitch=note, volume=65) for note in NOTES}
 for s in NOTE_SOUNDS.values():
