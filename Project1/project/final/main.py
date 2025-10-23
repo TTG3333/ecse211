@@ -15,12 +15,14 @@ SPEED_PICKER = TouchSensor(2)
 US_SENSOR = EV3UltrasonicSensor(3)
 
 def main():
+    """Main function for the robot"""
     print("Initializing sensors...")
     wait_ready_sensors()
     print("Sensors ready. Starting main loop.")
 
     # Note handling part:
     def drum_handler():
+        """Drum handler function to manage drum operations based on emergency stop status"""
         global ESTOP_PRESSED
         while True:
             if ESTOP_PRESSED:
@@ -30,6 +32,7 @@ def main():
             time.sleep(0.1)
 
     def note_handler():
+        """Note handler function to manage note detection based on emergency stop status"""
         global ESTOP_PRESSED
         while True:
             if ESTOP_PRESSED:
@@ -38,6 +41,7 @@ def main():
             time.sleep(0.015)
 
     def estop_handler():
+        """Emergency stop handler to toggle ESTOP_PRESSED state"""
         global ESTOP_PRESSED
         while True:
             if EMERGENCY_STOP.is_pressed():

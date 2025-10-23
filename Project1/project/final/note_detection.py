@@ -6,8 +6,8 @@ from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
 DIST_ERR = 0.2
 DELAY_SEC = 0.01
 
-MIN_DISTANCE = 3 # Ignore anything below this distance (cm)
-DISTANCES = [7, 9, 12, 14]
+MIN_DISTANCE = 4 # Ignore anything below this distance (cm)
+DISTANCES = [6, 8.5, 11, 13]
 NOTES = ["D5", "E5", "F5", "G5"]
 NOTE_SOUNDS = {note:sound.Sound(duration=3, pitch=note, volume=65) for note in NOTES}
 for s in NOTE_SOUNDS.values():
@@ -87,6 +87,7 @@ def mapping_distance(distance):
         return None  # discard odd values (e.g. 255)
     
 def play_note(note):
+    """ Play the given note (string) if it's different from the current note """
     global CURRENT_NOTE, CURRENT_SOUND
     if note != CURRENT_NOTE:
         print(f"Playing note: {note}")
@@ -99,6 +100,7 @@ def play_note(note):
         CURRENT_NOTE = note
 
 def stop_note():
+    """ Stop any currently playing note and reset the currently playing note"""
     global CURRENT_NOTE, CURRENT_SOUND
     if CURRENT_SOUND is not None:
         CURRENT_SOUND.stop()
@@ -106,9 +108,10 @@ def stop_note():
     CURRENT_NOTE = None
     
 def runner(us_sensor, stopped=False):
+    """ Main runner function to read distance from ultrasonic sensor and play corresponding note """
     distance = us_sensor.get_value()
     NOISE_HANDLER.add_value(distance)
-    if not stopped:
+    if not stopped: # stopped is true if the estop is active
         distance = NOISE_HANDLER.get_filtered_value()
         #distance = NOISE_HANDLER.get_median_value()
         flute_note = mapping_distance(distance)
