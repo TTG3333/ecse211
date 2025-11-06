@@ -8,7 +8,7 @@ from utils import sound
 from utils.brick import EV3GyroSensor, wait_ready_sensors
 
 SOUND = sound.Sound(duration=0.3, pitch="A4", volume=85)
-GYRO_SENSOR = EV3GyroSensor(1)
+GYRO_SENSOR = EV3GyroSensor(3)
 
 wait_ready_sensors() 
 
