@@ -1,3 +1,6 @@
+#  This current version works when the robot is initially placed on top of the black line, or slightly to the left.
+#  If the robot was initially placed more to the right of the black line, it would drift away from the line.
+
 from utils.brick import BP, Motor, wait_ready_sensors, SensorError
 import time
 
