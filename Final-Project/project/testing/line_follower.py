@@ -86,3 +86,6 @@ def run():
             break
 
     BP.reset_all()
+
+if __name__=='__main__':
+    run()
