@@ -3,6 +3,8 @@
 
 from utils.brick import BP, Motor, wait_ready_sensors, SensorError, EV3UltrasonicSensor, EV3ColorSensor
 import time
+from math import pi
+from package_delivery import move_to_next
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
@@ -19,7 +21,7 @@ SENSOR_POLL_SLEEP = 0.05
 
 # input correct ports
 US_SENSOR = EV3UltrasonicSensor(3)
-C_SENSOR = EV3ColorSensor(2)
+C_SENSOR = EV3ColorSensor(1)
 
 # input correct motor ports
 LEFT_MOTOR = Motor("A")
@@ -59,6 +61,11 @@ def follow_line(rgb_average):
         drive_straight()
 
 
+def stop_robot():
+    LEFT_MOTOR.set_dps(0)
+    RIGHT_MOTOR.set_dps(0)
+
+
 def run():
 
     wait_ready_sensors()
@@ -67,6 +74,13 @@ def run():
         try:
             r, g, b, lum = C_SENSOR.get_value()
             avg = average_rgb_value(r, g, b)
+            
+            # stop on green square
+            #if GREEN SQUARE:
+            #    stop_robot()
+            #    move_to_next()
+            #    time.sleep(SENSOR_POLL_SLEEP)
+            #    continue
 
             # follow line
             follow_line(avg)
@@ -81,8 +95,7 @@ def run():
             time.sleep(SENSOR_POLL_SLEEP)
 
         except SensorError:
-            LEFT_MOTOR.set_dps(0)
-            RIGHT_MOTOR.set_dps(0)
+            stop_robot()
             break
 
     BP.reset_all()
