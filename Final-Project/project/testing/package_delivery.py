@@ -20,10 +20,9 @@ def move_to_next():
     degrees = rotations * 360
 
     # Move the belt motor
-    BELT_MOTOR.set_degrees_counted(0)
     BELT_MOTOR.set_dps(180)
-    BELT_MOTOR.run_to_degrees_counted(degrees)
-    BELT_MOTOR.wait_until_not_moving()
+    BELT_MOTOR.set_position_relative(degrees)
+    BELT_MOTOR.wait_is_stopped()
 
 def run():
     wait_ready_sensors()
