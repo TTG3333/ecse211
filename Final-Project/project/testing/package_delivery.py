@@ -20,8 +20,8 @@ def move_to_next():
     degrees = rotations * 360
 
     # Move the belt motor
-    BELT_MOTOR.set_dps(180)
-    BELT_MOTOR.set_position_relative(degrees)
+    BELT_MOTOR.set_dps(90)
+    BELT_MOTOR.set_position_relative(-degrees)
     BELT_MOTOR.wait_is_stopped()
 
 def run():
@@ -30,7 +30,7 @@ def run():
     try:
         for _ in range(3):  # Move 5 cubes as a test
             move_to_next()
-            time.sleep(1)  # Pause between moves
+            time.sleep(5)  # Pause between moves
     finally:
         BP.reset_all()
 
