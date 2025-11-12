@@ -88,27 +88,23 @@ def run():
         try:
             r, g, b, lum = C_SENSOR.get_value()
             avg = average_rgb_value(r, g, b)
+            print("average:", str(avg))
 
             # stop on green square
-<<<<<<< HEAD
-            if b < 25 and abs(r-b) > :
-                stop_robot()
-                move_to_next()
-                time.sleep(SENSOR_POLL_SLEEP)
-                continue
-=======
             if b < 25 and abs(r-b) > 10:
                 stop_robot()
                 backup()
                 move_to_next()
-                time.sleep(1)
+                time.sleep(2)
+                LEFT_MOTOR.set_dps(-BACKUP_SPEED)
+                RIGHT_MOTOR.set_dps(-BACKUP_SPEED)
+                time.sleep(1.5)
                 if current_dir == "LEFT":
                     drive_slightly_left()
                 elif current_dir == "RIGHT":
                     drive_slightly_right()
                 else:
                     drive_straight()
->>>>>>> 19673c7a9ef05c6b3f52198da06d46437455c742
 
             # follow line
             current_dir = follow_line(avg)
@@ -117,11 +113,13 @@ def run():
             if distance < 12:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
+                print("shit")
                 break
 
             time.sleep(SENSOR_POLL_SLEEP)
 
         except SensorError:
+            print("WE FUCKED UP")
             stop_robot()
             break
 
