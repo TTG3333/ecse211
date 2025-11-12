@@ -81,15 +81,16 @@ def run():
             print("Average:", str(avg))
             
             # stop on green square
-            #if GREEN SQUARE:
-            #    stop_robot()
-            #    move_to_next()
-            #    time.sleep(SENSOR_POLL_SLEEP)
-            #    continue
+            if b < 25 and abs(r-b) > :
+                stop_robot()
+                move_to_next()
+                time.sleep(SENSOR_POLL_SLEEP)
+                continue
 
             # follow line
             follow_line(avg)
 
+            distance = US_SENSOR.get_value()
             if distance < 12:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
