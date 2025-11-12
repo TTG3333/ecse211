@@ -6,14 +6,14 @@ import time
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
-WHITE_SURFACE = 220  # all 3 values should be close to 255
-BLACK_LINE = 10      # all 3 values should be close to 0
+WHITE_SURFACE = 175  # all 3 values should be close to 255
+BLACK_LINE = 20      # all 3 values should be close to 0
 THRESHOLD = (WHITE_SURFACE + BLACK_LINE) / 2 - 10
 TOLERANCE = 20
 
 #  adjust speed if needed
-BASE_SPEED = 200
-TURNING_SPEED = 220
+BASE_SPEED = -200
+TURNING_SPEED = -220
 
 SENSOR_POLL_SLEEP = 0.05
 
