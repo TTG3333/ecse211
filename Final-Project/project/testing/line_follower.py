@@ -19,7 +19,7 @@ SENSOR_POLL_SLEEP = 0.05
 
 # input correct ports
 US_SENSOR = EV3UltrasonicSensor(3)
-C_SENSOR = EV3ColorSensor(1)
+C_SENSOR = EV3ColorSensor(2)
 
 # input correct motor ports
 LEFT_MOTOR = Motor("A")

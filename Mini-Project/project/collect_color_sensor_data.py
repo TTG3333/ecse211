@@ -27,8 +27,8 @@ COLOR_SENSOR_DATA_FILE = "../data_analysis/color_sensor.csv"
 SENSOR_POLL_SLEEP = 0.05
 
 # complete this based on your hardware setup
-C_SENSOR = EV3ColorSensor(3)
-T_SENSOR = TouchSensor(1)
+C_SENSOR = EV3ColorSensor(2)
+T_SENSOR = TouchSensor(4)
 
 wait_ready_sensors(True)  # Input True to see what the robot is trying to initialize! False to be silent.
 
