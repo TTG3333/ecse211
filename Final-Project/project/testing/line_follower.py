@@ -87,7 +87,8 @@ def run():
 
             # check ultrasonic sensor for wall
             distance = US_SENSOR.get_value()
-            if distance < 15:  # stop when close to wall
+            print("Distance to wall: ", str(distance))
+            if distance < 12:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 break
