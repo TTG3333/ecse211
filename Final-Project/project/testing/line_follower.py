@@ -1,7 +1,7 @@
 #  This current version works when the robot is initially placed on top of the black line, or slightly to the left.
 #  If the robot was initially placed more to the right of the black line, it would drift away from the line.
 
-from utils.brick import BP, Motor, wait_ready_sensors, SensorError
+from utils.brick import BP, Motor, wait_ready_sensors, SensorError, EV3UltrasonicSensor, EV3ColorSensor
 import time
 
 #  we should test the color sensor beforehand to see what values we get
@@ -18,8 +18,8 @@ TURNING_SPEED = 220
 SENSOR_POLL_SLEEP = 0.05
 
 # input correct ports
-US_SENSOR = EV3UltrasonicSensor(1)
-C_SENSOR = EV3ColorSensor(2)
+US_SENSOR = EV3UltrasonicSensor(3)
+C_SENSOR = EV3ColorSensor(1)
 
 # input correct motor ports
 LEFT_MOTOR = Motor("A")
@@ -59,7 +59,8 @@ def follow_line(rgb_average):
         drive_straight()
 
 
-if __name__ == "__main__":
+def run():
+
     wait_ready_sensors()
 
     while True:
