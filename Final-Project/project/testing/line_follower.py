@@ -36,16 +36,19 @@ def average_rgb_value(r, g, b):
 
 
 def drive_straight():
+    print("STRAIGHT")
     LEFT_MOTOR.set_dps(BASE_SPEED)
     RIGHT_MOTOR.set_dps(BASE_SPEED)
 
 
 def drive_slightly_left():
+    print("LEFT")
     LEFT_MOTOR.set_dps(BASE_SPEED)
     RIGHT_MOTOR.set_dps(TURNING_SPEED)
 
 
 def drive_slightly_right():
+    print("RIGHT")
     LEFT_MOTOR.set_dps(TURNING_SPEED)
     RIGHT_MOTOR.set_dps(BASE_SPEED)
 
@@ -73,7 +76,9 @@ def run():
     while True:
         try:
             r, g, b, lum = C_SENSOR.get_value()
+            print(r, g, b)
             avg = average_rgb_value(r, g, b)
+            print("Average:", str(avg))
             
             # stop on green square
             #if GREEN SQUARE:
@@ -85,9 +90,6 @@ def run():
             # follow line
             follow_line(avg)
 
-            # check ultrasonic sensor for wall
-            distance = US_SENSOR.get_value()
-            print("Distance to wall: ", str(distance))
             if distance < 12:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
