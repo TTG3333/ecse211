@@ -21,6 +21,7 @@ if __name__=='__main__':
         return sum((x - m) ** 2 for x in values) / len(values)
     
     list = []
+    time.sleep(1)
     for i in range(0, 60):
         r,g,b = C_SENSOR.get_rgb()
         color = Color(r,g,b)
