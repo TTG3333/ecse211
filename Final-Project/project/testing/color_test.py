@@ -5,6 +5,7 @@ Testing of the colors found on the playing field
 """
  
 import time
+from scipy.stats import circmean, circvar
 from utils.brick import wait_ready_sensors, EV3ColorSensor
 from utils.color import Color
 
@@ -30,12 +31,12 @@ if __name__=='__main__':
 
     # Find the highest and lowest value
     values = [c.value for c in list]
-    print(f"(VALUES) Max: {max(values)}, Min: {min(values)}, Avg: {mean(values)}, Var: {var(values)}")
+    print(f"(VALUES) Max: {max(values)}, Min: {min(values)}, Avg: {circmean(values)}, Var: {circvar(values)}")
 
     # Find the highest saturation
     saturations = [c.saturation for c in list]
-    print(f"(SATURATION) Max: {max(saturations)}, Min: {min(saturations)}, Avg: {mean(saturations)}, Var: {var(saturations)}")
+    print(f"(SATURATION) Max: {max(saturations)}, Min: {min(saturations)}, Avg: {circmean(saturations)}, Var: {circvar(saturations)}")
 
     # Find the highest hue
     hues = [c.hue for c in list]
-    print(f"(HUES) Max: {max(hues)}, Min: {min(hues)}, Avg: {mean(hues)}, Var: {var(hues)}")
+    print(f"(HUES) Max: {max(hues)}, Min: {min(hues)}, Avg: {circmean(hues)}, Var: {circvar(hues)}")
