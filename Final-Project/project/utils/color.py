@@ -35,10 +35,10 @@ class Color:
         self.saturation = delta / cmax if cmax != 0 else 0
         
         self.hue = 60 * (
-            ((self.g - self.b) / delta) % 6             if cmax == self.r
+            0                                           if cmax == 0
+                else ((self.g - self.b) / delta) % 6             if cmax == self.r
                 else ((self.b - self.r) / delta) + 2    if cmax == self.g
-                else ((self.r - self.g) / delta) + 4    if cmax == self.b
-                else 0
+                else ((self.r - self.g) / delta) + 4
         )
 
     def __str__(self):
