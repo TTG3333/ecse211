@@ -82,7 +82,6 @@ def backup():
 
 
 def run():
-    wait_ready_sensors()
     current_dir = "LEFT"
     while True:
         try:
@@ -127,4 +126,5 @@ def run():
 
 
 if __name__ == '__main__':
+    wait_ready_sensors()
     run()

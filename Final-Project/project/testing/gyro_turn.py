@@ -15,7 +15,6 @@ GYRO_SENSOR = EV3GyroSensor(4)
 LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("D")
 
-wait_ready_sensors() 
 
 def turn_90_deg(direction: str):
     i = 1 if direction.lower() == "left" else -1 if direction.lower() == "right" else 0
@@ -28,6 +27,7 @@ def turn_90_deg(direction: str):
     RIGHT_MOTOR.set_dps(0)
 
 if __name__ == "__main__":
+    wait_ready_sensors() 
     for _ in range(4):
         line_follower.run()
         turn_90_deg('left')
