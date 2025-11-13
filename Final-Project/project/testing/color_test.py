@@ -14,4 +14,4 @@ if __name__=='__main__':
     while True:
         r,g,b = C_SENSOR.get_rgb
         color = Color(r,g,b)
-        print(f"Hue: {color.hue}, Value: {color.value}")
+        print(f"Hue: {color.hue}, Saturation: {color.saturation} Value: {color.value}")
