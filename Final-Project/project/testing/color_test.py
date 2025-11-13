@@ -30,15 +30,12 @@ if __name__=='__main__':
 
     # Find the highest and lowest value
     values = [c.value for c in list]
-    print(values)
     print(f"(VALUES) Max: {max(values)}, Min: {min(values)}, Avg: {mean(values)}, Var: {var(values)}")
 
     # Find the highest saturation
     saturations = [c.saturation for c in list]
-    print(saturations)
     print(f"(SATURATION) Max: {max(saturations)}, Min: {min(saturations)}, Avg: {mean(saturations)}, Var: {var(saturations)}")
 
     # Find the highest hue
     hues = [c.hue for c in list]
-    print(hues)
     print(f"(HUES) Max: {max(hues)}, Min: {min(hues)}, Avg: {mean(hues)}, Var: {var(hues)}")
