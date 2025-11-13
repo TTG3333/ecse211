@@ -6,6 +6,7 @@ Testing of the gyro sensor
  
 from utils import sound
 from utils.brick import Motor, EV3GyroSensor, wait_ready_sensors
+from time import sleep
 
 SOUND = sound.Sound(duration=0.3, pitch="A4", volume=85)
 GYRO_SENSOR = EV3GyroSensor(4)
@@ -24,3 +25,7 @@ def turn_90_deg(direction: str):
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
 
+if __name__ == "__main__":
+    turn_90_deg('left')
+    sleep(2)
+    turn_90_deg('right')
