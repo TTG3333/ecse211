@@ -12,6 +12,8 @@ Data obtained through testing:
 
 '''
 
+import math
+
 class Color:
     hues    = {}        # The hues corresponding to certain colors.
     values  = {}        # The values corresponding to certain shades.
@@ -49,4 +51,8 @@ class Color:
         Otherwise, we consider it a color.
         '''
 
+    def hue_vect(self):
+        h0 = math.cos(math.radians(self.hue))
+        h1 = math.sin(math.radians(self.hue))
+        return h0, h1
 
