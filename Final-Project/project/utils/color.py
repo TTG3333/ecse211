@@ -1,23 +1,6 @@
-'''
-Data obtained through testing:
-
-    White:      S[0, 0.23]  V[0.6, 1]
-    Black:      S[0, 0.35]  V[0, 0.15]
-
-    Red:        H[] S[0.875] V[]
-    Orange:     H[] S[] V[]
-    Yellow:     H[] S[] V[]
-    Green:      H[] S[] V[]
-    Blue:       H[] S[] V[]
-
-'''
-
 import math
 
 class Color:
-    hues    = {}        # The hues corresponding to certain colors.
-    values  = {}        # The values corresponding to certain shades.
-
     def __init__(self, r, g, b):
         '''
         Constructs a color object, which allows to read the R,G,B H,S,V values.
@@ -51,8 +34,29 @@ class Color:
         Otherwise, we consider it a color.
         '''
 
+        n, c, ldist = None, None, None
+        vect = self.hue_vect()
+
+        for name, ref in Color.colors.items():
+            vect2 = ref.hue_vect()
+            dist = math.sqrt((vect2[0] - vect[0]) ** 2 + (vect2[1] - vect[1]) ** 2)
+
+            if ldist is None or dist < ldist:
+                n = name; c = ref; ldist = dist 
+
+        return n
+
     def hue_vect(self):
         h0 = math.cos(math.radians(self.hue))
         h1 = math.sin(math.radians(self.hue))
-        return h0, h1
+        return (h0, h1)
 
+Color.colors = {
+    "White":  Color(152, 158, 185),
+    "Black":  Color(35, 27, 32),
+    "Red":    Color(92, 11, 14),
+    "Orange": Color(116, 53, 16),
+    "Yellow": Color(131, 106, 23),
+    "Green":  Color(52, 92, 23),
+    "Blue":   Color(73, 105, 148),
+}
