@@ -24,3 +24,5 @@ if __name__=='__main__':
 
     # Find the highest hue
     print(f"Value: {color.value}")
+
+    print(str(color))
