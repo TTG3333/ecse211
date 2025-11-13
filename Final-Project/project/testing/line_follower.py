@@ -109,7 +109,7 @@ def run():
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
-            if distance < 10:  # stop when close to wall
+            if distance < 6.5:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 print("shit")
@@ -121,8 +121,6 @@ def run():
             print("WE FUCKED UP")
             stop_robot()
             break
-
-    BP.reset_all()
 
 
 if __name__ == '__main__':
