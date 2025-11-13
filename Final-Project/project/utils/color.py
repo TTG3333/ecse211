@@ -34,7 +34,14 @@ class Color:
         Otherwise, we consider it a color.
         '''
 
-        n, c, ldist = None, None, None
+        n, ldist = None, None, None
+
+        # Edge cases (white/black)
+        if self.value < 0.15:
+            return "Black"
+        elif self.value > 0.55:
+            return "White"
+
         vect = self.hue_vect()
 
         for name, ref in Color.colors.items():
@@ -42,7 +49,7 @@ class Color:
             dist = math.sqrt((vect2[0] - vect[0]) ** 2 + (vect2[1] - vect[1]) ** 2)
 
             if ldist is None or dist < ldist:
-                n = name; c = ref; ldist = dist 
+                n = name; ldist = dist 
 
         return n
 
