@@ -34,7 +34,7 @@ class Color:
         Otherwise, we consider it a color.
         '''
 
-        n, ldist = None, None, None
+        n, ldist = None, None
 
         # Edge cases (white/black)
         if self.value < 0.15:
