@@ -1,10 +1,10 @@
 '''
 Data obtained through testing:
 
-    White:      H[] S[] V[]
-    Black:      H[] S[] V[]
+    White:      S[0, 0.23]  V[0.6, 1]
+    Black:      S[0, 0.35]  V[0, 0.15]
 
-    Red:        H[] S[] V[]
+    Red:        H[] S[0.875] V[]
     Orange:     H[] S[] V[]
     Yellow:     H[] S[] V[]
     Green:      H[] S[] V[]
@@ -13,8 +13,8 @@ Data obtained through testing:
 '''
 
 class Color:
-    hues = {}       # The hues corresponding to certain colors.
-    values = {}     # The values corresponding to certain shades.
+    hues    = {}        # The hues corresponding to certain colors.
+    values  = {}        # The values corresponding to certain shades.
 
     def __init__(self, r, g, b):
         '''
@@ -32,7 +32,7 @@ class Color:
         delta = (cmax - cmin)
         
         self.value = cmax
-        self.saturation = delta / cmax # (Assuming cmax is never 0 (very improbable))
+        self.saturation = delta / cmax if cmax != 0 else 0
         
         self.hue = 60 * (
             ((self.g - self.b) / delta) % 6             if cmax == self.r
