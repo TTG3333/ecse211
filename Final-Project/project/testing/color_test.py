@@ -17,7 +17,7 @@ if __name__=='__main__':
     color = Color(r,g,b)
 
     # Find the highest and lowest value
-    print(f"Hue Vector: ")
+    print(f"Hue Vector: {color.hue_vect()}")
 
     # Find the highest saturation
     print(f"Saturation: {color.saturation}")
