@@ -5,7 +5,7 @@ Testing of the colors found on the playing field
 """
  
 import time
-import numpy as np
+from numpy import average, var
 
 from utils.brick import wait_ready_sensors, EV3ColorSensor
 from utils.color import Color
@@ -31,4 +31,4 @@ if __name__=='__main__':
 
     # Find the highest hue
     hues = [c.hue for c in list]
-    print(f"(HUES) Max: {max(hues)}, Min: {min(hues)}, Avg: {np.average(hues)}, Var: {np.var(hues)}")
+    print(f"(HUES) Max: {max(hues)}, Min: {min(hues)}, Avg: {average(hues)}, Var: {var(hues)}")
