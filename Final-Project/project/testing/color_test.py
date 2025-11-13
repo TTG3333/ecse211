@@ -5,8 +5,6 @@ Testing of the colors found on the playing field
 """
  
 import time
-import numpy as np
-
 from utils.brick import wait_ready_sensors, EV3ColorSensor
 from utils.color import Color
 
