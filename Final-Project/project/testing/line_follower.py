@@ -110,7 +110,7 @@ def run():
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
-            if distance < 12:  # stop when close to wall
+            if distance < 10:  # stop when close to wall
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 print("shit")
