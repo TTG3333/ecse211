@@ -13,16 +13,8 @@ wait_ready_sensors()
 
 if __name__=='__main__':
     time.sleep(1)
-    r,g,b = C_SENSOR.get_rgb()
-    color = Color(r,g,b)
-
-    # Find the highest and lowest value
-    print(f"Hue Vector: {color.hue_vect()}")
-
-    # Find the highest saturation
-    print(f"Saturation: {color.saturation}")
-
-    # Find the highest hue
-    print(f"Value: {color.value}")
-
-    print(str(color))
+    while True:
+        r,g,b = C_SENSOR.get_rgb()
+        color = Color(r,g,b)
+        print(str(color))
+        time.sleep(0.25)
