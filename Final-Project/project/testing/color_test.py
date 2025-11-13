@@ -4,6 +4,7 @@
 Testing of the colors found on the playing field
 """
  
+import time
 from utils.brick import wait_ready_sensors, EV3ColorSensor
 from utils.color import Color
 
@@ -12,10 +13,11 @@ wait_ready_sensors()
 
 if __name__=='__main__':
     list = []
-    for i in range(0,200):
+    for i in range(0, 60):
         r,g,b = C_SENSOR.get_rgb()
         color = Color(r,g,b)
         list.append(color)
+        time.sleep(0.1)
 
     # Find the highest and lowest value
     values = [c.value for c in list]

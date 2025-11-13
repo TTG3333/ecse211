@@ -36,7 +36,7 @@ class Color:
         
         self.hue = 60 * (
             0                                           if cmax == 0
-                else ((self.g - self.b) / delta) % 6             if cmax == self.r
+                else ((self.g - self.b) / delta) % 6    if cmax == self.r
                 else ((self.b - self.r) / delta) + 2    if cmax == self.g
                 else ((self.r - self.g) / delta) + 4
         )
