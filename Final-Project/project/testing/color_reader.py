@@ -20,7 +20,7 @@ COLOR_LABEL = "White" # Change this before adding data
 def log():
     r,g,b = C_SENSOR.get_rgb()
     print(f"Added: ({r,g,b}) as {COLOR_LABEL}")
-    with open("../collection/color_data.csv", "a") as file:
+    with open("../collection/color_data.csv", "a", newline="\n") as file:
         writer = csv.writer(file)
         writer.writerow([r, g, b, COLOR_LABEL])
 
