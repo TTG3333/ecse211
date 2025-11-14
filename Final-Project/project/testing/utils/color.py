@@ -1,4 +1,5 @@
 import math
+import csv
 
 class Color:
     def __init__(self, r, g, b):
@@ -44,16 +45,17 @@ class Color:
 
         vect = self.hue_vect()
 
-        for name, ref in Color.colors.items():
+        for _, data in Color.colors.items():
+            ref = data[0]
             vect2 = ref.hue_vect()
             dist = math.sqrt(
-                    (vect2[0] - vect[0]) ** 2 + 
-                    (vect2[1] - vect[1]) ** 2 +
-                    (self.value - ref.value) ** 2
+                    math.pow((vect2[0] - vect[0]), 2) + 
+                    math.pow((vect2[1] - vect[1]), 2) +
+                    math.pow((self.value - ref.value), 2)
                 )
 
             if ldist is None or dist < ldist:
-                n = name; ldist = dist 
+                n = ref[1]; ldist = dist 
 
         return n
 
@@ -62,12 +64,13 @@ class Color:
         h1 = math.sin(math.radians(self.hue))
         return (h0, h1)
 
-Color.colors = {
-    "White":  Color(152, 158, 185),
-    "Black":  Color(35, 27, 32),
-    "Red":    Color(92, 11, 14),
-    "Orange": Color(116, 53, 16),
-    "Yellow": Color(131, 106, 23),
-    "Green":  Color(52, 92, 23),
-    "Blue":   Color(73, 105, 148),
-}
+# Add additional data values:
+with open("../collection/color_data.csv", "r") as colors:
+    reader = csv.reader(colors)
+    next(reader) # Ignore header
+
+    for r,g,b,label in reader:
+        Color.colors.append({
+            Color(r,g,b),
+            label
+        })
