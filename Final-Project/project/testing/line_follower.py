@@ -90,21 +90,21 @@ def run(until_what):
             avg = average_rgb_value(r, g, b)
             print("average:", str(avg))
 
-            # stop on green square
-            if b < 25 and abs(r-b) > 10:
-                stop_robot()
-                backup()
-                move_to_next()
-                time.sleep(2)
-                LEFT_MOTOR.set_dps(-BACKUP_SPEED)
-                RIGHT_MOTOR.set_dps(-BACKUP_SPEED)
-                time.sleep(1.5)
-                if current_dir == "LEFT":
-                    drive_slightly_left()
-                elif current_dir == "RIGHT":
-                    drive_slightly_right()
-                else:
-                    drive_straight()
+            # # stop on green square
+            # if b < 25 and abs(r-b) > 10:
+            #     stop_robot()
+            #     backup()
+            #     move_to_next()
+            #     time.sleep(2)
+            #     LEFT_MOTOR.set_dps(-BACKUP_SPEED)
+            #     RIGHT_MOTOR.set_dps(-BACKUP_SPEED)
+            #     time.sleep(1.5)
+            #     if current_dir == "LEFT":
+            #         drive_slightly_left()
+            #     elif current_dir == "RIGHT":
+            #         drive_slightly_right()
+            #     else:
+            #         drive_straight()
 
             # follow line
             current_dir = follow_line(avg)

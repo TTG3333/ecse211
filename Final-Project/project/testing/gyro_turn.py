@@ -34,7 +34,7 @@ def turn_180_deg():
     
     LEFT_MOTOR.set_dps(-200)
     RIGHT_MOTOR.set_dps(200)
-    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 180 - (OVERSHOOT_UNDERSHOOT * i):
+    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 180 - OVERSHOOT_UNDERSHOOT:
         print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)

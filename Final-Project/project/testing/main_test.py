@@ -32,4 +32,3 @@ if __name__ == "__main__":
     line_follower.run(32.5)
     delivery()
 
-    package_delivery.move_to_next()
