@@ -73,6 +73,6 @@ with open("../collection/color_data.csv", "r") as colors:
 
     for r,g,b,label in reader:
         Color.colors.append({
-            Color(r,g,b),
+            Color(int(r),int(g),int(b)),
             label
         })
