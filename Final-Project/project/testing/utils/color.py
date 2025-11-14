@@ -21,7 +21,7 @@ class Color:
         self.saturation = delta / cmax if cmax != 0 else 0
         
         self.hue = 60 * (
-            0                                           if cmax == 0
+            0                                           if delta == 0
                 else ((self.g - self.b) / delta) % 6    if cmax == self.r
                 else ((self.b - self.r) / delta) + 2    if cmax == self.g
                 else ((self.r - self.g) / delta) + 4
