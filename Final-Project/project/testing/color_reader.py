@@ -19,6 +19,7 @@ COLOR_LABEL = "White" # Change this before adding data
 
 def log():
     r,g,b = C_SENSOR.get_rgb()
+    print(f"Added: ({r,g,b}) as {COLOR_LABEL}")
     with open("../collection/color_data.csv", "a") as file:
         writer = csv.writer(file)
         writer.writerow([r, g, b, COLOR_LABEL])
@@ -29,3 +30,4 @@ if __name__=='__main__':
         if BUTTON.is_pressed():
             log()
             time.sleep(1)
+        time.sleep(0.1)
