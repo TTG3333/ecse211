@@ -46,7 +46,11 @@ class Color:
 
         for name, ref in Color.colors.items():
             vect2 = ref.hue_vect()
-            dist = math.sqrt((vect2[0] - vect[0]) ** 2 + (vect2[1] - vect[1]) ** 2)
+            dist = math.sqrt(
+                    (vect2[0] - vect[0]) ** 2 + 
+                    (vect2[1] - vect[1]) ** 2 +
+                    (self.value - ref.value) ** 2
+                )
 
             if ldist is None or dist < ldist:
                 n = name; ldist = dist 
