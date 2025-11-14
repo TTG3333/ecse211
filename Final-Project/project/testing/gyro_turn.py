@@ -21,6 +21,7 @@ OVERSHOOT_UNDERSHOOT = 2
 def turn_90_deg(direction: str):
     i = 1 if direction.lower() == "left" else -1 if direction.lower() == "right" else 0
     offset = GYRO_SENSOR.get_abs_measure()
+
     LEFT_MOTOR.set_dps(200 * int(i))
     RIGHT_MOTOR.set_dps(-200 * int(i))
     while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 + (OVERSHOOT_UNDERSHOOT * i):
@@ -29,11 +30,12 @@ def turn_90_deg(direction: str):
     RIGHT_MOTOR.set_dps(0)
 
 def turn_180_deg():
-    print('TBD')
+    offset = GYRO_SENSOR.get_abs_measure()
+    
+    LEFT_MOTOR.set_dps(-200)
+    RIGHT_MOTOR.set_dps(200)
+    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 180 - (OVERSHOOT_UNDERSHOOT * i):
+        print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
+    LEFT_MOTOR.set_dps(0)
+    RIGHT_MOTOR.set_dps(0)
 
-if __name__ == "__main__":
-    wait_ready_sensors() 
-    for _ in range(4):
-        line_follower.run()
-        turn_90_deg('left')
-    package_delivery.move_to_next()
