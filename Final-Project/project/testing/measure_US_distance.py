@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from utils.brick import wait_ready_sensors, EV3UltrasonicSensor
 from time import sleep
 

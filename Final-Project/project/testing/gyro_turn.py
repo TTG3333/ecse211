@@ -15,16 +15,21 @@ GYRO_SENSOR = EV3GyroSensor(4)
 LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("D")
 
+# adjust this if you want
+OVERSHOOT_UNDERSHOOT = 2
 
 def turn_90_deg(direction: str):
     i = 1 if direction.lower() == "left" else -1 if direction.lower() == "right" else 0
     offset = GYRO_SENSOR.get_abs_measure()
     LEFT_MOTOR.set_dps(200 * int(i))
     RIGHT_MOTOR.set_dps(-200 * int(i))
-    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 + (3 * i):
+    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 + (OVERSHOOT_UNDERSHOOT * i):
         print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
+
+def turn_180_deg():
+    print('TBD')
 
 if __name__ == "__main__":
     wait_ready_sensors() 
