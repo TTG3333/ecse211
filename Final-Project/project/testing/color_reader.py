@@ -10,7 +10,7 @@ import csv
 from utils.brick import wait_ready_sensors, EV3ColorSensor, TouchSensor
 from utils.color import Color
 
-BUTTON = TouchSensor(1)
+BUTTON = TouchSensor(2)
 C_SENSOR = EV3ColorSensor(1)
 
 wait_ready_sensors()
