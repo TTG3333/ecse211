@@ -67,7 +67,7 @@ class Color:
 Color.colors = []
 
 # Add additional data values:
-with open("../../collection/color_data.csv", "r") as colors:
+with open("../collection/color_data.csv", "r") as colors:
     reader = csv.reader(colors)
     next(reader) # Ignore header
 
