@@ -63,9 +63,11 @@ class Color:
         h0 = math.cos(math.radians(self.hue))
         h1 = math.sin(math.radians(self.hue))
         return (h0, h1)
+    
+Color.colors = []
 
 # Add additional data values:
-with open("../collection/color_data.csv", "r") as colors:
+with open("../../collection/color_data.csv", "r") as colors:
     reader = csv.reader(colors)
     next(reader) # Ignore header
 
