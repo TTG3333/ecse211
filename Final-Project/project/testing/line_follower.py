@@ -5,6 +5,7 @@ from utils.brick import BP, Motor, wait_ready_sensors, SensorError, EV3Ultrasoni
 import time
 from math import pi
 from package_delivery import move_to_next
+from utils.color import Color
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
@@ -81,7 +82,7 @@ def backup():
     stop_robot()
 
 
-def run():
+def run(until_what):
     current_dir = "LEFT"
     while True:
         try:
@@ -109,11 +110,23 @@ def run():
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
-            if distance < 6.5:  # stop when close to wall
-                LEFT_MOTOR.set_dps(0)
-                RIGHT_MOTOR.set_dps(0)
-                print("shit")
-                break
+            readColor = C_SENSOR.get_rgb()
+            color = Color(r,g,b)
+
+            if isinstance(until_what, int) or isinstance(until_what, float):
+                if distance < until_what:  # stop when close to wall
+                    LEFT_MOTOR.set_dps(0)
+                    RIGHT_MOTOR.set_dps(0)
+                    print("ended current distance task")
+                    break
+            elif isinstance(until_what, str):
+                if str(color).lower() == until_what.lower():
+                    LEFT_MOTOR.set_dps(0)
+                    RIGHT_MOTOR.set_dps(0)
+                    print("ended current color task")
+                    break
+            else:
+                raise Exception("unsupported type used. supported types: int (dist), float (dist), str (color)")
 
             time.sleep(SENSOR_POLL_SLEEP)
 
@@ -122,7 +135,6 @@ def run():
             stop_robot()
             break
 
-
 if __name__ == '__main__':
     wait_ready_sensors()
-    run()
+    run(6.5)
