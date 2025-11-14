@@ -72,7 +72,7 @@ with open("../collection/color_data.csv", "r") as colors:
     next(reader) # Ignore header
 
     for r,g,b,label in reader:
-        Color.colors.append({
+        Color.colors.append([
             Color(int(r),int(g),int(b)),
             label
-        })
+        ])
