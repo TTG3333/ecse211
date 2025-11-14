@@ -45,17 +45,16 @@ class Color:
 
         vect = self.hue_vect()
 
-        for data in Color.colors:
-            ref = data[0]
+        for ref, label in Color.colors:
             vect2 = ref.hue_vect()
             dist = math.sqrt(
-                    math.pow((vect2[0] - vect[0]), 2) + 
-                    math.pow((vect2[1] - vect[1]), 2) +
-                    math.pow((self.value - ref.value), 2)
+                    (vect2[0] - vect[0]) ** 2 + 
+                    (vect2[1] - vect[1]) ** 2 +
+                    (self.value - ref.value) ** 2
                 )
 
             if ldist is None or dist < ldist:
-                n = ref[1]; ldist = dist 
+                n = label; ldist = dist 
 
         return n
 
