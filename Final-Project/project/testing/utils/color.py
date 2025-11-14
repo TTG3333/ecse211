@@ -45,7 +45,7 @@ class Color:
 
         vect = self.hue_vect()
 
-        for _, data in Color.colors.items():
+        for data in Color.colors:
             ref = data[0]
             vect2 = ref.hue_vect()
             dist = math.sqrt(
