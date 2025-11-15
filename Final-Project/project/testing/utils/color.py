@@ -50,7 +50,7 @@ class Color:
                 (self.value - ref.value) ** 2
             )
 
-            if distances[label] is None or dist < distances[label]:
+            if label not in distances or dist < distances[label]:
                 distances[label] = dist
 
         sorted_labels = sorted(distances.items(), key=lambda x: x[1])
