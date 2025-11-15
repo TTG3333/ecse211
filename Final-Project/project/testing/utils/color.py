@@ -27,45 +27,50 @@ class Color:
                 else ((self.r - self.g) / delta) + 4
         )
 
-    def __str__(self):
+    def predict(self):
         '''
-        Returns a string of the shade seen **OR** the color seen.
-
-        If Saturation is found to be low, this means that it is a Shade
-        Otherwise, we consider it a color.
+        Returns a string of the predicted color, and certainty factor.
         '''
 
-        n, ldist = None, None
-
-        # Edge cases (white/black)
-        if self.value < 0.15:
-            return "Black"
-        elif self.value > 0.55:
-            return "White"
-
-        vect = self.hue_vect()
+        distances = {}
+        self_vector = self.hue_vect()
 
         for ref, label in Color.colors:
-            vect2 = ref.hue_vect()
+            viewed_vector = ref.hue_vect()
+
             dist = math.sqrt(
-                    (vect2[0] - vect[0]) ** 2 + 
-                    (vect2[1] - vect[1]) ** 2 +
-                    (self.value - ref.value) ** 2
-                )
+                (viewed_vector[0] - self_vector[0]) ** 2 + 
+                (viewed_vector[1] - self_vector[1]) ** 2 +
+                (self.value - ref.value) ** 2
+            )
 
-            if ldist is None or dist < ldist:
-                n = label; ldist = dist 
+            if distances[label] is None or dist < distances[label]:
+                distances[label] = dist
 
-        return n
+        sorted_labels = sorted(distances.items(), key=lambda x: x[1])
+        label1, dist1, _, dist2 = sorted_labels[0], sorted_labels[1]
+
+        certainty = 1 - dist1 / dist2
+
+        return (label1, certainty)
+
+
+    def __str__(self):
+        '''
+        Returns the string of the predict function
+        '''
+        name, _ = self.predict()
+        return name
+
 
     def hue_vect(self):
         h0 = math.cos(math.radians(self.hue))
         h1 = math.sin(math.radians(self.hue))
         return (h0, h1)
-    
-Color.colors = []
 
 # Add additional data values:
+Color.colors = []
+
 with open("../collection/color_data.csv", "r") as colors:
     reader = csv.reader(colors)
     next(reader) # Ignore header
