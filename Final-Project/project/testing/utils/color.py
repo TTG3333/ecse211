@@ -54,7 +54,7 @@ class Color:
                 distances[label] = dist
 
         sorted_labels = sorted(distances.items(), key=lambda x: x[1])
-        label1, dist1, _, dist2 = sorted_labels[0], sorted_labels[1]
+        (label1, dist1), (label2, dist2) = sorted_labels[:2]
 
         certainty = 1 - (dist1 / dist2) ** CONFIDENCE_EXPONENT
 
