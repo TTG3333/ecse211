@@ -1,6 +1,12 @@
 import math
 import csv
 
+# Configurable parameters
+
+CONFIDENCE_EXPONENT = 2
+
+# ##################### #
+
 class Color:
     def __init__(self, r, g, b):
         '''
@@ -50,7 +56,7 @@ class Color:
         sorted_labels = sorted(distances.items(), key=lambda x: x[1])
         label1, dist1, _, dist2 = sorted_labels[0], sorted_labels[1]
 
-        certainty = 1 - dist1 / dist2
+        certainty = 1 - (dist1 / dist2) ** CONFIDENCE_EXPONENT
 
         return (label1, certainty)
 
