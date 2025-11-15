@@ -16,5 +16,5 @@ if __name__=='__main__':
     while True:
         r,g,b = COLOR_SENSOR.get_rgb()
         color = Color(r,g,b)
-        print(str(color))
+        print(color.predict())
         time.sleep(0.25)
