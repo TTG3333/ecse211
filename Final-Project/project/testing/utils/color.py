@@ -41,6 +41,12 @@ class Color:
         distances = {}
         self_vector = self.hue_vect()
 
+        # Hard coded results
+        if self.value < 0.15:
+            return ("Black", 1)
+        elif self.value > 0.55:
+            return ("White", 1)
+
         for ref, label in Color.colors:
             viewed_vector = ref.hue_vect()
 
