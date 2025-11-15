@@ -59,7 +59,13 @@ class Color:
         certainty = 1 - (dist1 / dist2) ** CONFIDENCE_EXPONENT
 
         return (label1, certainty)
-
+    
+    def lerp(self, color, alpha):
+        return Color(
+            (self.r - color.r) * alpha + self.r,
+            (self.g - color.g) * alpha + self.g,
+            (self.b - color.b) * alpha + self.b,
+        )
 
     def __str__(self):
         '''
@@ -67,7 +73,6 @@ class Color:
         '''
         name, _ = self.predict()
         return name
-
 
     def hue_vect(self):
         h0 = math.cos(math.radians(self.hue))

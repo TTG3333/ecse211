@@ -15,14 +15,20 @@ C_SENSOR = EV3ColorSensor(1)
 
 wait_ready_sensors()
 
-COLOR_LABEL = "White" # Change this before adding data
-
-def log():
+def log(label):
     r,g,b = C_SENSOR.get_rgb()
-    print(f"Added: ({r,g,b}) as {COLOR_LABEL}")
+
+    color = Color(r,g,b)
+    predicted = str(color)
+
+    label = input(f"What color is expected? (Predicted: {predicted}): ")
+    if label == "":
+        label = predicted
+
+    print(f"Added: ({r,g,b}) as {label}")
     with open("../collection/color_data.csv", "a", newline="\n") as file:
         writer = csv.writer(file)
-        writer.writerow([r, g, b, COLOR_LABEL])
+        writer.writerow([r, g, b, label])
 
 if __name__=='__main__':
     time.sleep(1)
