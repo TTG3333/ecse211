@@ -36,9 +36,9 @@ def main():
                 if PLAYER:
                     PLAYER.stop()
                     PLAYER = None
-                sa.WaveObject.from_wave_file("../sounds/collect.wav").play().wait_done()
-                time.sleep(0.1)
-                sa.WaveObject.from_wave_file("../sounds/clear.wav").play().wait_done()
+                    sa.WaveObject.from_wave_file("../sounds/collect.wav").play().wait_done()
+                    time.sleep(0.1)
+                    sa.WaveObject.from_wave_file("../sounds/clear.wav").play().wait_done()
             time.sleep(0.1)
 
     def estop_handler():
