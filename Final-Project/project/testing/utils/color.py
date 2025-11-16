@@ -46,7 +46,6 @@ class Color:
          #   return ("Black", 1)
         #elif self.value > 0.55:
          #   return ("White", 1)
-
         for ref, label in Color.colors:
             viewed_vector = ref.hue_vect()
 
@@ -68,9 +67,9 @@ class Color:
     
     def lerp(self, color, alpha):
         return Color(
-            (self.r - color.r) * alpha + self.r,
-            (self.g - color.g) * alpha + self.g,
-            (self.b - color.b) * alpha + self.b,
+            (color.r - self.r) * alpha + self.r,
+            (color.g - self.g) * alpha + self.g,
+            (color.b - self.b) * alpha + self.b,
         )
 
     def __str__(self):
