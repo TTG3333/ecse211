@@ -10,6 +10,7 @@ print("Modules imported.")
 
 recorder = sa.WaveObject.from_wave_file("../sounds/help.wav")
 PLAYER = None
+ESTOP_PLAYER = None
 
 ESTOP_PRESSED = False
 
@@ -27,11 +28,12 @@ def main():
     # Note handling part:
     def main_thread():
         """Main thread for robot operation"""
-        global ESTOP_PRESSED, PLAYER
+        global ESTOP_PRESSED, PLAYER, ESTOP_PLAYER
         while True:
             if ESTOP_PRESSED:
-                if not PLAYER or not PLAYER.is_playing():
-                    PLAYER = recorder.play()
+                if not ESTOP_PLAYER or not ESTOP_PLAYER.is_playing():
+                    if not PLAYER or not PLAYER.is_playing():
+                        PLAYER = recorder.play()
             else:
                 if PLAYER:
                     PLAYER.stop()
@@ -43,11 +45,13 @@ def main():
 
     def estop_handler():
         """Emergency stop handler to toggle ESTOP_PRESSED state"""
-        global ESTOP_PRESSED
+        global ESTOP_PRESSED, ESTOP_PLAYER
         while True:
             if EMERGENCY_STOP.is_pressed():
                 ESTOP_PRESSED = not ESTOP_PRESSED
                 print(f"Emergency Stop {'Activated' if ESTOP_PRESSED else 'Deactivated'}")
+                if ESTOP_PRESSED:
+                    ESTOP_PLAYER = sa.WaveObject.from_wave_file("../sounds/estop.wav").play()
                 time.sleep(0.5)  # Debounce delay
             time.sleep(0.1)
 
