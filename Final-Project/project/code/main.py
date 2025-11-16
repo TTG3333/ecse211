@@ -34,6 +34,9 @@ def main():
                 if not ESTOP_PLAYER or not ESTOP_PLAYER.is_playing():
                     if not PLAYER or not PLAYER.is_playing():
                         PLAYER = recorder.play()
+                elif PLAYER:
+                    PLAYER.stop()
+                    PLAYER = None
             else:
                 if PLAYER:
                     PLAYER.stop()
