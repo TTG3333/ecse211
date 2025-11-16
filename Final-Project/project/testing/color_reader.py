@@ -27,7 +27,7 @@ def log():
 
     print(f"Added: ({r,g,b}) as {label}")
     with open("../collection/color_data.csv", "a", newline="\n") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, lineterminator="\n")
         writer.writerow([r, g, b, label])
 
 if __name__=='__main__':
