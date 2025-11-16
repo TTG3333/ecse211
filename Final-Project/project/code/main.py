@@ -8,7 +8,7 @@ import simpleaudio as sa
 from utils.brick import wait_ready_sensors, TouchSensor, EV3UltrasonicSensor, EV3GyroSensor, EV3ColorSensor
 print("Modules imported.")
 
-recorder = sa.WaveObject.from_wave_file("terrible-recorder.wav")
+recorder = sa.WaveObject.from_wave_file("../sounds/help.wav")
 PLAYER = None
 
 ESTOP_PRESSED = False
@@ -36,6 +36,9 @@ def main():
                 if PLAYER:
                     PLAYER.stop()
                     PLAYER = None
+                sa.WaveObject.from_wave_file("../sounds/collect.wav").play().wait_done()
+                time.sleep(0.1)
+                sa.WaveObject.from_wave_file("../sounds/clear.wav").play().wait_done()
             time.sleep(0.1)
 
     def estop_handler():
