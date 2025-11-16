@@ -15,7 +15,7 @@ C_SENSOR = EV3ColorSensor(1)
 
 wait_ready_sensors()
 
-def log(label):
+def log():
     r,g,b = C_SENSOR.get_rgb()
 
     color = Color(r,g,b)
