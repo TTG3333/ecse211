@@ -1,0 +1,57 @@
+print("Importing modules...")
+
+
+import time
+import threading
+import simpleaudio as sa
+
+from utils.brick import wait_ready_sensors, TouchSensor, EV3UltrasonicSensor, EV3GyroSensor, EV3ColorSensor
+print("Modules imported.")
+
+recorder = sa.WaveObject.from_wave_file("terrible-recorder.wav")
+PLAYER = None
+
+ESTOP_PRESSED = False
+
+COLOUR_SENSOR = EV3ColorSensor(1)
+EMERGENCY_STOP = TouchSensor(2)
+US_SENSOR = EV3UltrasonicSensor(3)
+GYRO_SENSOR = EV3GyroSensor(4)
+
+def main():
+    """Main function for the robot"""
+    print("Initializing sensors...")
+    wait_ready_sensors()
+    print("Sensors ready. Starting main loop.")
+
+    # Note handling part:
+    def main_thread():
+        """Main thread for robot operation"""
+        global ESTOP_PRESSED, PLAYER
+        while True:
+            if ESTOP_PRESSED:
+                if not PLAYER or not PLAYER.is_playing():
+                    PLAYER = recorder.play()
+            else:
+                if PLAYER:
+                    PLAYER.stop()
+                    PLAYER = None
+            time.sleep(0.1)
+
+    def estop_handler():
+        """Emergency stop handler to toggle ESTOP_PRESSED state"""
+        global ESTOP_PRESSED
+        while True:
+            if EMERGENCY_STOP.is_pressed():
+                ESTOP_PRESSED = not ESTOP_PRESSED
+                print(f"Emergency Stop {'Activated' if ESTOP_PRESSED else 'Deactivated'}")
+                time.sleep(0.5)  # Debounce delay
+            time.sleep(0.1)
+
+    t1 = threading.Thread(target=main_thread)
+    t2 = threading.Thread(target=estop_handler)
+    t1.start()
+    t2.start()
+
+if __name__ == "__main__":
+    main()
