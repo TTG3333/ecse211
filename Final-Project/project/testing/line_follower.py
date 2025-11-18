@@ -9,14 +9,14 @@ from utils.color import Color
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
-WHITE_SURFACE = 175  # all 3 values should be close to 255
-BLACK_LINE = 20  # all 3 values should be close to 0
-THRESHOLD = (WHITE_SURFACE + BLACK_LINE) / 2 - 10
+WHITE_SURFACE = 255  # all 3 values should be close to 255
+BLACK_LINE = 18  # all 3 values should be close to 0
+THRESHOLD = (WHITE_SURFACE + BLACK_LINE) / 2 - 20
 TOLERANCE = 20
 
 #  adjust speed if needed
 BASE_SPEED = -200
-TURNING_SPEED = -220
+TURNING_SPEED = -250
 
 BACKUP_SPEED = 208
 
@@ -44,8 +44,8 @@ def drive_straight():
 
 
 def drive_slightly_left():
-    LEFT_MOTOR.set_dps(BASE_SPEED)
-    RIGHT_MOTOR.set_dps(TURNING_SPEED)
+    LEFT_MOTOR.set_dps(BASE_SPEED + 25)
+    RIGHT_MOTOR.set_dps(TURNING_SPEED - 25)
 
 
 def drive_slightly_right():
@@ -112,11 +112,13 @@ def run(until_what):
             distance = US_SENSOR.get_value()
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
+            print(color.predict())
 
             if isinstance(until_what, int) or isinstance(until_what, float):
-                if distance < until_what:  # stop when close to wall
+                if distance < until_what and distance != 0:  # stop when close to wall
                     LEFT_MOTOR.set_dps(0)
                     RIGHT_MOTOR.set_dps(0)
+                    print(distance)
                     print("ended current distance task")
                     break
             elif isinstance(until_what, str):
@@ -137,4 +139,4 @@ def run(until_what):
 
 if __name__ == '__main__':
     wait_ready_sensors()
-    run(6.5)
+    run(37.6)

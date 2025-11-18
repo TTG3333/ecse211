@@ -11,24 +11,30 @@ GYRO_SENSOR = EV3GyroSensor(4)
 LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("D")
 
-#naive path function, goes to all rooms, should be made smarter later
-successfulDeliveries = 0
+DISTANCE_TO_WALL = 12
+distances_to_turn_at = [37.6, 37.6, 37.6, 86.1]  # Stack for all 4 rooms
 
-def delivery():
+#naive path function, goes to all rooms, should be made smarter later
+successfulDeliveries = 0 
+
+def check_for_restricted_room():
+    '''Checks for red square'''
+    print("")
+
+def deliver_to_next_room():
+    '''Enters and exits the next room'''
+    line_follower.run(distances_to_turn_at.pop() - 5)
     gyro_turn.turn_90_deg('left')
-    line_follower.run('orange') #no check for red yet
-    #package_delivery()
+    line_follower.run('orange')
     gyro_turn.turn_180_deg()
-    line_follower.run(6.5)
+    line_follower.run(DISTANCE_TO_WALL - 4)
     gyro_turn.turn_90_deg('left')
 
 if __name__ == "__main__":
     wait_ready_sensors() 
     # run until delivery 1
-    line_follower.run(81)
-    delivery()
+    deliver_to_next_room()
 
     # delivery 2
-    line_follower.run(32.5)
-    delivery()
-
+    deliver_to_next_room()
+    line_follower.run(DISTANCE_TO_WALL - 4)

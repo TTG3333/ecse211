@@ -16,7 +16,7 @@ LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("D")
 
 # adjust this if you want
-OVERSHOOT_UNDERSHOOT = 2
+OVERSHOOT_UNDERSHOOT = 3
 
 def turn_90_deg(direction: str):
     i = 1 if direction.lower() == "left" else -1 if direction.lower() == "right" else 0
@@ -24,7 +24,7 @@ def turn_90_deg(direction: str):
 
     LEFT_MOTOR.set_dps(200 * int(i))
     RIGHT_MOTOR.set_dps(-200 * int(i))
-    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 + (OVERSHOOT_UNDERSHOOT * i):
+    while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 - (OVERSHOOT_UNDERSHOOT * i):
         print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
