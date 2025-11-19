@@ -66,11 +66,13 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
         if abs(start_distance - current_distance) >= dist + TOLERANCE:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
+            print(f"Exited at distance {abs(start_distance - current_distance)} cm")
             return abs(start_distance - current_distance)
         if color:
             if get_current_color() not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
+                print(f"Exited at color {get_current_color()}")
                 return abs(start_distance - current_distance)
         time.sleep(SENSOR_POLL_SLEEP)
 
@@ -86,10 +88,10 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    travelled = run_until_distance(5, direction='forward', color=["orange", "yellow", "black"])
+    traveled = run_until_distance(5, direction='forward', color=["orange", "yellow", "black"])
     if get_current_color() == 'red':
         print("Restricted room detected, backing up.")
-        run_until_distance(travelled, direction='backward', color=["red", "orange"])
+        run_until_distance(traveled, direction='backward', color=["red", "orange"])
         return
     zero = GYRO_SENSOR.get_abs_measure()
     print(f"Entered room, starting scan from angle {zero} degrees.")
@@ -99,14 +101,14 @@ def run():
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
-        travelled = run_until_distance(dist - 5, direction='forward', color=["yellow", "orange"])
+        traveled = run_until_distance(dist - 5, direction='forward', color=["yellow", "orange"])
         if get_current_color() == "green":
             print("Green square detected, delivering package.")
-            travelled2 = run_until_distance(8, direction="backward", color=[])
+            traveled2 = run_until_distance(8, direction="backward", color=[])
             deliver_package()
-            run_until_distance(abs(travelled - travelled2), direction="forward" if travelled < travelled2 else "backward", color=[])
+            run_until_distance(abs(traveled - traveled2), direction="forward" if traveled < traveled2 else "backward", color=[])
             break
-        run_until_distance(travelled, direction='backward', color=["yellow", get_current_color()])
+        run_until_distance(traveled, direction='backward', color=["yellow", get_current_color()])
     # Exit facing straight ahead
     turn_angle(GYRO_SENSOR.get_abs_measure() - zero, direction='left' if GYRO_SENSOR.get_abs_measure() > zero else 'right')
 
