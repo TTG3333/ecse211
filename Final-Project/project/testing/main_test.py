@@ -55,6 +55,7 @@ def deliver_to_next_room():
 
 if __name__ == "__main__":
     wait_ready_sensors() 
+    sleep(1)
     # run until delivery 1
     deliver_to_next_room()
 
