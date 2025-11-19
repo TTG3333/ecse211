@@ -82,7 +82,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
     while True:
         if not TIME_BASED:
             current_distance = get_us_sensor()
-        if ((not TIME_BASED) and abs(start_distance - current_distance) >= dist + TOLERANCE) or (TIME_BASED and time.time() - start_time >= dist + TOLERANCE):
+        if ((not TIME_BASED) and abs(start_distance - current_distance) >= dist + TOLERANCE) or (TIME_BASED and time.time() - start_time >= total_time):
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
             if TIME_BASED:
