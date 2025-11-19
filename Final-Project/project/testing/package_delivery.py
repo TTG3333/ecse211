@@ -23,7 +23,7 @@ def move_to_next():
     # Move the belt motor
     BELT_MOTOR.set_limits(dps=90)
     BELT_MOTOR.set_position_relative(-degrees)
-    time.sleep(degrees/90 + 0.5)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
+    time.sleep(degrees/90 + 0.25)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
 
 def run():
     wait_ready_sensors()

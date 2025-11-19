@@ -19,6 +19,7 @@ BASE_SPEED = -100
 TURN_SPEED = 100
 SENSOR_POLL_SLEEP = 0.05
 
+TOLERANCE = 0.5  # in cm
 HALF_WALL = 12  # in cm
 
 def distance_to_wall(deg): # in cm
@@ -62,7 +63,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
         current_distance = get_us_sensor()
-        if abs(start_distance - current_distance) >= dist:
+        if abs(start_distance - current_distance) >= dist + TOLERANCE:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
             return abs(start_distance - current_distance)
