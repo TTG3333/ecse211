@@ -30,8 +30,13 @@ def distance_to_wall(deg): # in cm
         return HALF_WALL * sqrt(1 + tan(pi * (180 - deg) / 180)**2)
 
 def get_current_color():
-    r, g, b = C_SENSOR.get_rgb()
-    return str(Color(r, g, b)).lower()
+    for _ in range(3):
+        r, g, b = C_SENSOR.get_rgb()
+        if None in [r, g, b]:
+            time.sleep(SENSOR_POLL_SLEEP/5)
+            continue
+        return str(Color(r, g, b)).lower()
+    raise SensorError("Unable to read from colour sensor")
 
 def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
@@ -63,7 +68,7 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    travelled = run_until_distance(4, direction='forward', color=["orange", "yellow", "black"])
+    travelled = run_until_distance(5, direction='forward', color=["orange", "yellow", "black"])
     if get_current_color() == 'red':
         print("Restricted room detected, backing up.")
         run_until_distance(travelled, direction='backward', color=["red", "orange"])
