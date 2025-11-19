@@ -145,6 +145,8 @@ def run(until_what):
             stop_robot()
             break
 
+    us_filter.clear()
+
 if __name__ == '__main__':
     wait_ready_sensors()
     run(37.6)
