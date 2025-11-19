@@ -31,7 +31,7 @@ class Color:
                 else ((self.g - self.b) / delta) % 6    if cmax == self.r
                 else ((self.b - self.r) / delta) + 2    if cmax == self.g
                 else ((self.r - self.g) / delta) + 4
-            )
+        )
 
     def predict(self):
         '''
@@ -42,18 +42,18 @@ class Color:
         self_vector = self.hue_vect()
 
         # Hard coded results
-        #if self.value < 0.15:
-         #   return ("Black", 1)
-        #elif self.value > 0.55:
-         #   return ("White", 1)
-         
+        if self.value < 0.25:
+            return ("Black", 1)
+        elif self.saturation < 0.2:
+            return ("White", 1)
+
         for ref, label in Color.colors:
             viewed_vector = ref.hue_vect()
 
             dist = math.sqrt(
-                (viewed_vector[0] - self_vector[0]) ** 2 + 
-                (viewed_vector[1] - self_vector[1]) ** 2 +
-                (self.value - ref.value) ** 2
+                (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
+                (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
+                (self.value - ref.value) ** 2              # Value
             )
 
             if label not in distances or dist < distances[label]:
