@@ -8,6 +8,7 @@ CUBE_SIZE = 2.5
 CUBE_SPACING = 0.8
 
 BELT_MOTOR = Motor("B")
+BELT_MOTOR.reset_encoder()
 
 def move_to_next():
     # Calculate the distance to move
@@ -20,7 +21,7 @@ def move_to_next():
     degrees = rotations * 360
 
     # Move the belt motor
-    BELT_MOTOR.set_dps(90)
+    BELT_MOTOR.set_limits(dps=90)
     BELT_MOTOR.set_position_relative(-degrees)
     BELT_MOTOR.wait_is_stopped()
 
@@ -30,6 +31,7 @@ def run():
     try:
         for _ in range(3):  # Move 5 cubes as a test
             move_to_next()
+            print("Finished")
             time.sleep(5)  # Pause between moves
     finally:
         BP.reset_all()
