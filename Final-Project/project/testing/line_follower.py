@@ -84,7 +84,7 @@ def backup():
     stop_robot()
 
 
-us_filter = dNoise(10, 5)
+us_filter = dNoise(8, 5)
 us_filter.add(98)
 def run(until_what):
     current_dir = "LEFT"
