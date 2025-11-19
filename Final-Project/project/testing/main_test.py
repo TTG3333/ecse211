@@ -51,6 +51,7 @@ def deliver_to_next_room():
     line_follower.run('orange')
     gyro_turn.turn_180_deg()
     line_follower.run(DISTANCE_TO_WALL - 4)
+    line_follower.us_filter.clear()
     gyro_turn.turn_90_deg('left')
 
 if __name__ == "__main__":
@@ -64,6 +65,7 @@ if __name__ == "__main__":
     line_follower.run(DISTANCE_TO_WALL - 4)
 
     #enter_next_room()
+    #exit_current_room()
     #restricted = restricted_room()
     #if restricted:
     #    LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
