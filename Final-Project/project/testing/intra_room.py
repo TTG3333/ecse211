@@ -148,4 +148,8 @@ if __name__ == '__main__':
         time.sleep(1)
     else:
         time.sleep(1.5)
-    run()
+    try:
+        run()
+    except:
+        from sys import exit
+        exit()
