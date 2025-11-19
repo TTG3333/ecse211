@@ -113,10 +113,11 @@ def run(until_what):
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
+            print("Distance:", str(distance))
             print(f"Derivative: {us_filter.derivative(distance)}")
             us_filter.add(distance)
             distance = us_filter.values[len(us_filter.values) - 1]
-            print(f"Distance: {distance}")
+            #print(f"Distance: {distance}")
 
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
