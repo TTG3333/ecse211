@@ -30,16 +30,21 @@ def distance_to_wall(deg): # in cm
         return HALF_WALL * sqrt(1 + tan(pi * (180 - deg) / 180)**2)
 
 def get_current_color():
+    unsure = []
     for _ in range(5):
         r, g, b = C_SENSOR.get_rgb()
         if None in [r, g, b]:
             time.sleep(SENSOR_POLL_SLEEP/5)
             continue
         color = Color(r, g, b)
-        if color.predict()[1] < 0.9:
+        if color.predict()[1] >= 0.7:
+            return color.predict()[0].lower()
+        else:
+            unsure.append(color.predict())
             time.sleep(SENSOR_POLL_SLEEP/5)
-            continue
-        return color.predict()[0].lower()
+    if unsure:
+        unsure.sort(key=lambda x: x[1], reverse=True)
+        return unsure[0][0].lower()
     raise SensorError("Unable to read from colour sensor")
 
 def get_us_sensor(): # Gets the median value
