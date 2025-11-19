@@ -21,7 +21,7 @@ TURNING_SPEED = -250
 
 BACKUP_SPEED = 208
 
-SENSOR_POLL_SLEEP = 0.05
+SENSOR_POLL_SLEEP = 0.02
 
 # input correct ports
 US_SENSOR = EV3UltrasonicSensor(3)
@@ -82,9 +82,11 @@ def backup():
     time.sleep(1)
     stop_robot()
 
-us_filter = NoiseEliminator(total_vals=10, min_vals=8)
+
+us_filter = NoiseEliminator(total_vals=8, min_vals=5)
 
 def run(until_what):
+
     current_dir = "LEFT"
     while True:
         try:
@@ -121,7 +123,7 @@ def run(until_what):
             print(distance)
 
             if isinstance(until_what, int) or isinstance(until_what, float):
-                if distance < until_what and distance != 0:  # stop when close to wall
+                if distance is not None and distance < until_what:  # stop when close to wall
                     LEFT_MOTOR.set_dps(0)
                     RIGHT_MOTOR.set_dps(0)
                     print(distance)

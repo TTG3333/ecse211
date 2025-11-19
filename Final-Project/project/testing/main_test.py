@@ -46,6 +46,7 @@ def exit_current_room():
 def deliver_to_next_room():
     '''Enters and exits the next room'''
     line_follower.run(distances_to_turn_at.pop() - 5)
+    print(line_follower.us_filter.values)
     gyro_turn.turn_90_deg('left')
     line_follower.run('orange')
     gyro_turn.turn_180_deg()
@@ -55,20 +56,20 @@ def deliver_to_next_room():
 if __name__ == "__main__":
     wait_ready_sensors() 
     # run until delivery 1
-    #deliver_to_next_room()
+    deliver_to_next_room()
 
     # delivery 2
-    #deliver_to_next_room()
-    #line_follower.run(DISTANCE_TO_WALL - 4)
+    deliver_to_next_room()
+    line_follower.run(DISTANCE_TO_WALL - 4)
 
-    enter_next_room()
-    restricted = restricted_room()
-    if restricted:
-        LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-        RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-        sleep(0.5)
-        line_follower.stop_robot()
-        exit_current_room()
-        enter_next_room()
+    #enter_next_room()
+    #restricted = restricted_room()
+    #if restricted:
+    #    LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+    #    RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+    #    sleep(0.5)
+    #    line_follower.stop_robot()
+    #    exit_current_room()
+    #    enter_next_room()
 
 
