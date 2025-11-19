@@ -69,12 +69,10 @@ def get_us_sensor(): # Gets the median value
 
 def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
-    if not TIME_BASED:
-        start_distance = get_us_sensor()
-        print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
-    else:
-        start_time = time.time()
-        total_time = (dist/WHEEL_DIAMETER) * 360 / BASE_SPEED
+    # start_distance = get_us_sensor()
+    # print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
+    start_time = time.time()
+    total_time = (dist/WHEEL_DIAMETER) * 360 / BASE_SPEED
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
@@ -136,10 +134,12 @@ def run():
 if __name__ == '__main__':
     wait_ready_sensors()
     time.sleep(0.5)
-    threading.Thread(target=us_sensor_handler).start()
+    t = threading.Thread(target=us_sensor_handler)
+    t.start()
     time.sleep(1)
     try:
         run()
-    except:
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {e}")
         from sys import exit
         exit()
