@@ -14,7 +14,6 @@ class dNoise:
         '''
         current = time.monotonic()
         dt = current - self.time
-        self.time = current
 
         if not self.values:
             self.values.append(val)
@@ -25,6 +24,7 @@ class dNoise:
             return False
         
         self.values.append(val)
+        self.time = current
         if len(self.values) > self.max:
             self.values.pop(0)
 
@@ -32,6 +32,9 @@ class dNoise:
     
     def derivative(self, value):
         dt = time.monotonic() - self.time
+        if not self.values:
+            return 0
+
         latest = self.values[len(self.values) - 1]
         return abs(value - latest) / dt
 

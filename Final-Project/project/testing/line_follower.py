@@ -7,6 +7,7 @@ from math import pi
 from package_delivery import move_to_next
 from utils.color import Color
 from noise_handler import NoiseEliminator
+from utils.dnoise import dNoise
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
@@ -83,16 +84,14 @@ def backup():
     stop_robot()
 
 
-us_filter = NoiseEliminator(total_vals=20, min_vals=12)
-
+us_filter = dNoise(10, 5)
+us_filter.add(98)
 def run(until_what):
-
     current_dir = "LEFT"
     while True:
         try:
             r, g, b, lum = C_SENSOR.get_value()
             avg = average_rgb_value(r, g, b)
-            print("average:", str(avg))
 
             # # stop on green square
             # if b < 25 and abs(r-b) > 10:
@@ -114,19 +113,20 @@ def run(until_what):
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
-            us_filter.add_value(distance)
-            distance = us_filter.get_stable_distance()
+            print(f"Derivative: {us_filter.derivative(distance)}")
+            us_filter.add(distance)
+            distance = us_filter.values[len(us_filter.values) - 1]
+            print(f"Distance: {distance}")
 
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
-            print(color.predict())
-            print(distance)
+            print(f"Predicted Color: {color.predict()}")
+            
 
             if isinstance(until_what, int) or isinstance(until_what, float):
                 if distance is not None and distance < until_what:  # stop when close to wall
                     LEFT_MOTOR.set_dps(0)
                     RIGHT_MOTOR.set_dps(0)
-                    print(distance)
                     print("ended current distance task")
                     break
             elif isinstance(until_what, str):
@@ -141,7 +141,7 @@ def run(until_what):
             time.sleep(SENSOR_POLL_SLEEP)
 
         except SensorError:
-            print("WE FUCKED UP")
+            print("An error occurred")
             stop_robot()
             break
 
