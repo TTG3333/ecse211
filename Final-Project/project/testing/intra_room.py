@@ -63,12 +63,13 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    run_until_distance(4, direction='forward', color=["orange"])
+    run_until_distance(4, direction='forward', color=["orange", "yellow"])
     if get_current_color() == 'red':
         print("Restricted room detected, backing up.")
         run_until_distance(4, direction='backward', color=["red"])
         return
     zero = GYRO_SENSOR.get_abs_measure()
+    print(f"Entered room, starting scan from angle {zero} degrees.")
     # Start at -25, end at 25
     for angle in range(-25, 30, 5):
         turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) > 0 else 'right')
@@ -81,10 +82,10 @@ def run():
             travelled2 = run_until_distance(8, direction="backward", color=[])
             deliver_package()
             run_until_distance(abs(travelled - travelled2), direction="forward" if travelled < travelled2 else "backward", color=[])
-            angle = -angle
-            turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) > 0 else 'right')
-            return
+            break
         run_until_distance(travelled, direction='backward', color=["yellow", get_current_color()])
+    # Exit facing straight ahead
+    turn_angle(GYRO_SENSOR.get_abs_measure() - zero, direction='left' if GYRO_SENSOR.get_abs_measure() > zero else 'right')
 
 if __name__ == '__main__':
     wait_ready_sensors()
