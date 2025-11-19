@@ -1,6 +1,6 @@
 from utils import sound
 from utils.color import Color
-from utils.brick import Motor, EV3GyroSensor, EV3UltrasonicSensor, wait_ready_sensors
+from utils.brick import Motor, EV3GyroSensor, EV3UltrasonicSensor, wait_ready_sensors, EV3ColorSensor
 from time import sleep
 import line_follower
 import package_delivery
