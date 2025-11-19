@@ -15,8 +15,8 @@ RIGHT_MOTOR = Motor("D")
 LEFT_MOTOR.reset_encoder()
 RIGHT_MOTOR.reset_encoder()
 
-BASE_SPEED = -200
-TURN_SPEED = 200
+BASE_SPEED = -150
+TURN_SPEED = 150
 SENSOR_POLL_SLEEP = 0.05
 
 HALF_WALL = 12  # in cm
@@ -63,7 +63,7 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    run_until_distance(4, direction='forward', color=["organge"])
+    run_until_distance(4, direction='forward', color=["orange"])
     if get_current_color() == 'red':
         print("Restricted room detected, backing up.")
         run_until_distance(4, direction='backward', color=["red"])
