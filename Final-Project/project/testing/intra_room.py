@@ -41,11 +41,12 @@ def get_current_color():
 def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
     start_distance = US_SENSOR.get_value()
+    print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
         current_distance = US_SENSOR.get_value()
-        if abs(start_distance - current_distance) >= dist:
+        if abs(start_distance - current_distance) <= dist:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
             return abs(start_distance - current_distance)
