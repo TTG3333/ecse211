@@ -74,7 +74,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
     # start_distance = get_us_sensor()
     # print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
-    total_time = (dist/WHEEL_DIAMETER) * 360 / BASE_SPEED
+    total_time = (dist/WHEEL_DIAMETER) * 360 / abs(BASE_SPEED)
     start_time = time.time()
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
@@ -86,7 +86,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
             RIGHT_MOTOR.set_dps(0)
             stop_time = time.time()
             print(f"Existed at time {stop_time - start_time} seconds")
-            return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
+            return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_DIAMETER
             # print(f"Exited at distance {abs(start_distance - current_distance)} cm")
             # return abs(start_distance - current_distance)
         if color:
@@ -96,7 +96,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
                 stop_time = time.time()
                 print(f"Exited at color {get_current_color()}")
                 # return abs(start_distance - current_distance)
-                return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
+                return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_DIAMETER
         time.sleep(SENSOR_POLL_SLEEP)
 
 def turn_angle(deg, direction='left'):
