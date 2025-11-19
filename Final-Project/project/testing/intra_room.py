@@ -22,6 +22,7 @@ SENSOR_POLL_SLEEP = 0.05
 
 QUICK_POLL_TIME = 0.02
 SENSOR_VALS = [None] * 20
+STOP = False
 
 TOLERANCE = 0.5  # in cm
 HALF_WALL = 12  # in cm
@@ -31,6 +32,8 @@ def us_sensor_handler():
     global SENSOR_VALS
     index = 0
     while True:
+        if STOP:
+            return
         val = US_SENSOR.get_value()
         if val is not None:
             SENSOR_VALS[index] = val
@@ -71,8 +74,8 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
     # start_distance = get_us_sensor()
     # print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
-    start_time = time.time()
     total_time = (dist/WHEEL_DIAMETER) * 360 / BASE_SPEED
+    start_time = time.time()
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
@@ -82,6 +85,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
             stop_time = time.time()
+            print(f"Existed at time {stop_time - start_time} seconds")
             return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
             # print(f"Exited at distance {abs(start_distance - current_distance)} cm")
             # return abs(start_distance - current_distance)
@@ -140,6 +144,8 @@ if __name__ == '__main__':
     try:
         run()
     except Exception as e:
+        STOP = True
         print(f"{e.__class__.__name__}: {e}")
         from sys import exit
         exit()
+    STOP = True
