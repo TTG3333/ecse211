@@ -6,6 +6,7 @@ import time
 from math import pi
 from package_delivery import move_to_next
 from utils.color import Color
+from noise_handler import NoiseEliminator
 
 #  we should test the color sensor beforehand to see what values we get
 #  for white, and black and use those
@@ -81,6 +82,7 @@ def backup():
     time.sleep(1)
     stop_robot()
 
+us_filter = NoiseEliminator(total_vals=10, min_vals=8)
 
 def run(until_what):
     current_dir = "LEFT"
@@ -110,6 +112,9 @@ def run(until_what):
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
+            us_filter.add_value(distance)
+            distance = us_filter.get_stable_distance()
+
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
             print(color.predict())
