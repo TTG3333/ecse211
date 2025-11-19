@@ -15,8 +15,8 @@ RIGHT_MOTOR = Motor("D")
 LEFT_MOTOR.reset_encoder()
 RIGHT_MOTOR.reset_encoder()
 
-BASE_SPEED = -150
-TURN_SPEED = 150
+BASE_SPEED = -100
+TURN_SPEED = 100
 SENSOR_POLL_SLEEP = 0.05
 
 HALF_WALL = 12  # in cm
@@ -45,7 +45,7 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
             RIGHT_MOTOR.set_dps(0)
             return abs(start_distance - current_distance)
         if color:
-            if not get_current_color() in color:
+            if get_current_color() not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 return abs(start_distance - current_distance)
@@ -63,16 +63,16 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    travelled = run_until_distance(4, direction='forward', color=["orange", "yellow"])
+    travelled = run_until_distance(4, direction='forward', color=["orange", "yellow", "black"])
     if get_current_color() == 'red':
         print("Restricted room detected, backing up.")
         run_until_distance(travelled, direction='backward', color=["red", "orange"])
         return
     zero = GYRO_SENSOR.get_abs_measure()
     print(f"Entered room, starting scan from angle {zero} degrees.")
-    # Start at -25, end at 25
+    # Start at -25, end at 25, sensor is clockwise
     for angle in range(-25, 30, 5):
-        turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) > 0 else 'right')
+        turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) < 0 else 'right')
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
