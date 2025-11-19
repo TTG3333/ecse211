@@ -31,7 +31,7 @@ class Color:
                 else ((self.g - self.b) / delta) % 6    if cmax == self.r
                 else ((self.b - self.r) / delta) + 2    if cmax == self.g
                 else ((self.r - self.g) / delta) + 4
-        )
+            )
 
     def predict(self):
         '''
@@ -46,6 +46,7 @@ class Color:
          #   return ("Black", 1)
         #elif self.value > 0.55:
          #   return ("White", 1)
+         
         for ref, label in Color.colors:
             viewed_vector = ref.hue_vect()
 

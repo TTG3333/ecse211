@@ -17,5 +17,5 @@ if __name__=='__main__':
         r,g,b = COLOR_SENSOR.get_rgb()
         print((r+g+b)/3)
         color = Color(r,g,b)
-        print(color.predict(), color.value)
+        print(color.predict(), color.value, color.saturation)
         time.sleep(0.25)
