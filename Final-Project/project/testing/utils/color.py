@@ -51,9 +51,9 @@ class Color:
             viewed_vector = ref.hue_vect()
 
             dist = math.sqrt(
-                (viewed_vector[0] - self_vector[0]) ** 2 + 
-                (viewed_vector[1] - self_vector[1]) ** 2 +
-                (self.value - ref.value) ** 2
+                (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
+                (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
+                (self.value - ref.value) ** 2              # Value
             )
 
             if label not in distances or dist < distances[label]:
