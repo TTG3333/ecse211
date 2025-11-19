@@ -2,13 +2,13 @@ import time
 
 class dNoise:
     def __init__(self, max_slope, max):
-        self.time = time.clock_gettime()
+        self.time = time.monotonic()
         self.max = max
         self.max_slope = max_slope
         self.values = []
 
     def add(self, val):
-        current = time.clock_gettime()
+        current = time.monotonic()
         dt = current - self.time
         self.time = current
 
