@@ -23,8 +23,6 @@ SENSOR_POLL_SLEEP = 0.05
 QUICK_POLL_TIME = 0.02
 SENSOR_VALS = [None] * 20
 
-TIME_BASED = False
-
 TOLERANCE = 0.5  # in cm
 HALF_WALL = 12  # in cm
 WHEEL_DIAMETER = 4 # in cm
@@ -80,28 +78,23 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
-        if not TIME_BASED:
-            current_distance = get_us_sensor()
-        if ((not TIME_BASED) and abs(start_distance - current_distance) >= dist + TOLERANCE) or (TIME_BASED and time.time() - start_time >= total_time):
+        # current_distance = get_us_sensor()
+        # if abs(start_distance - current_distance) >= dist + TOLERANCE:
+        if time.time() - start_time >= total_time:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
-            if TIME_BASED:
-                stop_time = time.time()
-                return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
-            else:
-                print(f"Exited at distance {abs(start_distance - current_distance)} cm")
-                return abs(start_distance - current_distance)
+            stop_time = time.time()
+            return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
+            # print(f"Exited at distance {abs(start_distance - current_distance)} cm")
+            # return abs(start_distance - current_distance)
         if color:
             if get_current_color() not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
-                if TIME_BASED:
-                    stop_time = time.time()
-                    print(f"Exited at color {get_current_color()}")
-                    return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
-                else:
-                    print(f"Exited at color {get_current_color()}")
-                    return abs(start_distance - current_distance)
+                stop_time = time.time()
+                print(f"Exited at color {get_current_color()}")
+                # return abs(start_distance - current_distance)
+                return (stop_time - start_time) * BASE_SPEED / 360 * WHEEL_DIAMETER
         time.sleep(SENSOR_POLL_SLEEP)
 
 def turn_angle(deg, direction='left'):
@@ -142,12 +135,9 @@ def run():
 
 if __name__ == '__main__':
     wait_ready_sensors()
-    if not TIME_BASED:
-        time.sleep(0.5)
-        threading.Thread(target=us_sensor_handler).start()
-        time.sleep(1)
-    else:
-        time.sleep(1.5)
+    time.sleep(0.5)
+    threading.Thread(target=us_sensor_handler).start()
+    time.sleep(1)
     try:
         run()
     except:
