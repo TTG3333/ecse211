@@ -113,6 +113,7 @@ def run(until_what):
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
             print(color.predict())
+            print(distance)
 
             if isinstance(until_what, int) or isinstance(until_what, float):
                 if distance < until_what and distance != 0:  # stop when close to wall
