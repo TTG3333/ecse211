@@ -60,3 +60,15 @@ if __name__ == "__main__":
     # delivery 2
     deliver_to_next_room()
     line_follower.run(DISTANCE_TO_WALL - 4)
+
+    #enter_next_room()
+    #restricted = restricted_room()
+    #if restricted:
+    #    LEFT_MOTOR.set_dps(BACKUP_SPEED)
+    #    RIGHT_MOTOR.set_dps(BACKUP_SPEED)
+    #    time.sleep(0.5)
+    #    line_follower.stop_robot()
+    #    exit_current_room()
+    #    enter_next_room()
+
+
