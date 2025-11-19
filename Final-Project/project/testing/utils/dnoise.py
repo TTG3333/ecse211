@@ -2,10 +2,9 @@ import time
 
 class dNoise:
     def __init__(self, max_slope, max):
-        self.time = 0
         self.max = max
         self.max_slope = max_slope
-        self.values = []
+        self.clear()
 
     def add(self, val):
         '''
@@ -14,7 +13,6 @@ class dNoise:
         '''
         current = time.monotonic()
         dt = current - self.time
-        self.time = current
 
         if not self.values:
             self.values.append(val)
@@ -25,6 +23,7 @@ class dNoise:
             return False
         
         self.values.append(val)
+        self.time = current
         if len(self.values) > self.max:
             self.values.pop(0)
 
@@ -34,6 +33,10 @@ class dNoise:
         dt = time.monotonic() - self.time
         latest = self.values[len(self.values) - 1]
         return abs(value - latest) / dt
+    
+    def clear(self):
+        self.values = []
+        self.time = time.monotonic()
 
     def median(self):
         vals = sorted(self.values)
