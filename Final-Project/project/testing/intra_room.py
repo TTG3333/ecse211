@@ -38,15 +38,22 @@ def get_current_color():
         return str(Color(r, g, b)).lower()
     raise SensorError("Unable to read from colour sensor")
 
+def get_us_sensor(): # Gets the median value
+    vals = []
+    for _ in range(5):
+        vals.append(US_SENSOR.get_value())
+        time.sleep(SENSOR_POLL_SLEEP/5)
+    return sorted(vals)[2]
+
 def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
-    start_distance = US_SENSOR.get_value()
+    start_distance = get_us_sensor()
     print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
-        current_distance = US_SENSOR.get_value()
-        if abs(start_distance - current_distance) <= dist:
+        current_distance = get_us_sensor()
+        if abs(start_distance - current_distance) >= dist:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
             return abs(start_distance - current_distance)
@@ -95,4 +102,5 @@ def run():
 
 if __name__ == '__main__':
     wait_ready_sensors()
+    time.sleep(1.5)
     run()
