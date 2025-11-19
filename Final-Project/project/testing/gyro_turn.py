@@ -25,7 +25,7 @@ def turn_90_deg(direction: str):
     LEFT_MOTOR.set_dps(200 * int(i))
     RIGHT_MOTOR.set_dps(-200 * int(i))
     while abs((GYRO_SENSOR.get_abs_measure() - offset)) < 90 - (OVERSHOOT_UNDERSHOOT * i):
-        print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
+    #    print("current degrees turned: " + str(GYRO_SENSOR.get_abs_measure() - offset))
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
 

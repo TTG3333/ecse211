@@ -83,7 +83,7 @@ def backup():
     stop_robot()
 
 
-us_filter = NoiseEliminator(total_vals=8, min_vals=5)
+us_filter = NoiseEliminator(total_vals=20, min_vals=12)
 
 def run(until_what):
 
