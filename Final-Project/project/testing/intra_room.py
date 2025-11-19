@@ -142,7 +142,10 @@ def run():
 
 if __name__ == '__main__':
     wait_ready_sensors()
-    time.sleep(1.5)
     if not TIME_BASED:
+        time.sleep(0.5)
         threading.Thread(target=us_sensor_handler).start()
+        time.sleep(1)
+    else:
+        time.sleep(1.5)
     run()
