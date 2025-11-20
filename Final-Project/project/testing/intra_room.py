@@ -62,13 +62,13 @@ def get_current_color(certainty=False):
             continue
         color = Color(r, g, b)
         if color.predict()[1] >= 0.7:
-            return color.predict()[0].lower() if not certainty else (color.predict()[0].lower(), color.predict()[1])
+            return color.predict()[0] if not certainty else color.predict()
         else:
             unsure.append(color.predict())
             time.sleep(SENSOR_POLL_SLEEP/5)
     if unsure:
         unsure.sort(key=lambda x: x[1], reverse=True)
-        return unsure[0][0].lower() if not certainty else (unsure[0][0].lower(), unsure[0][1])
+        return unsure[0][0] if not certainty else unsure[0]
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
     play_help()
@@ -86,7 +86,7 @@ def old_get_us_sensor():
         time.sleep(SENSOR_POLL_SLEEP/5)
     raise SensorError("Unable to read from ultrasonic sensor")
 
-def run_until_distance(dist, direction='forward', color=['yellow']):
+def run_until_distance(dist, direction='forward', color=['Yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
     start_distance = get_us_sensor()
     print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
@@ -124,15 +124,15 @@ def turn_angle(deg, direction='left', stop_black=False):
     RIGHT_MOTOR.set_dps(-TURN_SPEED * i)
     while abs((GYRO_SENSOR.get_abs_measure() - offset)) < abs(deg):
         if stop_black:
-            if get_current_color() == "black":
+            if get_current_color() == "Black":
                 break
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
 
 def run():
     delivered = False
-    traveled, color = run_until_distance(5, direction='forward', color=["orange", "black"])
-    if color == 'red':
+    traveled, color = run_until_distance(5, direction='forward', color=["Orange", "Black"])
+    if color == 'Red':
         print("Restricted room detected, backing up.")
         turn_angle(270, direction='right', stop_black=True)
         return delivered
@@ -146,18 +146,18 @@ def run():
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
-        traveled, color = run_until_distance(dist - 7, direction='forward', color=["yellow", "orange"])
-        if color == "green":
+        traveled, color = run_until_distance(dist - 7, direction='forward', color=["Yellow", "Orange"])
+        if color == "Green":
             print("Green square detected, delivering package.")
             traveled2, _ = run_until_distance(8, direction="backward", color=[])
             deliver_package()
             play_collect().wait_done()
-            run_until_distance(8, direction="forward", color=["orange", "yellow", "white", "black"])
-            run_until_distance(traveled, direction="backward", color=["yellow", "green"])
+            run_until_distance(8, direction="forward", color=["Orange", "Yellow", "White", "Black"])
+            run_until_distance(traveled, direction="backward", color=["Yellow", "Green"])
             break
-        run_until_distance(traveled, direction='backward', color=["yellow", "green", color])
+        run_until_distance(traveled, direction='backward', color=["Yellow", "Green", color])
     # Exit facing on the black line, overshoot to the left of the line
-    run_until_distance(0.75, direction="backward", color=["yellow"])
+    run_until_distance(0.75, direction="backward", color=["Yellow"])
     turn_angle(270, direction='right', stop_black=True)
     return delivered
 
