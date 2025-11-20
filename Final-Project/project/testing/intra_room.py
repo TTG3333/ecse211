@@ -21,7 +21,7 @@ TURN_SPEED = 100
 SENSOR_POLL_SLEEP = 0.05
 
 QUICK_POLL_TIME = 0.02
-SENSOR_VALS = [None] * 20
+SENSOR_VALS = [None] * 10
 STOP = False
 
 TOLERANCE = 0.5  # in cm
@@ -68,11 +68,11 @@ def get_current_color():
         return unsure[0][0].lower()
     raise SensorError("Unable to read from colour sensor")
 
-def old_get_us_sensor(): # Gets the median value
+def get_us_sensor(): # Gets the median value
     vals = [v for v in SENSOR_VALS if v is not None]
     return sorted(vals)[len(vals)//2] if vals else None
 
-def get_us_sensor():
+def old_get_us_sensor():
     for _ in range(5):
         val = US_SENSOR.get_value()
         if val is not None:
@@ -150,10 +150,10 @@ def run():
 
 if __name__ == '__main__':
     wait_ready_sensors()
-    # time.sleep(0.5)
-    # t = threading.Thread(target=us_sensor_handler)
-    # t.start()
-    time.sleep(1.5)
+    time.sleep(0.5)
+    t = threading.Thread(target=us_sensor_handler)
+    t.start()
+    time.sleep(1)
     try:
         run()
     except Exception as e:
