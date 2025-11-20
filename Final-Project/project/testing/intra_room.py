@@ -135,7 +135,7 @@ def run():
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
-        traveled, color = run_until_distance(dist - 5, direction='forward', color=["yellow", "orange"])
+        traveled, color = run_until_distance(dist - 6, direction='forward', color=["yellow", "orange"])
         if color == "green":
             print("Green square detected, delivering package.")
             traveled2, _ = run_until_distance(8, direction="backward", color=[])
