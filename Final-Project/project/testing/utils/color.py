@@ -87,9 +87,9 @@ class Color:
     
     def lerp(self, color, alpha):
         return Color(
-            (color.r - self.r) * alpha + self.r,
-            (color.g - self.g) * alpha + self.g,
-            (color.b - self.b) * alpha + self.b,
+            ((color.r - self.r) * alpha + self.r) * 255,
+            ((color.g - self.g) * alpha + self.g) * 255,
+            ((color.b - self.b) * alpha + self.b) * 255,
         )
 
     def hue_vect(self):
