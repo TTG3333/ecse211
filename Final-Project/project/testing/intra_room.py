@@ -146,6 +146,7 @@ def run():
             break
         run_until_distance(traveled, direction='backward', color=["yellow", color])
     # Exit facing on the black line, overshoot to the left of the line
+    run_until_distance(0.75, direction="backward", color=["yellow"])
     turn_angle(270, direction='right', stop_black=True)
 
 if __name__ == '__main__':
