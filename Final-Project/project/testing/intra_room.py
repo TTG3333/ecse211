@@ -127,7 +127,6 @@ def run():
     traveled, color = run_until_distance(5, direction='forward', color=["orange", "black"])
     if color == 'red':
         print("Restricted room detected, backing up.")
-        run_until_distance(traveled/2, direction='backward', color=["red", "orange"])
         turn_angle(270, direction='right', stop_black=True)
         return
     zero = GYRO_SENSOR.get_abs_measure()
