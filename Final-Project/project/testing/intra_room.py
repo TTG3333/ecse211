@@ -168,7 +168,7 @@ def run():
             traveled2, _ = run_until_distance(8, direction="backward", color=[])
             deliver_package()
             play_collect().wait_done()
-            run_until_distance(traveled2, direction="forward", color=[])
+            run_until_distance(8, direction="forward", color=["orange", "yellow", "white", "black"])
             run_until_distance(traveled, direction="backward", color=["yellow", "green"])
             break
         run_until_distance(traveled, direction='backward', color=["yellow", "green", color])
