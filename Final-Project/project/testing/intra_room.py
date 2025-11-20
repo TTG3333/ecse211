@@ -50,10 +50,12 @@ def distance_to_wall(deg): # in cm
 
 def get_current_color():
     unsure = []
+    delay = SENSOR_POLL_SLEEP/5
     for _ in range(5):
         r, g, b = C_SENSOR.get_rgb()
         if None in [r, g, b]:
-            time.sleep(SENSOR_POLL_SLEEP/5)
+            time.sleep(delay)
+            delay *= 2 # Exponential backoff
             continue
         color = Color(r, g, b)
         if color.predict()[1] >= 0.7:
@@ -96,14 +98,15 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
             # print(f"Existed at time {stop_time - start_time} seconds")
             # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
             print(f"Exited at distance {abs(start_distance - current_distance)} cm")
-            return abs(start_distance - current_distance)
+            return (abs(start_distance - current_distance), None)
         if color:
-            if get_current_color() not in color:
+            c = get_current_color()
+            if c not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 # stop_time = time.time()
-                print(f"Exited at color {get_current_color()}")
-                return abs(start_distance - current_distance)
+                print(f"Exited at color {c}")
+                return (abs(start_distance - current_distance), c)
                 # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
         time.sleep(SENSOR_POLL_SLEEP)
 
@@ -119,8 +122,8 @@ def turn_angle(deg, direction='left'):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
-    traveled = run_until_distance(5, direction='forward', color=["orange", "yellow", "black"])
-    if get_current_color() == 'red':
+    traveled, color = run_until_distance(5, direction='forward', color=["orange", "black"])
+    if color == 'red':
         print("Restricted room detected, backing up.")
         run_until_distance(traveled, direction='backward', color=["red", "orange"])
         return
@@ -132,14 +135,14 @@ def run():
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
-        traveled = run_until_distance(dist - 5, direction='forward', color=["yellow", "orange"])
-        if get_current_color() == "green":
+        traveled, color = run_until_distance(dist - 5, direction='forward', color=["yellow", "orange"])
+        if color == "green":
             print("Green square detected, delivering package.")
-            traveled2 = run_until_distance(8, direction="backward", color=[])
+            traveled2, _ = run_until_distance(8, direction="backward", color=[])
             deliver_package()
             run_until_distance(abs(traveled - traveled2), direction="forward" if traveled < traveled2 else "backward", color=[])
             break
-        run_until_distance(traveled, direction='backward', color=["yellow", get_current_color()])
+        run_until_distance(traveled, direction='backward', color=["yellow", color])
     # Exit facing straight ahead
     turn_angle(GYRO_SENSOR.get_abs_measure() - zero, direction='left' if GYRO_SENSOR.get_abs_measure() > zero else 'right')
 
