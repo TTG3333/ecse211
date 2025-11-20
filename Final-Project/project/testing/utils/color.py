@@ -3,7 +3,7 @@ import csv
 
 # Configurable parameters
 
-CONFIDENCE_EXPONENT = 2
+CONFIDENCE_EXPONENT = 4
 
 # ##################### #
 
