@@ -17,16 +17,15 @@ wait_ready_sensors()
 
 def log():
     r,g,b = C_SENSOR.get_rgb()
-
     color = Color(r,g,b)
     predicted = str(color)
 
-    label = input(f"What color is expected? (Predicted: {predicted}): ")
+    label = input(f"What color is expected? (Predicted: {predicted} - \033[38;2;{r};{g};{b}mPreview\033[0m): ")
     if label == "":
         label = predicted
-
     print(f"Added: ({r,g,b}) as {label}")
-    with open("../collection/color_data.csv", "a", newline="\n") as file:
+
+    with open(Color.DATASET_DIR, "a", newline="\n") as file:
         writer = csv.writer(file, lineterminator="\n")
         writer.writerow([r, g, b, label])
 

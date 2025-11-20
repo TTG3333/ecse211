@@ -1,13 +1,20 @@
 import math
 import csv
 
-# Configurable parameters
-
-CONFIDENCE_EXPONENT = 4
-
-# ##################### #
-
 class Color:
+    # Configurable Parameters
+    ## Confidence Parameters
+    CONFIDENCE_EXPONENT = 4         # How much the uncertainty grows
+    CONFIDENCE_THRESHOLD = 0.75     # How much confidence the color needs
+
+    ## Area Parameters
+    VALUE_THRESHOLD_BLACK = 0.25        # Under this value, all colors      = black
+    SATURATION_THRESHOLD_WHITE = 0.25   # Under this saturation, all colors = white
+
+    ## Dataset Parameters
+    DATASET_DIR = "../collection/color_data.csv"
+    # ##################### #
+
     def __init__(self, r, g, b):
         '''
         Constructs a color object, which allows to read the R,G,B H,S,V values.
@@ -23,6 +30,9 @@ class Color:
         cmin = min(self.r,self.g,self.b)
         delta = (cmax - cmin)
         
+        # Cache system
+        self._prediction = None
+
         self.value = cmax
         self.saturation = delta / cmax if cmax != 0 else 0
         
@@ -38,33 +48,42 @@ class Color:
         Returns a string of the predicted color, and certainty factor.
         '''
 
-        distances = {}
-        self_vector = self.hue_vect()
+        if self._prediction is None:
+            distances = {}
+            self_vector = self.hue_vect()
 
-        # Hard coded results
-        if self.value < 0.25:
-            return ("Black", 1)
-        elif self.saturation < 0.25:
-            return ("White", 1)
+            # Hard coded results
+            if self.value < self.VALUE_THRESHOLD_BLACK:
+                return ("Black", 1)
+            elif self.saturation < self.SATURATION_THRESHOLD_WHITE:
+                return ("White", 1)
 
-        for ref, label in Color.colors:
-            viewed_vector = ref.hue_vect()
+            for ref, label in Color.colors:
+                viewed_vector = ref.hue_vect()
 
-            dist = math.sqrt(
-                (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
-                (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
-                (self.value - ref.value) ** 2              # Value
-            )
+                dist = math.sqrt(
+                    (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
+                    (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
+                    (self.value - ref.value) ** 2              # Value
+                )
 
-            if label not in distances or dist < distances[label]:
-                distances[label] = dist
+                if label not in distances or dist < distances[label]:
+                    distances[label] = dist
 
-        sorted_labels = sorted(distances.items(), key=lambda x: x[1])
-        (label1, dist1), (label2, dist2) = sorted_labels[:2]
+            sorted_labels = sorted(distances.items(), key=lambda x: x[1])
+            (label1, dist1), (_, dist2) = sorted_labels[:2]
 
-        certainty = 1 - (dist1 / dist2) ** CONFIDENCE_EXPONENT
+            certainty = 1 - (dist1 / dist2) ** self.CONFIDENCE_EXPONENT
+            self._prediction = (label1, certainty)
 
-        return (label1, certainty)
+        return self._prediction
+    
+    def is_certain(self):
+        '''
+        Returns a bool to know if a reading is certain or not.
+        '''
+        (_, certainty) = self.predict()
+        return certainty > self.CONFIDENCE_THRESHOLD
     
     def lerp(self, color, alpha):
         return Color(
@@ -73,6 +92,14 @@ class Color:
             (color.b - self.b) * alpha + self.b,
         )
 
+    def hue_vect(self):
+        '''
+        Constructs the hue vector
+        '''
+        h0 = math.cos(math.radians(self.hue))
+        h1 = math.sin(math.radians(self.hue))
+        return (h0, h1)
+    
     def __str__(self):
         '''
         Returns the string of the predict function
@@ -80,15 +107,10 @@ class Color:
         name, _ = self.predict()
         return name
 
-    def hue_vect(self):
-        h0 = math.cos(math.radians(self.hue))
-        h1 = math.sin(math.radians(self.hue))
-        return (h0, h1)
-
 # Add additional data values:
 Color.colors = []
 
-with open("../collection/color_data.csv", "r") as colors:
+with open(Color.DATASET_DIR) as colors:
     reader = csv.reader(colors)
     next(reader) # Ignore header
 
