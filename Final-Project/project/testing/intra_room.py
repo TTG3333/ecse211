@@ -155,6 +155,7 @@ if __name__ == '__main__':
     t = threading.Thread(target=us_sensor_handler)
     t.start()
     time.sleep(1)
+    GYRO_SENSOR.reset_measure()
     try:
         run()
     except Exception as e:
