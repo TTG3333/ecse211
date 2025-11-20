@@ -13,7 +13,7 @@ RIGHT_MOTOR = Motor("D")
 C_SENSOR = EV3ColorSensor(1)
 
 DISTANCE_TO_WALL = 13
-distances_to_turn_at = [38.6, 38.6, 38.6, 87.1]  # Stack for all 4 rooms
+distances_to_turn_at = [37.1, 37.1, 37.1, 85.6]  # Stack for all 4 rooms
 
 #naive path function, goes to all rooms, should be made smarter later
 successfulDeliveries = 0 
@@ -30,6 +30,7 @@ def restricted_room():
     color = Color(r, g, b)
     if str(color).lower() == "red":
         restricted = True
+        print("detected red")
     return restricted
 
 def enter_next_room():
@@ -41,6 +42,7 @@ def enter_next_room():
 def exit_current_room():
     gyro_turn.turn_180_deg()
     line_follower.run(DISTANCE_TO_WALL - 4)
+    line_follower.us_filter.clear()
     gyro_turn.turn_90_deg('left')
 
 def deliver_to_next_room():
@@ -58,21 +60,20 @@ if __name__ == "__main__":
     wait_ready_sensors() 
     sleep(1)
     # run until delivery 1
-    deliver_to_next_room()
+    #deliver_to_next_room()
 
     # delivery 2
-    deliver_to_next_room()
-    line_follower.run(DISTANCE_TO_WALL - 4)
+    #deliver_to_next_room()
+    #line_follower.run(DISTANCE_TO_WALL - 4)
 
-    #enter_next_room()
-    #exit_current_room()
-    #restricted = restricted_room()
-    #if restricted:
-    #    LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-    #    RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-    #    sleep(0.5)
-    #    line_follower.stop_robot()
-    #    exit_current_room()
-    #    enter_next_room()
+    enter_next_room()
+    restricted = restricted_room()
+    if restricted:
+        LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+        RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+        sleep(0.5)
+        line_follower.stop_robot()
+        exit_current_room()
+        enter_next_room()
 
 
