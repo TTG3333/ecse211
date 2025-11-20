@@ -2,7 +2,7 @@ from utils.brick import Motor, wait_ready_sensors, SensorError, EV3GyroSensor, E
 from math import pi, tan, sqrt, atan
 from utils.color import Color
 from package_delivery import move_to_next as deliver_package
-from sounds import play_collect
+from sounds import play_collect, play_help
 import time
 import threading
 
@@ -66,7 +66,7 @@ def distance_to_wall(deg): # in cm
 
 def get_current_color(certainty=False):
     unsure = []
-    delay = SENSOR_POLL_SLEEP/5
+    delay = 0.02
     for _ in range(5):
         r, g, b = C_SENSOR.get_rgb()
         if None in [r, g, b]:
@@ -82,6 +82,9 @@ def get_current_color(certainty=False):
     if unsure:
         unsure.sort(key=lambda x: x[1], reverse=True)
         return unsure[0][0].lower() if not certainty else (unsure[0][0].lower(), unsure[0][1])
+    LEFT_MOTOR.set_dps(0)
+    RIGHT_MOTOR.set_dps(0)
+    play_help()
     raise SensorError("Unable to read from colour sensor")
 
 def get_us_sensor(): # Gets the median value
