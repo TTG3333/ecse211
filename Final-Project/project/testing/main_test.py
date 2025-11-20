@@ -13,7 +13,8 @@ RIGHT_MOTOR = Motor("D")
 C_SENSOR = EV3ColorSensor(1)
 
 DISTANCE_TO_WALL = 13
-distances_to_turn_at = [37.1, 37.1, 37.1, 85.6]  # Stack for all 4 rooms
+distances_to_turn_at = [36.5, 36.5, 36.5, 84.0]  # Stack for all 4 rooms
+turn_after = 4
 
 #naive path function, goes to all rooms, should be made smarter later
 successfulDeliveries = 0 
