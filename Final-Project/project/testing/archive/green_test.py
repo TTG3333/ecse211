@@ -32,8 +32,9 @@ def get_current_color(certainty=False):
     play_help()
     raise SensorError("Unable to read from colour sensor")
 
+wait_ready_sensors()
 while True:
     if get_current_color() == "green":
-        play_collect.wait_done()
+        play_collect().wait_done()
         break
     time.sleep(0.05)
