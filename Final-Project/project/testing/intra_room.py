@@ -130,11 +130,12 @@ def turn_angle(deg, direction='left', stop_black=False):
     RIGHT_MOTOR.set_dps(0)
 
 def run():
+    delivered = False
     traveled, color = run_until_distance(5, direction='forward', color=["orange", "black"])
     if color == 'red':
         print("Restricted room detected, backing up.")
         turn_angle(270, direction='right', stop_black=True)
-        return
+        return delivered
     zero = GYRO_SENSOR.get_abs_value()
     print(f"Entered room, starting scan from angle {zero} degrees.")
     # Start at -30, end at 30, sensor is clockwise
@@ -158,6 +159,7 @@ def run():
     # Exit facing on the black line, overshoot to the left of the line
     run_until_distance(0.75, direction="backward", color=["yellow"])
     turn_angle(270, direction='right', stop_black=True)
+    return delivered
 
 if __name__ == '__main__':
     wait_ready_sensors()

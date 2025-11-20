@@ -3,6 +3,7 @@ from utils.color import Color
 from utils.brick import Motor, EV3GyroSensor, EV3UltrasonicSensor, wait_ready_sensors, EV3ColorSensor
 from time import sleep
 import line_follower
+import intra_room
 import package_delivery
 import gyro_turn
 
@@ -41,7 +42,7 @@ def enter_next_room():
     line_follower.stop_robot()  # stop at the orange door, then enter intra-room subsystem
 
 def exit_current_room():
-    gyro_turn.turn_180_deg()
+    # gyro_turn.turn_180_deg()
     line_follower.run(DISTANCE_TO_WALL - 4)
     line_follower.us_filter.clear()
     gyro_turn.turn_90_deg('left')
@@ -61,7 +62,9 @@ if __name__ == "__main__":
     wait_ready_sensors() 
     sleep(1)
     # run until delivery 1
-    #deliver_to_next_room()
+    enter_next_room()
+    intra_room.run()
+    exit_current_room()
 
     # delivery 2
     #deliver_to_next_room()
@@ -78,14 +81,14 @@ if __name__ == "__main__":
     #gyro_turn.turn_90_deg('left')
     #line_follower.run(DISTANCE_TO_WALL - 4)
 
-    enter_next_room()
-    restricted = restricted_room()
-    if restricted:
-        LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-        RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
-        sleep(0.5)
-        line_follower.stop_robot()
-        exit_current_room()
-        enter_next_room()
+    # enter_next_room()
+    # restricted = restricted_room()
+    # if restricted:
+    #     LEFT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+    #     RIGHT_MOTOR.set_dps(line_follower.BACKUP_SPEED)
+    #     sleep(0.5)
+    #     line_follower.stop_robot()
+    #     exit_current_room()
+    #     enter_next_room()
 
 
