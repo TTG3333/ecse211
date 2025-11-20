@@ -145,8 +145,8 @@ def run():
             run_until_distance(abs(traveled - traveled2), direction="forward" if traveled < traveled2 else "backward", color=[])
             break
         run_until_distance(traveled, direction='backward', color=["yellow", color])
-    # Exit facing straight ahead
-    turn_angle(abs(GYRO_SENSOR.get_abs_measure() - (180 - zero)) + 90, direction='left' if GYRO_SENSOR.get_abs_measure() > (180 - zero) else 'right', stop_black=True)
+    # Exit facing on the black line, overshoot to the left of the line
+    turn_angle(270, direction='right', stop_black=True)
 
 if __name__ == '__main__':
     wait_ready_sensors()
