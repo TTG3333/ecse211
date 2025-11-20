@@ -89,7 +89,7 @@ def run(until_what):
     current_dir = "LEFT"
     while True:
         try:
-            r, g, b, lum = C_SENSOR.get_value()
+            r, g, b = C_SENSOR.get_rgb()
             avg = average_rgb_value(r, g, b)
 
             # # stop on green square
