@@ -153,6 +153,7 @@ def run():
     print(f"Entered room, starting scan from angle {zero} degrees.")
     # Start at -30, end at 30, sensor is clockwise
     for angle in range(-30, 35, 5):
+        print()
         print(f"Currently at {get_gyro_sensor() - zero}, going to {angle}")
         turn_angle(angle - (get_gyro_sensor() - zero), direction='left' if angle - (get_gyro_sensor() - zero) < 0 else 'right')
         dist = distance_to_wall(90 + angle)
