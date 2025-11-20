@@ -84,7 +84,8 @@ def backup():
     stop_robot()
 
 
-us_filter = dNoise(20, 2)
+#us_filter = dNoise(20, 2)
+us_filter = NoiseEliminator(7, 5)
 def run(until_what):
     current_dir = "LEFT"
     while True:
@@ -94,30 +95,14 @@ def run(until_what):
                 continue
             avg = average_rgb_value(r, g, b)
 
-            # # stop on green square
-            # if b < 25 and abs(r-b) > 10:
-            #     stop_robot()
-            #     backup()
-            #     move_to_next()
-            #     time.sleep(2)
-            #     LEFT_MOTOR.set_dps(-BACKUP_SPEED)
-            #     RIGHT_MOTOR.set_dps(-BACKUP_SPEED)
-            #     time.sleep(1.5)
-            #     if current_dir == "LEFT":
-            #         drive_slightly_left()
-            #     elif current_dir == "RIGHT":
-            #         drive_slightly_right()
-            #     else:
-            #         drive_straight()
-
             # follow line
             current_dir = follow_line(avg)
 
             distance = US_SENSOR.get_value()
-            print("Distance:", str(distance))
-            print(f"Derivative: {us_filter.derivative(distance)}")
+            #print(f"Derivative: {us_filter.derivative(distance)}")
             us_filter.add(distance)
-            distance = us_filter.values[len(us_filter.values) - 1]
+            distance = us_filter.get_stable_distance()
+            #distance = us_filter.values[len(us_filter.values) - 1]
             #print(f"Distance: {distance}")
 
             readColor = C_SENSOR.get_rgb()
@@ -129,6 +114,7 @@ def run(until_what):
                 if distance is not None and distance < until_what:  # stop when close to wall
                     LEFT_MOTOR.set_dps(0)
                     RIGHT_MOTOR.set_dps(0)
+                    print(us_filter.values())
                     print("ended current distance task")
                     break
             elif isinstance(until_what, str):
