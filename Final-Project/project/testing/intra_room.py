@@ -66,37 +66,45 @@ def get_current_color():
         return unsure[0][0].lower()
     raise SensorError("Unable to read from colour sensor")
 
-def get_us_sensor(): # Gets the median value
+def old_get_us_sensor(): # Gets the median value
     vals = [v for v in SENSOR_VALS if v is not None]
     return sorted(vals)[len(vals)//2] if vals else None
 
+def get_us_sensor():
+    for _ in range(5):
+        val = US_SENSOR.get_value()
+        if val is not None:
+            return val
+        time.sleep(SENSOR_POLL_SLEEP/5)
+    raise SensorError("Unable to read from ultrasonic sensor")
+
 def run_until_distance(dist, direction='forward', color=['yellow']):
     direction = 1 if direction.lower() == 'forward' else -1
-    # start_distance = get_us_sensor()
-    # print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
-    total_time = (dist/WHEEL_CIRCUMFERENCE) * 360 / abs(BASE_SPEED)
-    start_time = time.time()
+    start_distance = get_us_sensor()
+    print(f"Moving {dist} cm, starting sensor value {start_distance} cm")
+    # total_time = (dist/WHEEL_CIRCUMFERENCE) * 360 / abs(BASE_SPEED)
+    # start_time = time.time()
     LEFT_MOTOR.set_dps(BASE_SPEED*direction)
     RIGHT_MOTOR.set_dps(BASE_SPEED*direction)
     while True:
-        # current_distance = get_us_sensor()
-        # if abs(start_distance - current_distance) >= dist + TOLERANCE:
-        if time.time() - start_time >= total_time:
+        current_distance = get_us_sensor()
+        if abs(start_distance - current_distance) >= dist + TOLERANCE:
+        # if time.time() - start_time >= total_time:
             LEFT_MOTOR.set_dps(0)
             RIGHT_MOTOR.set_dps(0)
-            stop_time = time.time()
-            print(f"Existed at time {stop_time - start_time} seconds")
-            return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
-            # print(f"Exited at distance {abs(start_distance - current_distance)} cm")
-            # return abs(start_distance - current_distance)
+            # stop_time = time.time()
+            # print(f"Existed at time {stop_time - start_time} seconds")
+            # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
+            print(f"Exited at distance {abs(start_distance - current_distance)} cm")
+            return abs(start_distance - current_distance)
         if color:
             if get_current_color() not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
-                stop_time = time.time()
+                # stop_time = time.time()
                 print(f"Exited at color {get_current_color()}")
-                # return abs(start_distance - current_distance)
-                return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
+                return abs(start_distance - current_distance)
+                # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
         time.sleep(SENSOR_POLL_SLEEP)
 
 def turn_angle(deg, direction='left'):
@@ -137,10 +145,10 @@ def run():
 
 if __name__ == '__main__':
     wait_ready_sensors()
-    time.sleep(0.5)
-    t = threading.Thread(target=us_sensor_handler)
-    t.start()
-    time.sleep(1)
+    # time.sleep(0.5)
+    # t = threading.Thread(target=us_sensor_handler)
+    # t.start()
+    time.sleep(1.5)
     try:
         run()
     except Exception as e:
