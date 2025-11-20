@@ -84,8 +84,8 @@ def backup():
     stop_robot()
 
 
-#us_filter = dNoise(20, 2)
-us_filter = NoiseEliminator(7, 5)
+us_filter = dNoise(20, 2)
+# us_filter = NoiseEliminator(7, 5)
 def run(until_what):
     current_dir = "LEFT"
     while True:
@@ -100,10 +100,10 @@ def run(until_what):
 
             distance = US_SENSOR.get_value()
             #print(f"Derivative: {us_filter.derivative(distance)}")
-            us_filter.add_value(distance)
-            distance = us_filter.get_stable_distance()
-            #distance = us_filter.values[len(us_filter.values) - 1]
-            #print(f"Distance: {distance}")
+            us_filter.add(distance)
+            # distance = us_filter.median()
+            distance = us_filter.values[len(us_filter.values) - 1]
+            print(f"Distance: {distance}")
 
             readColor = C_SENSOR.get_rgb()
             color = Color(r,g,b)
@@ -114,7 +114,7 @@ def run(until_what):
                 if distance is not None and distance < until_what:  # stop when close to wall
                     LEFT_MOTOR.set_dps(0)
                     RIGHT_MOTOR.set_dps(0)
-                    print(us_filter.values())
+                    print(us_filter.values)
                     print("ended current distance task")
                     break
             elif isinstance(until_what, str):
