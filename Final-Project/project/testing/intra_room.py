@@ -110,14 +110,16 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
                 # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
         time.sleep(SENSOR_POLL_SLEEP)
 
-def turn_angle(deg, direction='left'):
+def turn_angle(deg, direction='left', stop_black=False):
     i = 1 if direction.lower() == "left" else -1
     offset = GYRO_SENSOR.get_abs_measure()
 
     LEFT_MOTOR.set_dps(TURN_SPEED * i)
     RIGHT_MOTOR.set_dps(-TURN_SPEED * i)
     while abs((GYRO_SENSOR.get_abs_measure() - offset)) < abs(deg):
-        pass
+        if stop_black:
+            if get_current_color() == "black":
+                break
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
 
@@ -144,7 +146,7 @@ def run():
             break
         run_until_distance(traveled, direction='backward', color=["yellow", color])
     # Exit facing straight ahead
-    turn_angle(GYRO_SENSOR.get_abs_measure() - (180 - zero), direction='left' if GYRO_SENSOR.get_abs_measure() > (180 - zero) else 'right')
+    turn_angle(abs(GYRO_SENSOR.get_abs_measure() - (180 - zero)) + 90, direction='left' if GYRO_SENSOR.get_abs_measure() > (180 - zero) else 'right', stop_black=True)
 
 if __name__ == '__main__':
     wait_ready_sensors()
