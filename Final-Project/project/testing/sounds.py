@@ -6,7 +6,7 @@ def play_sound(func):
         raise ValueError("Function name must start with 'play_'")
     file = name[5:]
     def player():
-        return sa.WaveObject.from_wave_file(f"../sounds/file.wav").play()
+        return sa.WaveObject.from_wave_file(f"../sounds/{file}.wav").play()
     return player
 
 @play_sound
