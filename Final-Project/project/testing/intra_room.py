@@ -129,13 +129,13 @@ def run():
         return
     zero = GYRO_SENSOR.get_abs_measure()
     print(f"Entered room, starting scan from angle {zero} degrees.")
-    # Start at -25, end at 25, sensor is clockwise
-    for angle in range(-25, 30, 5):
+    # Start at -30, end at 30, sensor is clockwise
+    for angle in range(-30, 35, 5):
         turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) < 0 else 'right')
         dist = distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
-        traveled, color = run_until_distance(dist - 6, direction='forward', color=["yellow", "orange"])
+        traveled, color = run_until_distance(dist - 7, direction='forward', color=["yellow", "orange"])
         if color == "green":
             print("Green square detected, delivering package.")
             traveled2, _ = run_until_distance(8, direction="backward", color=[])
@@ -144,7 +144,7 @@ def run():
             break
         run_until_distance(traveled, direction='backward', color=["yellow", color])
     # Exit facing straight ahead
-    turn_angle(GYRO_SENSOR.get_abs_measure() - zero, direction='left' if GYRO_SENSOR.get_abs_measure() > zero else 'right')
+    turn_angle(GYRO_SENSOR.get_abs_measure() - (180 - zero), direction='left' if GYRO_SENSOR.get_abs_measure() > (180 - zero) else 'right')
 
 if __name__ == '__main__':
     wait_ready_sensors()
