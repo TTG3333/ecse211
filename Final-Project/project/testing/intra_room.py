@@ -26,6 +26,8 @@ US_SENSOR_VALS = [None] * 10
 GYRO_SENSOR_VALS = [None] * 5
 STOP = False
 
+COLOR_THRESHOLD = 0.7
+
 TOLERANCE = 0.5  # in cm
 HALF_WALL = 12  # in cm
 WHEEL_CIRCUMFERENCE = 4 * pi # in cm
@@ -62,7 +64,7 @@ def distance_to_wall(deg): # in cm
     else:
         return HALF_WALL * sqrt(1 + tan(pi * (180 - deg) / 180)**2)
 
-def get_current_color():
+def get_current_color(certainty=False):
     unsure = []
     delay = SENSOR_POLL_SLEEP/5
     for _ in range(5):
@@ -73,13 +75,13 @@ def get_current_color():
             continue
         color = Color(r, g, b)
         if color.predict()[1] >= 0.7:
-            return color.predict()[0].lower()
+            return color.predict()[0].lower() if not certainty else (color.predict()[0].lower(), color.predict()[1])
         else:
             unsure.append(color.predict())
             time.sleep(SENSOR_POLL_SLEEP/5)
     if unsure:
         unsure.sort(key=lambda x: x[1], reverse=True)
-        return unsure[0][0].lower()
+        return unsure[0][0].lower() if not certainty else (unsure[0][0].lower(), unsure[0][1])
     raise SensorError("Unable to read from colour sensor")
 
 def get_us_sensor(): # Gets the median value
@@ -118,8 +120,8 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
             print(f"Exited at distance {abs(start_distance - current_distance)} cm")
             return (abs(start_distance - current_distance), None)
         if color:
-            c = get_current_color()
-            if c not in color:
+            c, cert = get_current_color(True)
+            if cert >= COLOR_THRESHOLD and c not in color:
                 LEFT_MOTOR.set_dps(0)
                 RIGHT_MOTOR.set_dps(0)
                 # stop_time = time.time()
@@ -163,7 +165,7 @@ def run():
             play_collect().wait_done()
             run_until_distance(abs(traveled - traveled2), direction="forward" if traveled < traveled2 else "backward", color=[])
             break
-        run_until_distance(traveled, direction='backward', color=["yellow", color])
+        run_until_distance(traveled, direction='backward', color=["yellow", "green", color])
     # Exit facing on the black line, overshoot to the left of the line
     run_until_distance(0.75, direction="backward", color=["yellow"])
     turn_angle(270, direction='right', stop_black=True)
