@@ -44,7 +44,7 @@ class Color:
         # Hard coded results
         if self.value < 0.25:
             return ("Black", 1)
-        elif self.saturation < 0.2:
+        elif self.saturation < 0.25:
             return ("White", 1)
 
         for ref, label in Color.colors:
