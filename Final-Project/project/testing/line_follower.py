@@ -90,6 +90,8 @@ def run(until_what):
     while True:
         try:
             r, g, b = C_SENSOR.get_rgb()
+            if r is None or g is None or b is None:
+                continue
             avg = average_rgb_value(r, g, b)
 
             # # stop on green square
