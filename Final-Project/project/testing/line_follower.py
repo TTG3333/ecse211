@@ -100,7 +100,7 @@ def run(until_what):
 
             distance = US_SENSOR.get_value()
             #print(f"Derivative: {us_filter.derivative(distance)}")
-            us_filter.add(distance)
+            us_filter.add_value(distance)
             distance = us_filter.get_stable_distance()
             #distance = us_filter.values[len(us_filter.values) - 1]
             #print(f"Distance: {distance}")
