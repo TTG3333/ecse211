@@ -12,8 +12,8 @@ LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("D")
 C_SENSOR = EV3ColorSensor(1)
 
-DISTANCE_TO_WALL = 12
-distances_to_turn_at = [37.6, 37.6, 37.6, 86.1]  # Stack for all 4 rooms
+DISTANCE_TO_WALL = 13
+distances_to_turn_at = [38.6, 38.6, 38.6, 87.1]  # Stack for all 4 rooms
 
 #naive path function, goes to all rooms, should be made smarter later
 successfulDeliveries = 0 
@@ -26,7 +26,7 @@ def restricted_room():
     sleep(0.5)
     line_follower.stop_robot()
     #  checks for red square
-    r, g, b, lum = C_SENSOR.get_value()
+    r, g, b, _ = C_SENSOR.get_value()
     color = Color(r, g, b)
     if str(color).lower() == "red":
         restricted = True
