@@ -2,6 +2,7 @@ from utils.brick import Motor, wait_ready_sensors, SensorError, EV3GyroSensor, E
 from math import pi, tan, sqrt, atan
 from utils.color import Color
 from package_delivery import move_to_next as deliver_package
+from sounds import play_collect
 import time
 import threading
 
@@ -142,6 +143,7 @@ def run():
             print("Green square detected, delivering package.")
             traveled2, _ = run_until_distance(8, direction="backward", color=[])
             deliver_package()
+            play_collect().wait_done()
             run_until_distance(abs(traveled - traveled2), direction="forward" if traveled < traveled2 else "backward", color=[])
             break
         run_until_distance(traveled, direction='backward', color=["yellow", color])
