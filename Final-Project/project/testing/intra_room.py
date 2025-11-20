@@ -6,8 +6,9 @@ from sounds import play_collect, play_help
 import time
 import threading
 
+from utils.turning import turn_angle
 
-C_SENSOR = EV3ColorSensor(1)
+COLOR_SENSOR = EV3ColorSensor(1)
 US_SENSOR = EV3UltrasonicSensor(3)
 GYRO_SENSOR = EV3GyroSensor(4)
 
@@ -68,7 +69,7 @@ def get_current_color(certainty=False):
     unsure = []
     delay = 0.02
     for _ in range(5):
-        r, g, b = C_SENSOR.get_rgb()
+        r, g, b = COLOR_SENSOR.get_rgb()
         if None in [r, g, b]:
             time.sleep(delay)
             delay *= 2 # Exponential backoff
@@ -136,24 +137,24 @@ def run_until_distance(dist, direction='forward', color=['yellow']):
                 # return (stop_time - start_time) * abs(BASE_SPEED) / 360 * WHEEL_CIRCUMFERENCE
         time.sleep(SENSOR_POLL_SLEEP)
 
-def turn_angle(deg, direction='left', stop_black=False):
-    i = 1 if direction.lower() == "left" else -1
-    offset = get_gyro_sensor()
+# def turn_angle(deg, direction='left', stop_black=False):
+#     i = 1 if direction.lower() == "left" else -1
+#     offset = get_gyro_sensor()
 
-    LEFT_MOTOR.set_dps(TURN_SPEED * i)
-    RIGHT_MOTOR.set_dps(-TURN_SPEED * i)
-    while abs((get_gyro_sensor() - offset)) < abs(deg):
-        if stop_black:
-            if get_current_color() == "black":
-                break
-    LEFT_MOTOR.set_dps(0)
-    RIGHT_MOTOR.set_dps(0)
+#     LEFT_MOTOR.set_dps(TURN_SPEED * i)
+#     RIGHT_MOTOR.set_dps(-TURN_SPEED * i)
+#     while abs((get_gyro_sensor() - offset)) < abs(deg):
+#         if stop_black:
+#             if get_current_color() == "black":
+#                 break
+#     LEFT_MOTOR.set_dps(0)
+#     RIGHT_MOTOR.set_dps(0)
 
 def run():
     traveled, color = run_until_distance(5, direction='forward', color=["orange", "black"])
     if color == 'red':
         print("Restricted room detected, backing up.")
-        turn_angle(270, direction='right', stop_black=True)
+        turn_angle(270, direction='right', colors=["Black"])
         return
     zero = get_gyro_sensor()
     print(f"Entered room, starting scan from angle {zero} degrees.")
@@ -177,7 +178,7 @@ def run():
         run_until_distance(traveled, direction='backward', color=["yellow", "green", color])
     # Exit facing on the black line, overshoot to the left of the line
     run_until_distance(0.75, direction="backward", color=["yellow"])
-    turn_angle(270, direction='right', stop_black=True)
+    turn_angle(270, direction='right', colors=["Black"])
 
 if __name__ == '__main__':
     wait_ready_sensors()
