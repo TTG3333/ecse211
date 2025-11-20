@@ -88,9 +88,12 @@ def get_us_sensor(): # Gets the median value
     vals = [v for v in US_SENSOR_VALS if v is not None]
     return sorted(vals)[len(vals)//2] if vals else None
 
-def get_gyro_sensor(): # Gets the median value
+def old_get_gyro_sensor(): # Gets the median value
     vals = [v for v in GYRO_SENSOR_VALS if v is not None]
     return sorted(vals)[len(vals)//2] if vals else None
+
+def get_gyro_sensor():
+    return GYRO_SENSOR.get_abs_measure()
 
 def old_get_us_sensor():
     for _ in range(5):
