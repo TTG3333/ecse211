@@ -35,7 +35,7 @@ def restricted_room():
     return restricted
 
 def enter_next_room():
-    line_follower.run(distances_to_turn_at.pop() - 5)
+    line_follower.run(distances_to_turn_at.pop() - turn_after)
     gyro_turn.turn_90_deg('left')
     line_follower.run('orange')
     line_follower.stop_robot()  # stop at the orange door, then enter intra-room subsystem
@@ -48,7 +48,7 @@ def exit_current_room():
 
 def deliver_to_next_room():
     '''Enters and exits the next room'''
-    line_follower.run(distances_to_turn_at.pop() - 5)
+    line_follower.run(distances_to_turn_at.pop() - turn_after)
     print(line_follower.us_filter.values)
     gyro_turn.turn_90_deg('left')
     line_follower.run('orange')
