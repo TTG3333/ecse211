@@ -63,3 +63,9 @@ if __name__ == "__main__":
     room_procedure()
     # --------------------------- #
 
+    follow_line()
+    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    
+    follow_line()
+    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+
