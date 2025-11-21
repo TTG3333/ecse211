@@ -67,8 +67,7 @@ def drive_straight_until(until_distance=None, until_colors=None):
                     break
 
         if until_distance is not None:
-            dist = US_SENSOR.get_value()
-            if noiser.add(dist):
+            if noiser.add(US_SENSOR.get_value()):
                 if noiser.get() < until_distance:
                     break
 
@@ -90,7 +89,7 @@ def follow_line(until_distance=5, until_colors=None):
             _drive_straight()
 
         if noiser.add(US_SENSOR.get_value()):
-            print(noiser.get())
+            print(noiser.get(), until_distance)
             if noiser.get() < until_distance:
                 break
 
