@@ -35,7 +35,7 @@ def init_t(color, gyro, ultrasonic, right_m, left_m):
 # ---------------------------------------------------- #
 
 def _get_rotation():
-    GYRO_SENSOR.get_abs_measure()
+    return GYRO_SENSOR.get_abs_measure()
 
 # ---------------------------------------------------- #
 
