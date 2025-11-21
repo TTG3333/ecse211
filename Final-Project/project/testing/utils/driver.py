@@ -14,7 +14,7 @@ from utils.dnoise   import dNoise
 # Configurable settings
 
 ## Speed Configurations
-BASE_SPEED      = 100
+BASE_SPEED      = 200
 ADJUST_SPEED    = 30
 
 ## Color Configurations
@@ -81,6 +81,7 @@ def follow_line(distance = 5):
 
     while True:
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
+        print(lum)
 
         if lum < TURNING_THRESHOLD - TURNING_THRESHOLD_TOLERANCE:
             _drive_offset(ADJUST_SPEED)
