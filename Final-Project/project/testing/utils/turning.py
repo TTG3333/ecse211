@@ -77,5 +77,9 @@ def turn_180_deg(direction='left'):
 def turn_until(direction='left', until_colors=None, after_dt=0, delay=None):
     turn_angle(360, direction, until_colors, after_dt, delay)
 
+def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None):
+    for colors in colors_list:
+        turn_until(direction, until_colors=colors, after_dt=after_dt, delay=delay)
+
 def stop():
     _begin_turn(0)
