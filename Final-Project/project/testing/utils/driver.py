@@ -84,9 +84,9 @@ def follow_line(distance = 5):
         print(lum)
 
         if lum < TURNING_THRESHOLD - TURNING_THRESHOLD_TOLERANCE:
-            _drive_offset(ADJUST_SPEED)
-        elif lum > TURNING_THRESHOLD + TURNING_THRESHOLD_TOLERANCE:
             _drive_offset(ADJUST_SPEED * -1)
+        elif lum > TURNING_THRESHOLD + TURNING_THRESHOLD_TOLERANCE:
+            _drive_offset(ADJUST_SPEED)
         else:
             _drive_straight()
 
