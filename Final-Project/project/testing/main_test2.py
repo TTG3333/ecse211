@@ -7,7 +7,7 @@ from time           import sleep
 from utils.brick    import (Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, wait_ready_sensors)
 
 from utils.driver   import init_d, follow_line
-from utils.turning  import init_t, turn_until_original, turn_until, turn_90_deg, turn_180_deg
+from utils.turning  import init_t, turn_until, turn_90_deg, turn_180_deg
 
 # ---------------------------------------------------- #
 GYRO_SENSOR         = EV3GyroSensor(4)
