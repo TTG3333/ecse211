@@ -7,7 +7,7 @@ from time           import sleep
 from utils.brick    import (Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, wait_ready_sensors)
 
 from utils.driver   import init_d, follow_line
-from utils.turning  import init_t, turn_until
+from utils.turning  import init_t, turn_until, turn_90_deg
 
 # ---------------------------------------------------- #
 GYRO_SENSOR         = EV3GyroSensor(4)
@@ -26,4 +26,4 @@ if __name__ == "__main__":
     init_t(*INITIALIZER)
 
     follow_line(84.5 + 5)
-    turn_until('left', colors=["Black"])
+    turn_90_deg('left')
