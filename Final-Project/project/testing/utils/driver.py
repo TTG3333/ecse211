@@ -35,7 +35,7 @@ MAX_SLOPE = 20
 
 # ---------------------------------------------------- #
 
-def ini_d(color, gyro, ultrasonic, right_m, left_m):
+def init_d(color, gyro, ultrasonic, right_m, left_m):
     global GYRO_SENSOR, COLOR_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
     GYRO_SENSOR = gyro
     COLOR_SENSOR = color
