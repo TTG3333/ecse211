@@ -21,7 +21,7 @@ INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_M
 # ---------------------------------------------------- #
 
 def room_procedure():
-    turn_until_original(direction='left')
+    turn_until(direction='left', until_colors=["Black"], after_dt=0.5)
     follow_line(until_colors=["Orange"])
     ## Scan room
     turn_until(direction='left', colors=["Black"])
