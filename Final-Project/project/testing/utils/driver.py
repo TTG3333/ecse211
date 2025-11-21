@@ -55,28 +55,28 @@ def _drive_offset(offset=0):
 
 # ---------------------------------------------------- #
 
-def drive_straight_until(distance=None, colors=None):
+def drive_straight_until(until_distance=None, until_colors=None):
     noiser = dNoise(MAX_SLOPE)
     _drive_straight()
 
     while True:
-        if colors:
+        if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
-            if str(color) in colors:
+            if str(color) in until_colors:
                 if not COLOR_CERTAINTY or color.is_certain():
                     break
 
-        if distance is not None:
+        if until_distance is not None:
             dist = US_SENSOR.get_value()
             if noiser.add(dist):
-                if noiser.get() < distance:
+                if noiser.get() < until_distance:
                     break
 
         sleep(POLLING_SPEED)
 
     stop()
 
-def follow_line(distance=5, colors=None):
+def follow_line(until_distance=5, until_colors=None):
     noiser = dNoise(MAX_SLOPE)
 
     while True:
@@ -91,12 +91,12 @@ def follow_line(distance=5, colors=None):
             _drive_straight()
 
         if noiser.add(US_SENSOR.get_value()):
-            if noiser.get() < distance:
+            if noiser.get() < until_distance:
                 break
 
-        if colors:
+        if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
-            if str(color) in colors:
+            if str(color) in until_colors:
                 if not COLOR_CERTAINTY or color.is_certain():
                     break
 

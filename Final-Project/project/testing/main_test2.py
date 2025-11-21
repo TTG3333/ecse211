@@ -25,6 +25,6 @@ if __name__ == "__main__":
     init_d(*INITIALIZER)
     init_t(*INITIALIZER)
 
-    follow_line(80.5)
+    follow_line(until_distance=80.5)
     turn_90_deg('left')
-    follow_line()
+    follow_line(until_colors=["Orange"])

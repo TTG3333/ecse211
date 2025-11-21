@@ -39,10 +39,7 @@ def _get_rotation():
 
 # ---------------------------------------------------- #
 
-def turn_angle(deg, direction='left', colors=None):
-    if not colors:
-        colors = []
-
+def turn_angle(deg, direction='left', until_colors=None):
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
    
@@ -54,9 +51,9 @@ def turn_angle(deg, direction='left', colors=None):
         if current > deg:
             break
         
-        if colors:
+        if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
-            if str(color) in colors and (not COLOR_CERTAINTY or color.is_certain()):
+            if str(color) in until_colors and (not COLOR_CERTAINTY or color.is_certain()):
                 break
 
             
