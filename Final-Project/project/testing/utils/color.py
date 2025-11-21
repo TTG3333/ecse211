@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-    Main helper used for driving.
+    Main helper for color reading.
 
     Before using, please use wait_ready_sensors in another file.
 '''
