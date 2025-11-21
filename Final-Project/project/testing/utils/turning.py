@@ -24,10 +24,20 @@ COLOR_CERTAINTY = True
 
 # ---------------------------------------------------- #
 
-global LEFT_MOTOR, RIGHT_MOTOR, GYRO_SENSOR, COLOR_SENSOR
+def init(color, gyro, ultrasonic, right_m, left_m):
+    global GYRO_SENSOR, COLOR_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
+    GYRO_SENSOR = gyro
+    COLOR_SENSOR = color
+    US_SENSOR = ultrasonic
+    LEFT_MOTOR = left_m
+    RIGHT_MOTOR = right_m
+
+# ---------------------------------------------------- #
 
 def _get_rotation():
     GYRO_SENSOR.get_abs_measure()
+
+# ---------------------------------------------------- #
 
 def turn_angle(deg, direction='left', colors=None):
     if not colors:

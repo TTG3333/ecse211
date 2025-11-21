@@ -34,9 +34,17 @@ COLOR_CERTAINTY = True
 MAX_SLOPE = 20
 
 # ---------------------------------------------------- #
-global US_SENSOR, COLOR_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
 
-# Configurable settings
+def init(color, gyro, ultrasonic, right_m, left_m):
+    global GYRO_SENSOR, COLOR_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
+    GYRO_SENSOR = gyro
+    COLOR_SENSOR = color
+    US_SENSOR = ultrasonic
+    LEFT_MOTOR = left_m
+    RIGHT_MOTOR = right_m
+    
+# ---------------------------------------------------- #
+
 def _drive_straight(multiplier=1):
     LEFT_MOTOR  .set_dps(-BASE_SPEED * multiplier)
     RIGHT_MOTOR .set_dps(-BASE_SPEED * multiplier)
@@ -44,6 +52,7 @@ def _drive_straight(multiplier=1):
 def _drive_offset(offset=0):
     LEFT_MOTOR  .set_dps(-BASE_SPEED + offset)
     RIGHT_MOTOR .set_dps(-BASE_SPEED - offset)
+
 # ---------------------------------------------------- #
 
 def drive_straight_until(distance=None, colors=None):
