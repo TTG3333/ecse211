@@ -55,9 +55,9 @@ def _drive_offset(offset=0):
 
 # ---------------------------------------------------- #
 
-def drive_straight(until_distance=None, until_colors=None, delay=None):
+def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False):
     noiser = dNoise(MAX_SLOPE)
-    _drive_straight()
+    _drive_straight(1 if not backwards else -1)
 
     while True:
         if until_colors:
@@ -68,7 +68,7 @@ def drive_straight(until_distance=None, until_colors=None, delay=None):
 
         if until_distance is not None:
             if noiser.add(US_SENSOR.get_value()):
-                if noiser.get() < until_distance:
+                if (not backwards and noiser.get() < until_distance) or (backwards and noiser.get() > until_distance):
                     break
 
         sleep(POLLING_SPEED)
