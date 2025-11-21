@@ -15,7 +15,7 @@ from utils.dnoise   import dNoise
 
 ## Speed Configurations
 BASE_SPEED      = 300
-ADJUST_SPEED    = 100
+ADJUST_SPEED    = 50
 
 ## Color Configurations
 WHITE_CONSTANT = 255
@@ -87,7 +87,7 @@ def follow_line(until_distance=8, until_colors=None, delay=None):
 
         max_range = TURNING_THRESHOLD_TOLERANCE
         normalized = max(-1, min(1, error / max_range))
-        offset = normalized * ADJUST_SPEED
+        offset = ADJUST_SPEED * normalized
 
         _drive_offset(offset)
 
