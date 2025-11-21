@@ -2,7 +2,7 @@
     Another main test file
 '''
 
-from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, wait_ready_sensors
+from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, TouchSensor, wait_ready_sensors
 
 from utils.driver   import init_d, follow_line
 from utils.turning  import init_t, turn_until_combined
@@ -11,9 +11,10 @@ from utils.turning  import init_t, turn_until_combined
 # Configurable settings
 
 # Sensors Configuration
-GYRO_SENSOR         = EV3GyroSensor(4)
 COLOR_SENSOR        = EV3ColorSensor(1)
+TOUCH_SENSOR        = TouchSensor(2)
 US_SENSOR           = EV3UltrasonicSensor(3)
+GYRO_SENSOR         = EV3GyroSensor(4)
 
 # Motor Configuration
 LEFT_MOTOR          = Motor("A")
