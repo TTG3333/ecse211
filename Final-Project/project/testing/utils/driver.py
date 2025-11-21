@@ -47,9 +47,6 @@ def _drive_offset(offset=0):
     RIGHT_MOTOR .set_dps(-BASE_SPEED - offset)
 
 def follow_line(distance=5):
-    if not colors:
-        colors = []
-
     noiser = dNoise(MAX_SLOPE)
 
     while True:
