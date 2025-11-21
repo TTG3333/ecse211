@@ -47,3 +47,19 @@ if __name__ == "__main__":
 
     follow_line()
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+
+    # --------------------------- #
+    # Enter Room 3
+    follow_line(until_distance=32.5)
+    room_procedure()
+    # --------------------------- #
+
+    follow_line()
+    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+
+    # --------------------------- #
+    # Enter Room 4
+    follow_line(until_distance=32.5)
+    room_procedure()
+    # --------------------------- #
+
