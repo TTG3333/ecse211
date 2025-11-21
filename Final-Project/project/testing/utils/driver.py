@@ -76,7 +76,7 @@ def drive_straight_until(distance=None, colors=None):
 
     stop()
 
-def follow_line(distance = 5):
+def follow_line(distance=5, colors=None):
     noiser = dNoise(MAX_SLOPE)
 
     while True:
@@ -93,6 +93,12 @@ def follow_line(distance = 5):
         if noiser.add(US_SENSOR.get_value()):
             if noiser.get() < distance:
                 break
+
+        if colors:
+            color = Color(*COLOR_SENSOR.get_rgb())
+            if str(color) in colors:
+                if not COLOR_CERTAINTY or color.is_certain():
+                    break
 
         sleep(POLLING_SPEED)
 
