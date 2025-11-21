@@ -7,6 +7,7 @@
 '''
 
 from time           import sleep
+from utils.color    import Color
 from utils.dnoise   import dNoise
 
 # ---------------------------------------------------- #
@@ -32,9 +33,7 @@ COLOR_CERTAINTY = True
 ## dNoise Derivative Behavior
 MAX_SLOPE = 20
 
-# #################### #
 # ---------------------------------------------------- #
-
 global US_SENSOR, COLOR_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
 
 # Configurable settings
@@ -45,8 +44,30 @@ def _drive_straight(multiplier=1):
 def _drive_offset(offset=0):
     LEFT_MOTOR  .set_dps(-BASE_SPEED + offset)
     RIGHT_MOTOR .set_dps(-BASE_SPEED - offset)
+# ---------------------------------------------------- #
 
-def follow_line(distance=5):
+def drive_straight_until(distance=None, colors=None):
+    noiser = dNoise(MAX_SLOPE)
+    _drive_straight()
+
+    while True:
+        if colors:
+            color = Color(*COLOR_SENSOR.get_rgb())
+            if str(color) in colors:
+                if not COLOR_CERTAINTY or color.is_certain():
+                    break
+
+        if distance is not None:
+            dist = US_SENSOR.get_value()
+            if noiser.add(dist):
+                if noiser.get() < distance:
+                    break
+
+        sleep(POLLING_SPEED)
+
+    stop()
+
+def follow_line(distance = 5):
     noiser = dNoise(MAX_SLOPE)
 
     while True:
@@ -64,6 +85,8 @@ def follow_line(distance=5):
                 break
 
         sleep(POLLING_SPEED)
+
+    stop()
 
 # -- Wrappers ----------------------
 def stop():
