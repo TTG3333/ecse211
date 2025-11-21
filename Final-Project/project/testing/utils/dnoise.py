@@ -1,46 +1,48 @@
-import time
+#!/usr/bin/env python3
+
+'''
+    Derivative based cache.
+'''
+
+from time           import monotonic
+
+# ---------------------------------------------------- #
 
 class dNoise:
-    def __init__(self, max_slope, max):
-        self.max = max
+    def __init__(self, max_slope):
         self.max_slope = max_slope
-        self.clear()
+        self.last = None
+        self.time = monotonic()
 
     def add(self, val):
-        '''
-        Adds a value to the buffer only if the derivative between that 
-            value and the last one is acceptable
-        '''
-        current = time.monotonic()
-        dt = current - self.time
+        current = monotonic()
 
-        if not self.values:
-            self.values.append(val)
-            return
-        
-        latest = self.values[len(self.values) - 1]
-        if abs(val - latest) / dt > self.max_slope:
-            return False
-        
-        self.values.append(val)
+        if self.last is not None:
+            dt = current - self.time
+            if dt > 0:
+                if abs(val - self.last) / dt > self.max_slope:
+                    return False
+
+        self.last = val
         self.time = current
-        if len(self.values) > self.max:
-            self.values.pop(0)
-
         return True
-    
+
     def derivative(self, value):
-        dt = time.monotonic() - self.time
-        if not self.values:
+        if self.last is None:
             return 0
 
-        latest = self.values[len(self.values) - 1]
-        return abs(value - latest) / dt
-    
-    def clear(self):
-        self.values = []
-        self.time = time.monotonic()
+        dt = monotonic() - self.time
+        if dt == 0:
+            return 0
 
-    def median(self):
-        vals = sorted(self.values)
-        return vals[len(vals) // 2]
+        return abs(value - self.last) / dt
+
+    def clear(self):
+        self.last = None
+        self.time = monotonic()
+
+    def get(self):
+        return self.last
+
+    def __call__(self):
+        return self.get()

@@ -1,5 +1,15 @@
-import math
-import csv
+#!/usr/bin/env python3
+
+'''
+    Main helper used for driving.
+
+    Before using, please use wait_ready_sensors in another file.
+'''
+
+from math       import sin, cos, sqrt, radians
+from csv        import reader
+
+# ---------------------------------------------------- #
 
 class Color:
     # Configurable Parameters
@@ -54,27 +64,27 @@ class Color:
 
             # Hard coded results
             if self.value < self.VALUE_THRESHOLD_BLACK:
-                return ("Black", 1)
+                self._prediction = ("Black", 1)
             elif self.saturation < self.SATURATION_THRESHOLD_WHITE:
-                return ("White", 1)
+                self._prediction = ("White", 1)
+            else:
+                for ref, label in Color.colors:
+                    viewed_vector = ref.hue_vect()
 
-            for ref, label in Color.colors:
-                viewed_vector = ref.hue_vect()
+                    dist = sqrt(
+                        (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
+                        (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
+                        (self.value - ref.value) ** 2              # Value
+                    )
 
-                dist = math.sqrt(
-                    (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
-                    (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
-                    (self.value - ref.value) ** 2              # Value
-                )
+                    if label not in distances or dist < distances[label]:
+                        distances[label] = dist
 
-                if label not in distances or dist < distances[label]:
-                    distances[label] = dist
+                sorted_labels = sorted(distances.items(), key=lambda x: x[1])
+                (label1, dist1), (_, dist2) = sorted_labels[:2]
 
-            sorted_labels = sorted(distances.items(), key=lambda x: x[1])
-            (label1, dist1), (_, dist2) = sorted_labels[:2]
-
-            certainty = 1 - (dist1 / dist2) ** self.CONFIDENCE_EXPONENT
-            self._prediction = (label1, certainty)
+                certainty = 1 - (dist1 / dist2) ** self.CONFIDENCE_EXPONENT
+                self._prediction = (label1, certainty)
 
         return self._prediction
     
@@ -96,8 +106,8 @@ class Color:
         '''
         Constructs the hue vector
         '''
-        h0 = math.cos(math.radians(self.hue))
-        h1 = math.sin(math.radians(self.hue))
+        h0 = cos(radians(self.hue))
+        h1 = sin(radians(self.hue))
         return (h0, h1)
     
     def __str__(self):
@@ -111,10 +121,10 @@ class Color:
 Color.colors = []
 
 with open(Color.DATASET_DIR) as colors:
-    reader = csv.reader(colors)
-    next(reader) # Ignore header
+    rd = reader(colors)
+    next(rd) # Ignore header
 
-    for r,g,b,label in reader:
+    for r,g,b,label in rd:
         Color.colors.append([
             Color(int(r),int(g),int(b)),
             label

@@ -3,40 +3,54 @@
 '''
     Main helper used for turning.
     Provides useful functions for turning.
+
+    Before using, please use wait_ready_sensors in another file.
 '''
 
-from utils.color import Color
+from time           import sleep
+from utils.color    import Color
 
+# ---------------------------------------------------- #
 # Configurable settings
 
+## Turning Configurations
 TURN_SPEED = 100
 
-# #################### #
+## Polling Configurations
+POLLING_SPEED = 0.02
+
+## Certainty Behavior
+COLOR_CERTAINTY = True
+
+# ---------------------------------------------------- #
 
 global LEFT_MOTOR, RIGHT_MOTOR, GYRO_SENSOR, COLOR_SENSOR
 
-def get_rotation():
+def _get_rotation():
     GYRO_SENSOR.get_abs_measure()
 
 def turn_angle(deg, direction='left', colors=None):
     if not colors:
         colors = []
 
-    offset = get_rotation()
+    offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
    
     LEFT_MOTOR  .set_dps(TURN_SPEED * i)
     RIGHT_MOTOR .set_dps(TURN_SPEED * i * -1)
 
     while True:
-        current = abs(get_rotation() - offset)
+        current = abs(_get_rotation() - offset)
         if current > deg:
             break
         
         if colors:
             color = Color(*COLOR_SENSOR.get_rgb())
-            if str(color) in colors:
+            if str(color) in colors and (not COLOR_CERTAINTY or color.is_certain()):
                 break
+
+            
+        sleep(POLLING_SPEED)
 
     LEFT_MOTOR.set_dps(0)
     RIGHT_MOTOR.set_dps(0)
