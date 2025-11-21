@@ -7,7 +7,7 @@
     Before using, please use wait_ready_sensors in another file.
 '''
 
-from time           import sleep
+from time           import sleep, monotonic
 from utils.color    import Color
 
 # ---------------------------------------------------- #
@@ -43,38 +43,25 @@ def _begin_turn(multiplier=1):
 
 # ---------------------------------------------------- #
 
-def turn_angle(deg, direction='left', until_colors=None):
+def turn_angle(deg, direction='left', until_colors=None, after_dt=0):
+    t0 = monotonic()
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
     _begin_turn(i)
 
     while True:
-        current = abs(_get_rotation() - offset)
-        if current > deg:
-            break
-        
-        if until_colors:
-            color = Color(*COLOR_SENSOR.get_rgb())
-            if str(color) in until_colors and (not COLOR_CERTAINTY or color.is_certain()):
+        if (monotonic() - t0) > after_dt:
+            current = abs(_get_rotation() - offset)
+            if current > deg:
                 break
+            
+            if until_colors:
+                color = Color(*COLOR_SENSOR.get_rgb())
+                if str(color) in until_colors and (not COLOR_CERTAINTY or color.is_certain()):
+                    break
 
         sleep(POLLING_SPEED)
 
-    stop()
-
-def turn_until_original(direction='left'):
-    changed = False
-    original = Color(*COLOR_SENSOR.get_rgb())
-
-    while True:
-        color = Color(*COLOR_SENSOR.get_rgb())
-        if changed and str(color) == str(original):
-            break
-        else:
-            changed = True
-
-        sleep(POLLING_SPEED)
-    
     stop()
 
 # -- Wrappers ----------------------
