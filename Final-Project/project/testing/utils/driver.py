@@ -14,7 +14,7 @@ from utils.dnoise   import dNoise
 # Configurable settings
 
 ## Speed Configurations
-BASE_SPEED      = 300
+BASE_SPEED      = 250
 ADJUST_SPEED    = 50
 
 ## Color Configurations
