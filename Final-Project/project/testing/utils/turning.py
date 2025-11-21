@@ -24,7 +24,7 @@ COLOR_CERTAINTY = True
 
 # ---------------------------------------------------- #
 
-def init_t(color, gyro, ultrasonic, right_m, left_m):
+def init_t(color, gyro, ultrasonic, right_m, left_m, package_m):
     global GYRO_SENSOR, COLOR_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
     GYRO_SENSOR = gyro
     COLOR_SENSOR = color

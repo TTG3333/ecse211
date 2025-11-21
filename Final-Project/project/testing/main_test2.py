@@ -17,10 +17,11 @@ US_SENSOR           = EV3UltrasonicSensor(3)
 
 # Motor Configuration
 LEFT_MOTOR          = Motor("A")
+PACKAGE_MOTOR       = Motor("B")
 RIGHT_MOTOR         = Motor("D")
 
 # Initialization Configuration
-INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR)
+INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR, PACKAGE_MOTOR)
 
 # Outline Configuration
 ROOMS               = [[82, 33], [33], [33], []]
