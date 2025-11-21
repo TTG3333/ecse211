@@ -26,7 +26,7 @@ def room_procedure():
     ## Scan room
     turn_until(direction='right', until_colors=["Black"])
     follow_line(until_distance=8)
-    turn_until(direction='left', until_colors=["Black"])
+    turn_until(direction='left', until_colors=["Black"], delay=0.5)
 
 if __name__ == "__main__":  
     wait_ready_sensors()
@@ -37,4 +37,5 @@ if __name__ == "__main__":
     # Enter Room 1
     follow_line(until_distance=81)
     room_procedure()
+    follow_line(until_distance=32)
     # --------------------------- #

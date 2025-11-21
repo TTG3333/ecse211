@@ -43,7 +43,7 @@ def _begin_turn(multiplier=1):
 
 # ---------------------------------------------------- #
 
-def turn_angle(deg, direction='left', until_colors=None, after_dt=0):
+def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None):
     t0 = monotonic()
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
@@ -62,6 +62,9 @@ def turn_angle(deg, direction='left', until_colors=None, after_dt=0):
 
         sleep(POLLING_SPEED)
 
+    if delay:
+        sleep(delay)
+
     stop()
 
 # -- Wrappers ----------------------
@@ -71,8 +74,8 @@ def turn_90_deg(direction='left'):
 def turn_180_deg(direction='left'):
     turn_angle(180, direction)
 
-def turn_until(direction='left', until_colors=None, after_dt=0):
-    turn_angle(360, direction, until_colors, after_dt)
+def turn_until(direction='left', until_colors=None, after_dt=0, delay=None):
+    turn_angle(360, direction, until_colors, after_dt, delay)
 
 def stop():
     _begin_turn(0)

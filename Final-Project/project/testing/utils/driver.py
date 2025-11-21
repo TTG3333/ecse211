@@ -55,7 +55,7 @@ def _drive_offset(offset=0):
 
 # ---------------------------------------------------- #
 
-def drive_straight_until(until_distance=None, until_colors=None):
+def drive_straight(until_distance=None, until_colors=None, delay=None):
     noiser = dNoise(MAX_SLOPE)
     _drive_straight()
 
@@ -73,9 +73,12 @@ def drive_straight_until(until_distance=None, until_colors=None):
 
         sleep(POLLING_SPEED)
 
+    if delay:
+        sleep(delay)
+
     stop()
 
-def follow_line(until_distance=5, until_colors=None):
+def follow_line(until_distance=8, until_colors=None, delay=None):
     noiser = dNoise(MAX_SLOPE)
 
     while True:
@@ -100,6 +103,9 @@ def follow_line(until_distance=5, until_colors=None):
                     break
 
         sleep(POLLING_SPEED)
+
+    if delay:
+        sleep(delay)
 
     stop()
 
