@@ -37,5 +37,10 @@ if __name__ == "__main__":
     # Enter Room 1
     follow_line(until_distance=81)
     room_procedure()
+    # --------------------------- #
+
+    # --------------------------- #
+    # Enter Room 2
     follow_line(until_distance=32)
+    room_procedure()
     # --------------------------- #
