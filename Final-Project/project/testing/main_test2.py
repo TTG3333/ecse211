@@ -25,5 +25,5 @@ if __name__ == "__main__":
     init_d(*INITIALIZER)
     init_t(*INITIALIZER)
 
-    follow_line(84.5)
+    follow_line(84.5 + 5)
     turn_until('left', colors=["Black"])
