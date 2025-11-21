@@ -46,8 +46,8 @@ def turn_angle(deg, direction='left', colors=None):
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
    
-    LEFT_MOTOR  .set_dps(TURN_SPEED * i)
-    RIGHT_MOTOR .set_dps(TURN_SPEED * i * -1)
+    LEFT_MOTOR  .set_dps(TURN_SPEED * i * -1)
+    RIGHT_MOTOR .set_dps(TURN_SPEED * i)
 
     while True:
         current = abs(_get_rotation() - offset)
