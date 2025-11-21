@@ -37,14 +37,16 @@ def init_t(color, gyro, ultrasonic, right_m, left_m):
 def _get_rotation():
     return GYRO_SENSOR.get_abs_measure()
 
+def _begin_turn(multiplier=1):
+    LEFT_MOTOR  .set_dps(TURN_SPEED * multiplier * -1)
+    RIGHT_MOTOR .set_dps(TURN_SPEED * multiplier)
+
 # ---------------------------------------------------- #
 
 def turn_angle(deg, direction='left', until_colors=None):
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
-   
-    LEFT_MOTOR  .set_dps(TURN_SPEED * i * -1)
-    RIGHT_MOTOR .set_dps(TURN_SPEED * i)
+    _begin_turn(i)
 
     while True:
         current = abs(_get_rotation() - offset)
@@ -56,11 +58,21 @@ def turn_angle(deg, direction='left', until_colors=None):
             if str(color) in until_colors and (not COLOR_CERTAINTY or color.is_certain()):
                 break
 
-            
         sleep(POLLING_SPEED)
 
-    LEFT_MOTOR.set_dps(0)
-    RIGHT_MOTOR.set_dps(0)
+    stop()
+
+def turn_until_original(direction='left'):
+    original = Color(*COLOR_SENSOR.get_rgb())
+
+    while True:
+        color = Color(*COLOR_SENSOR.get_rgb())
+        if str(color) == str(original):
+            break
+
+        sleep(POLLING_SPEED)
+    
+    stop()
 
 # -- Wrappers ----------------------
 def turn_90_deg(direction='left'):
@@ -71,3 +83,6 @@ def turn_180_deg(direction='left'):
 
 def turn_until(direction='left', colors=None):
     turn_angle(360, direction, colors)
+
+def stop():
+    _begin_turn(0)

@@ -21,7 +21,7 @@ ADJUST_SPEED    = 30
 WHITE_CONSTANT = 255
 BLACK_CONSTANT = 18
 
-TURNING_THRESHOLD = (WHITE_CONSTANT + BLACK_CONSTANT) / 2 - 20
+TURNING_THRESHOLD = (WHITE_CONSTANT + BLACK_CONSTANT) / 2 - 10
 TURNING_THRESHOLD_TOLERANCE = 20
 
 ## Polling Configurations
@@ -84,9 +84,9 @@ def follow_line(until_distance=5, until_colors=None):
         print(lum)
 
         if lum < TURNING_THRESHOLD - TURNING_THRESHOLD_TOLERANCE:
-            _drive_offset(ADJUST_SPEED * -1)
+            _drive_offset(ADJUST_SPEED * -1)    # Turn right
         elif lum > TURNING_THRESHOLD + TURNING_THRESHOLD_TOLERANCE:
-            _drive_offset(ADJUST_SPEED)
+            _drive_offset(ADJUST_SPEED)         # Turn left
         else:
             _drive_straight()
 

@@ -7,7 +7,7 @@ from time           import sleep
 from utils.brick    import (Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, wait_ready_sensors)
 
 from utils.driver   import init_d, follow_line
-from utils.turning  import init_t, turn_until, turn_90_deg, turn_180_deg
+from utils.turning  import init_t, turn_until_original, turn_until, turn_90_deg, turn_180_deg
 
 # ---------------------------------------------------- #
 GYRO_SENSOR         = EV3GyroSensor(4)
@@ -21,12 +21,12 @@ INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_M
 # ---------------------------------------------------- #
 
 def room_procedure():
-    turn_90_deg('left')
+    turn_until_original(direction='left')
     follow_line(until_colors=["Orange"])
     ## Scan room
-    turn_180_deg('right')
-    follow_line(until_distance=13)
-    turn_90_deg('left')
+    turn_until(direction='left', colors=["Black"])
+    follow_line(until_distance=8)
+    turn_until(direction='left', colors=["Black"])
 
 if __name__ == "__main__":  
     wait_ready_sensors()
@@ -35,6 +35,6 @@ if __name__ == "__main__":
 
     # --------------------------- #
     # Enter Room 1
-    follow_line(until_distance=81)
+    follow_line(until_distance=80)
     room_procedure()
     # --------------------------- #
