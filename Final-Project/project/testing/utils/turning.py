@@ -63,12 +63,15 @@ def turn_angle(deg, direction='left', until_colors=None):
     stop()
 
 def turn_until_original(direction='left'):
+    changed = False
     original = Color(*COLOR_SENSOR.get_rgb())
 
     while True:
         color = Color(*COLOR_SENSOR.get_rgb())
-        if str(color) == str(original):
+        if changed and str(color) == str(original):
             break
+        else:
+            changed = True
 
         sleep(POLLING_SPEED)
     
