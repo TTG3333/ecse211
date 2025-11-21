@@ -81,7 +81,6 @@ def follow_line(until_distance=5, until_colors=None):
 
     while True:
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
-        print(lum)
 
         if lum < TURNING_THRESHOLD - TURNING_THRESHOLD_TOLERANCE:
             _drive_offset(ADJUST_SPEED * -1)    # Turn right
@@ -91,6 +90,7 @@ def follow_line(until_distance=5, until_colors=None):
             _drive_straight()
 
         if noiser.add(US_SENSOR.get_value()):
+            print(noiser.get())
             if noiser.get() < until_distance:
                 break
 
