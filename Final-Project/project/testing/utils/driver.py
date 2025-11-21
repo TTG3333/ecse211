@@ -14,8 +14,8 @@ from utils.dnoise   import dNoise
 # Configurable settings
 
 ## Speed Configurations
-BASE_SPEED      = 200
-ADJUST_SPEED    = 30
+BASE_SPEED      = 300
+ADJUST_SPEED    = 100
 
 ## Color Configurations
 WHITE_CONSTANT = 255
@@ -83,13 +83,13 @@ def follow_line(until_distance=8, until_colors=None, delay=None):
 
     while True:
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
+        error = lum - TURNING_THRESHOLD
 
-        if lum < TURNING_THRESHOLD - TURNING_THRESHOLD_TOLERANCE:
-            _drive_offset(ADJUST_SPEED * -1)    # Turn right
-        elif lum > TURNING_THRESHOLD + TURNING_THRESHOLD_TOLERANCE:
-            _drive_offset(ADJUST_SPEED)         # Turn left
-        else:
-            _drive_straight()
+        max_range = TURNING_THRESHOLD_TOLERANCE
+        normalized = max(-1, min(1, error / max_range))
+        offset = normalized * ADJUST_SPEED
+
+        _drive_offset(offset)
 
         if noiser.add(US_SENSOR.get_value()):
             print(noiser.get(), until_distance)

@@ -14,7 +14,7 @@ from utils.color    import Color
 # Configurable settings
 
 ## Turning Configurations
-TURN_SPEED = 100
+TURN_SPEED = 200
 
 ## Polling Configurations
 POLLING_SPEED = 0.02
