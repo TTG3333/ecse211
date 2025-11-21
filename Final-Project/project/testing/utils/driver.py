@@ -35,14 +35,14 @@ MAX_SLOPE = 20
 
 # ---------------------------------------------------- #
 
-def init(color, gyro, ultrasonic, right_m, left_m):
+def ini_d(color, gyro, ultrasonic, right_m, left_m):
     global GYRO_SENSOR, COLOR_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR
     GYRO_SENSOR = gyro
     COLOR_SENSOR = color
     US_SENSOR = ultrasonic
     LEFT_MOTOR = left_m
     RIGHT_MOTOR = right_m
-    
+
 # ---------------------------------------------------- #
 
 def _drive_straight(multiplier=1):
