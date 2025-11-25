@@ -78,6 +78,11 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
 
     stop()
 
+    if not delay:
+        return color if until_colors else None, noiser.get() if until_distance is not None else None
+    else:
+        return None, None
+
 def follow_line(until_distance=8, until_colors=None, delay=None):
     noiser = dNoise(MAX_SLOPE)
 
@@ -115,3 +120,8 @@ def stop():
 
 def drive_back():
     _drive_straight(-1)
+
+def drive_distance(distance, until_colors=None, delay=None, backwards=False):
+    current_distance = US_SENSOR.get_value()
+    target_distance = current_distance - distance if not backwards else current_distance + distance
+    return drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards)

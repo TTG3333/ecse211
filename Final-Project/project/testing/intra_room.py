@@ -2,7 +2,7 @@ from utils.brick import Motor, wait_ready_sensors, SensorError, EV3GyroSensor, E
 from math import pi, tan, sqrt, atan
 from utils.color import Color
 from package_delivery import move_to_next as deliver_package
-from sounds import play_collect, play_help
+from utils.sounds import play_collect, play_help
 import time
 import threading
 
