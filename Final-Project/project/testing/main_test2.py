@@ -6,6 +6,7 @@ from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSe
 
 from utils.driver   import init_d, follow_line
 from utils.turning  import init_t, turn_until_combined
+from utils.room     import init_r, handle_room
 
 # ---------------------------------------------------- #
 # Configurable settings
@@ -32,21 +33,23 @@ WALL_DISTANCE       = 8
 def room_procedure():
     turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
     follow_line(until_colors=["Orange"])
-    # [ Scan room here ]
+    delivered = handle_room()
     turn_until_combined(direction='right',  colors_list=[["Black"], ["White"]])
     follow_line(until_distance=WALL_DISTANCE)
     turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+    return delivered
 
 if __name__ == "__main__":  
     wait_ready_sensors()
     init_d(*INITIALIZER)
     init_t(*INITIALIZER)
+    init_r(*INITIALIZER)
 
     for line in ROOMS:
         for room_dist in line:
             # Follow the line and enter the room
             follow_line(until_distance=room_dist)
-            room_procedure()
+            print(f"Package delivered: {room_procedure()}")
 
         # No more rooms, navigate to the end of the line and turn left.
         follow_line()
