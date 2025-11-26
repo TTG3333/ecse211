@@ -4,11 +4,12 @@
 
 from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, TouchSensor, wait_ready_sensors
 
-from utils.driver   import init_d, follow_line
-from utils.turning  import init_t, turn_until_combined
-from utils.room     import init_r, handle_room
+from utils.driver   import init_d, follow_line, stop_moving
+from utils.turning  import init_t, turn_until_combined, stop_turning
+from utils.room     import init_r, handle_room, stop_room
 from utils.sounds   import play_clear, play_estop
 
+import simpleaudio  as sa
 from time           import sleep
 from threading      import Thread
 
@@ -31,12 +32,14 @@ INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_M
 
 # E-Stop Configuration
 ESTOP_POLL_SLEEP = 0.1
-FINISHED = False
 
 # Outline Configuration
 ROOMS               = [[82, 33], [33], [33], []]
 WALL_DISTANCE       = 8
+END_ROOM_DISTANCE   = 57.5
 # ---------------------------------------------------- #
+
+FINISHED = False
 
 def estop_handler():
     global FINISHED
@@ -44,8 +47,11 @@ def estop_handler():
         if FINISHED:
             break
         if TOUCH_SENSOR.is_pressed():
+            sa.stop_all()
             s = play_estop()
-            # Stop all subsystems
+            stop_moving()
+            stop_turning()
+            stop_room()
             s.wait_done()
             raise Exception
         sleep(ESTOP_POLL_SLEEP)
@@ -59,7 +65,7 @@ def room_procedure():
     turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
     return delivered
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     wait_ready_sensors()
     t = Thread(target=estop_handler)
     t.start()
@@ -76,4 +82,9 @@ if __name__ == "__main__":
         # No more rooms, navigate to the end of the line and turn left.
         follow_line()
         turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    follow_line(until_distance=END_ROOM_DISTANCE)
+    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    follow_line(until_colors=["Blue"], delay=3)
     FINISHED = True
+    play_clear().wait_done()
+    t.join()

@@ -9,6 +9,7 @@
 from time           import sleep
 from utils.color    import Color
 from utils.dnoise   import dNoise
+from sys            import exit
 
 # ---------------------------------------------------- #
 # Configurable settings
@@ -33,6 +34,9 @@ COLOR_CERTAINTY = True
 ## dNoise Derivative Behavior
 MAX_SLOPE = 20
 
+# E-Stop Handling
+STOP_MOVING = False
+
 # ---------------------------------------------------- #
 
 def init_d(color, gyro, ultrasonic, right_m, left_m, package_m):
@@ -55,12 +59,24 @@ def _drive_offset(offset=0):
 
 # ---------------------------------------------------- #
 
+def stop_moving():
+    global STOP_MOVING
+    STOP_MOVING = True
+    LEFT_MOTOR  .set_dps(0)
+    RIGHT_MOTOR .set_dps(0)
+
+# ---------------------------------------------------- #
+
 def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False):
+    if STOP_MOVING:
+        exit()
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
     _drive_straight(1 if not backwards else -1)
 
     while True:
+        if STOP_MOVING:
+            exit()
         if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
             if str(color) in until_colors:
@@ -78,6 +94,8 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
         sleep(delay)
 
     stop()
+    if STOP_MOVING:
+        exit()
 
     if not delay:
         return noiser.get() if until_distance is not None else None, color if until_colors else None
@@ -85,10 +103,14 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
         return None, None
 
 def follow_line(until_distance=8, until_colors=None, delay=None):
+    if STOP_MOVING:
+        exit()
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
 
     while True:
+        if STOP_MOVING:
+            exit()
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
         error = lum - TURNING_THRESHOLD
 
@@ -115,6 +137,8 @@ def follow_line(until_distance=8, until_colors=None, delay=None):
         sleep(delay)
 
     stop()
+    if STOP_MOVING:
+        exit()
 
 # -- Wrappers ----------------------
 def stop():

@@ -34,6 +34,9 @@ HALF_WALL = 12
 BASE_SPEED = -100
 TURN_SPEED = 100
 
+# E-Stop Handling
+STOP_ROOM = False
+
 # ---------------------------------------------------- #
 
 def init_r(color, gyro, ultrasonic, right_m, left_m, package_m):
@@ -48,13 +51,17 @@ def init_r(color, gyro, ultrasonic, right_m, left_m, package_m):
 # ---------------------------------------------------- #
 
 def _deliver_package():
-    # Calculate the number of degres to turn
+    if STOP_ROOM:
+        exit()
+    # Calculate the number of degrees to turn
     degrees = DISTANCE_PER_CUBE / BELT_CIRCUMFERENCE * 360
 
     # Move the belt motor
     PACKAGE_MOTOR.set_limits(dps=90)
     PACKAGE_MOTOR.set_position_relative(-degrees)
     sleep(degrees/90 + 0.25)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
+    if STOP_ROOM:
+        exit()
 
 def _distance_to_wall(deg): # in cm
     if deg < atan(2) * 180 / pi:
@@ -63,6 +70,13 @@ def _distance_to_wall(deg): # in cm
         return 2*HALF_WALL * sqrt(1 + tan(pi * abs(90-deg) / 180)**2)
     else:
         return HALF_WALL * sqrt(1 + tan(pi * (180 - deg) / 180)**2)
+
+# ---------------------------------------------------- #
+
+def stop_room():
+    global STOP_ROOM
+    STOP_ROOM = True
+    PACKAGE_MOTOR.set_dps(0)
 
 # ---------------------------------------------------- #
 
