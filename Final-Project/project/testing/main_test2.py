@@ -57,7 +57,7 @@ def room_procedure():
     delivered = handle_room()
 
     # Turn back to exit the room
-    turn_until_combined(direction='right',  colors_list=[["Black"], ["White"]])
+    turn_until(direction='right',  colors_list=[["Black"], ["White"]])
     follow_line(until_distance=WALL_DISTANCE)
     
     # Get back on the original path

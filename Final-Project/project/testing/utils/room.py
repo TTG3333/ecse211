@@ -19,7 +19,7 @@ from math           import pi, sqrt, tan, atan
 
 # Turning Configurations
 START_ANGLE = -30
-END_ANGLE   = 35
+END_ANGLE   = 30
 ANGLE_STEP  = 5
 
 # Certainty Behavior
@@ -101,10 +101,10 @@ def handle_room():
         print(f"\n Currently at {current}, going to {desired} by turning {add} degrees")
 
         turn_angle(abs(add), direction='left' if add < 0 else 'right')
-        dist = _distance_to_wall(90 + desired)
+        #dist = _distance_to_wall(90 + desired)
 
         # The square is at least 2 inches away from the wall
-        traveled, color = drive_distance(dist - 7, until_colors=["White", "Green", "Black", "Blue"])
+        traveled, color = drive_distance(None, until_colors=["White", "Green", "Black", "Blue"])
 
         # If green square detected
         if str(color) == "Green":
@@ -114,9 +114,11 @@ def handle_room():
             play_collect().wait_done()
             drive_distance(8)
 
-        dist = drive_distance(traveled, backwards=True, until_colors=["Yellow"])
+        (dist, _) = drive_distance(traveled, backwards=True, until_colors=["Yellow"])
         drive_distance(traveled - dist, backwards=True, until_colors=["Orange", "White", "Black"])
         if delivered:
             break
+
+        drive_distance(traveled - dist, backwards=True, until_colors=["White", "Black"])
 
     return delivered
