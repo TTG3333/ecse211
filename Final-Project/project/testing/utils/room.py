@@ -83,7 +83,7 @@ def handle_room():
     # Start at -30, end at 30, sensor is clockwise
     for angle in range(START_ANGLE, END_ANGLE, ANGLE_STEP):
         print()
-        print(f"Currently at {GYRO_SENSOR.get_abs_measure() - zero}, going to {angle}")
+        print(f"Currently at {GYRO_SENSOR.get_abs_measure() - zero}, going to {angle} by turning {angle - (GYRO_SENSOR.get_abs_measure() - zero)} degrees")
         turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) < 0 else 'right')
         dist = _distance_to_wall(90 + angle)
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
@@ -105,5 +105,5 @@ def handle_room():
 
     # Exit facing on the black line, overshoot to the left of the line
     drive_distance(0.75, backwards=True, until_colors=["White", "Black", "Orange"])
-    turn_angle(270, direction='right', colors=["Black"])
+    turn_angle(270, direction='right', until_colors=["Black"])
     return delivered
