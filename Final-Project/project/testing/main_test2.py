@@ -70,7 +70,7 @@ def handle_crash(args):
 
     # Play Emergency Sound
     sa.stop_all()
-    play_estop().wait_done()
+    # play_estop().wait_done() # Play an emergency sound
 
     raise args.exc_value # Propagate error to close program
 
