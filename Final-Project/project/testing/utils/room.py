@@ -119,6 +119,6 @@ def handle_room():
         if delivered:
             break
 
-        drive_distance(traveled - dist, backwards=True, until_colors=["White", "Black"])
+    drive_distance(traveled - dist, backwards=True, until_colors=["White", "Black"])
 
     return delivered
