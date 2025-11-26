@@ -9,7 +9,7 @@
 
 from utils.color    import Color
 from utils.sounds   import play_collect
-from utils.driver   import drive_distance
+from utils.driver   import drive_distance, drive_straight
 from utils.turning  import turn_angle
 from time           import sleep
 from math           import pi, sqrt, tan, atan
@@ -105,7 +105,7 @@ def handle_room():
         #dist = _distance_to_wall(90 + desired)
 
         # The square is at least 2 inches away from the wall
-        traveled, color = drive_distance(None, until_colors=["White", "Green", "Black", "Blue"])
+        _, color = drive_straight(None, until_colors=["White", "Green", "Black", "Blue"])
 
         # If green square detected
         if not COLOR_CERTAINTY or color.is_certain():
@@ -117,11 +117,11 @@ def handle_room():
                 play_collect().wait_done()
                 drive_distance(8)
 
-        drive_distance(traveled, backwards=True, until_colors=["Yellow"])
-        drive_distance(None, backwards=True, until_colors=["Orange", "White", "Black"])
+        drive_straight(None, backwards=True, until_colors=["Yellow"])
+        drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])
         if delivered:
             break
     
-    drive_distance(None, backwards=True, until_colors=["White", "Black"])
+    drive_straight(None, backwards=True, until_colors=["White", "Black"])
 
     return delivered
