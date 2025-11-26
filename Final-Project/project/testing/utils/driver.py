@@ -57,6 +57,7 @@ def _drive_offset(offset=0):
 
 def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False):
     noiser = dNoise(MAX_SLOPE)
+    noiser.add(US_SENSOR.get_value())
     _drive_straight(1 if not backwards else -1)
 
     while True:
@@ -85,6 +86,7 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
 
 def follow_line(until_distance=8, until_colors=None, delay=None):
     noiser = dNoise(MAX_SLOPE)
+    noiser.add(US_SENSOR.get_value())
 
     while True:
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
