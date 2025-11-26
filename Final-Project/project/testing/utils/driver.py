@@ -124,4 +124,5 @@ def drive_back():
 def drive_distance(distance, until_colors=None, delay=None, backwards=False):
     current_distance = US_SENSOR.get_value()
     target_distance = current_distance - distance if not backwards else current_distance + distance
-    return drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards)
+    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards)
+    return abs(current_distance - dist), color

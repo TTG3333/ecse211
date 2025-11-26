@@ -17,16 +17,22 @@ from math           import pi, sqrt, tan, atan
 # ---------------------------------------------------- #
 # Configurable settings
 
-## Turning Configurations
-ANGLE_TURN = 1
+# Turning Configurations
+START_ANGLE = -30
+END_ANGLE   = 35
+ANGLE_STEP  = 5
 
-## Certainty Behavior
+# Certainty Behavior
 COLOR_CERTAINTY = True
 
-# All in cm
+# Measurements, all in cm
 BELT_CIRCUMFERENCE = 3.5 * pi
 DISTANCE_PER_CUBE = 2.5 + 0.8
 HALF_WALL = 12
+
+# Motor speeds, in dps
+BASE_SPEED = -100
+TURN_SPEED = 100
 
 # ---------------------------------------------------- #
 
@@ -63,14 +69,19 @@ def _distance_to_wall(deg): # in cm
 def handle_room():
     delivered = False
     _, color = drive_distance(5, until_colors=["Red", "Yellow"])
+
+    # If in a restricted room
     if color == 'Red':
         print("Restricted room detected, backing up.")
         turn_angle(270, direction='right', until_colors=["Black"])
         return delivered
+
+    # Not in a restricted room
     zero = GYRO_SENSOR.get_abs_measure()
     print(f"Entered room, starting scan from angle {zero} degrees.")
+
     # Start at -30, end at 30, sensor is clockwise
-    for angle in range(-30, 35, 5):
+    for angle in range(START_ANGLE, END_ANGLE, ANGLE_STEP):
         print()
         print(f"Currently at {GYRO_SENSOR.get_abs_measure() - zero}, going to {angle}")
         turn_angle(angle - (GYRO_SENSOR.get_abs_measure() - zero), direction='left' if angle - (GYRO_SENSOR.get_abs_measure() - zero) < 0 else 'right')
@@ -78,6 +89,8 @@ def handle_room():
         print(f"Angle: {angle}, Distance to wall: {dist} cm")
         # The square is at least 2 inches away from the wall
         traveled, color = drive_distance(dist - 7, until_colors=["White", "Green", "Black", "Blue"])
+
+        # If green square detected
         if color == "Green":
             delivered = True
             print("Green square detected, delivering package.")
@@ -87,7 +100,9 @@ def handle_room():
             drive_distance(8)
             drive_distance(traveled, backwards=True, until_colors=["Orange", "White", "Black"])
             break
+
         drive_distance(traveled, backwards=True, until_colors=["Orange", "White", "Black"])
+
     # Exit facing on the black line, overshoot to the left of the line
     drive_distance(0.75, backwards=True, until_colors=["White", "Black", "Orange"])
     turn_angle(270, direction='right', colors=["Black"])
