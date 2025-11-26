@@ -84,10 +84,11 @@ def handle_room():
     _, color = drive_distance(5, until_colors=["Red", "Yellow"])
 
     # If in a restricted room
-    if str(color) == 'Red':
-        print("Restricted room detected, backing up.")
-        turn_angle(185, direction='right', until_colors=["Black"])
-        return False
+    if not COLOR_CERTAINTY or color.is_certain():
+        if str(color) == 'Red':
+            print("Restricted room detected, backing up.")
+            turn_angle(185, direction='right', until_colors=["Black"])
+            return False
 
     # Not in a restricted room
     zero = GYRO_SENSOR.get_abs_measure()
@@ -107,18 +108,20 @@ def handle_room():
         traveled, color = drive_distance(None, until_colors=["White", "Green", "Black", "Blue"])
 
         # If green square detected
-        if str(color) == "Green":
-            delivered = True
-            drive_distance(8, backwards=True)
-            _deliver_package()
-            play_collect().wait_done()
-            drive_distance(8)
+        if not COLOR_CERTAINTY or color.is_certain():
+            if str(color) == "Green":
+                print("Found green! Delivering")
+                delivered = True
+                drive_distance(8, backwards=True)
+                _deliver_package()
+                play_collect().wait_done()
+                drive_distance(8)
 
-        (dist, _) = drive_distance(traveled, backwards=True, until_colors=["Yellow"])
-        drive_distance(traveled - dist, backwards=True, until_colors=["Orange", "White", "Black"])
+        drive_distance(traveled, backwards=True, until_colors=["Yellow"])
+        drive_distance(None, backwards=True, until_colors=["Orange", "White", "Black"])
         if delivered:
             break
     
-    drive_distance(traveled - dist, backwards=True, until_colors=["White", "Black"])
+    drive_distance(None, backwards=True, until_colors=["White", "Black"])
 
     return delivered
