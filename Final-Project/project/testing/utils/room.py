@@ -114,7 +114,8 @@ def handle_room():
             play_collect().wait_done()
             drive_distance(8)
 
-        drive_distance(traveled, backwards=True, until_colors=["Orange", "White", "Black"])
+        dist = drive_distance(traveled, backwards=True, until_colors=["Yellow"])
+        drive_distance(traveled - dist, backwards=True, until_colors=["Orange", "White", "Black"])
         if delivered:
             break
 
