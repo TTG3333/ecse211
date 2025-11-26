@@ -79,7 +79,7 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
     stop()
 
     if not delay:
-        return color if until_colors else None, noiser.get() if until_distance is not None else None
+        return noiser.get() if until_distance is not None else None, color if until_colors else None
     else:
         return None, None
 
