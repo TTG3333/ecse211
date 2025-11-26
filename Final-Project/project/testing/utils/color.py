@@ -31,9 +31,10 @@ class Color:
         '''
 
         # Default values for the color
-        self.r = r / 255
-        self.g = g / 255
-        self.b = b / 255
+        div = max(r,g,b)
+        self.r = r / div
+        self.g = g / div
+        self.b = b / div
 
         # Additional HSV values for the color
         cmax = max(self.r,self.g,self.b)

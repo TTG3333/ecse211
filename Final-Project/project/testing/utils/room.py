@@ -109,6 +109,7 @@ def handle_room():
 
         # If green square detected
         if not COLOR_CERTAINTY or color.is_certain():
+            print(color.predict())
             if str(color) == "Green":
                 print("Found green! Delivering")
                 delivered = True
