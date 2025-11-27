@@ -96,7 +96,7 @@ def main():
     follow_line(until_distance=END_ROOM_DISTANCE)
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
     follow_line(until_colors=["Orange"])
-    drive_straight(until_colors=["Blue"], delay=0.5)
+    drive_straight(until_colors=["Blue"], delay=1.5)
 
     # Play the clear sound and exit the program
     play_clear().wait_done()
@@ -104,7 +104,7 @@ def main():
 if __name__ == "__main__":
     # Wait for all initialization of sensors.
     wait_ready_sensors()
-    sleep(2)  # Small delay to ensure stability
+    sleep(2)  # Small delay to ensure stabilityà
 
     # Starts listening to the Emergency Stop
     threading.excepthook = handle_crash

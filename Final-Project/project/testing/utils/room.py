@@ -86,8 +86,8 @@ def handle_room():
 
     # Start at -30, end at 30, sensor is clockwise
     delivered = False
+    current = 0
     for desired in range(START_ANGLE, END_ANGLE, ANGLE_STEP):
-        current    = GYRO_SENSOR.get_abs_measure() - zero
         add        = desired - current
         print(f"\n Currently at {current}, going to {desired} by turning {add} degrees")
 
@@ -112,6 +112,7 @@ def handle_room():
         drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])
         if delivered:
             break
+        current = desired
     
     offset = GYRO_SENSOR.get_abs_measure() - zero
 
