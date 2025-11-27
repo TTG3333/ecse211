@@ -31,26 +31,26 @@ class Color:
         '''
 
         # Default values for the color
-        div = max(r,g,b)
+        div = max(r,g,b,255)
         self.r = r / div
         self.g = g / div
         self.b = b / div
 
         # Additional HSV values for the color
-        cmax = max(self.r,self.g,self.b)
-        cmin = min(self.r,self.g,self.b)
-        delta = (cmax - cmin)
+        M = max(self.r,self.g,self.b)
+        m = min(self.r,self.g,self.b)
+        delta = (M - m)
         
         # Cache system
         self._prediction = None
 
-        self.value = cmax
-        self.saturation = delta / cmax if cmax != 0 else 0
+        self.value = M
+        self.saturation = delta / M if M != 0 else 0
         
         self.hue = 60 * (
             0                                           if delta == 0
-                else ((self.g - self.b) / delta) % 6    if cmax == self.r
-                else ((self.b - self.r) / delta) + 2    if cmax == self.g
+                else ((self.g - self.b) / delta) % 6    if M == self.r
+                else ((self.b - self.r) / delta) + 2    if M == self.g
                 else ((self.r - self.g) / delta) + 4
         )
 
