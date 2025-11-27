@@ -38,7 +38,7 @@ WALL_DISTANCE       = 8
 END_ROOM_DISTANCE   = 57.5
 
 # Speed Configuration
-LINE_FOLLOWER_MULT = 1.2
+LINE_FOLLOWER_MULT = 1.1
 LINE_FOLLOWER_END_MULT = 1.3
 
 # Initialization Configuration
