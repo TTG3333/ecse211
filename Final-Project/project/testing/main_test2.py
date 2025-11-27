@@ -112,4 +112,4 @@ if __name__ == "__main__":
     t2 = threading.Thread(target=estop_handler, daemon=True)
     t2.start()
     t1.join()
-    exit()
+    t2.join()
