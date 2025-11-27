@@ -75,7 +75,7 @@ class Color:
                     dist = sqrt(
                         (viewed_vector[0] - self_vector[0]) ** 2 + # HueX
                         (viewed_vector[1] - self_vector[1]) ** 2 + # HueY
-                        (self.value       - ref.value     ) ** 2   # Value
+                        (self.value       - ref.value     ) ** 2 +  # Value
                         (self.saturation  - ref.saturation) ** 2   # Saturation
                     )
 

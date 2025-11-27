@@ -15,7 +15,7 @@ from sys            import exit
 # Configurable settings
 
 ## Speed Configurations
-BASE_SPEED      = 250
+BASE_SPEED      = 300
 ADJUST_SPEED    = 50
 
 ## Color Configurations
