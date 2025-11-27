@@ -9,7 +9,6 @@
 
 from time           import sleep, monotonic
 from utils.color    import Color
-from sys            import exit
 
 # ---------------------------------------------------- #
 # Configurable settings
@@ -48,24 +47,18 @@ def _begin_turn(multiplier=1):
 # ---------------------------------------------------- #
 
 def stop_turning():
-    global STOP_TURNING
-    STOP_TURNING = True
     LEFT_MOTOR  .set_dps(0)
     RIGHT_MOTOR .set_dps(0)
 
 # ---------------------------------------------------- #
 
 def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None):
-    if STOP_TURNING:
-        exit()
     t0 = monotonic()
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
     _begin_turn(i)
 
     while True:
-        if STOP_TURNING:
-            exit()
         if (monotonic() - t0) > after_dt:
             current = abs(_get_rotation() - offset)
             if current > deg:
@@ -82,8 +75,6 @@ def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None)
         sleep(delay)
 
     stop()
-    if STOP_TURNING:
-        exit()
 
 # -- Wrappers ----------------------
 def turn_90_deg(direction='left'):

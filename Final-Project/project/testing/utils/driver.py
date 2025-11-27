@@ -9,7 +9,6 @@
 from time           import sleep
 from utils.color    import Color
 from utils.dnoise   import dNoise
-from sys            import exit
 
 # ---------------------------------------------------- #
 # Configurable settings
@@ -34,9 +33,6 @@ COLOR_CERTAINTY = True
 ## dNoise Derivative Behavior
 MAX_SLOPE = 20
 
-# E-Stop Handling
-STOP_MOVING = False
-
 # ---------------------------------------------------- #
 
 def init_d(color, gyro, ultrasonic, right_m, left_m, package_m):
@@ -53,30 +49,24 @@ def _drive_straight(multiplier=1):
     LEFT_MOTOR  .set_dps(-BASE_SPEED * multiplier)
     RIGHT_MOTOR .set_dps(-BASE_SPEED * multiplier)
 
-def _drive_offset(offset=0):
-    LEFT_MOTOR  .set_dps(-BASE_SPEED + offset)
-    RIGHT_MOTOR .set_dps(-BASE_SPEED - offset)
+def _drive_offset(offset=0, multiplier=1):
+    LEFT_MOTOR  .set_dps((-BASE_SPEED + offset) * multiplier)
+    RIGHT_MOTOR .set_dps((-BASE_SPEED - offset) * multiplier)
 
 # ---------------------------------------------------- #
 
 def stop_moving():
-    global STOP_MOVING
-    STOP_MOVING = True
     LEFT_MOTOR  .set_dps(0)
     RIGHT_MOTOR .set_dps(0)
 
 # ---------------------------------------------------- #
 
-def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False):
-    if STOP_MOVING:
-        exit()
+def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False, speed_multiplier=1):
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
-    _drive_straight(1 if not backwards else -1)
+    _drive_straight(speed_multiplier if not backwards else -speed_multiplier)
 
     while True:
-        if STOP_MOVING:
-            exit()
         if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
             if str(color) in until_colors:
@@ -94,23 +84,17 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
         sleep(delay)
 
     stop()
-    if STOP_MOVING:
-        exit()
 
     if not delay:
         return noiser.get() if until_distance is not None else None, color if until_colors else None
     else:
         return None, None
 
-def follow_line(until_distance=8, until_colors=None, delay=None):
-    if STOP_MOVING:
-        exit()
+def follow_line(until_distance=8, until_colors=None, delay=None, speed_multiplier=1):
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
 
     while True:
-        if STOP_MOVING:
-            exit()
         lum = sum(COLOR_SENSOR.get_rgb()) / 3
         error = lum - TURNING_THRESHOLD
 
@@ -118,7 +102,7 @@ def follow_line(until_distance=8, until_colors=None, delay=None):
         normalized = max(-1, min(1, error / max_range))
         offset = ADJUST_SPEED * normalized
 
-        _drive_offset(offset)
+        _drive_offset(offset, speed_multiplier)
 
         if noiser.add(US_SENSOR.get_value()):
             print(noiser.get(), until_distance)
@@ -137,18 +121,16 @@ def follow_line(until_distance=8, until_colors=None, delay=None):
         sleep(delay)
 
     stop()
-    if STOP_MOVING:
-        exit()
 
 # -- Wrappers ----------------------
 def stop():
     _drive_straight(0)
 
-def drive_back():
-    _drive_straight(-1)
+def drive_back(multiplier=1):
+    _drive_straight(-multiplier)
 
-def drive_distance(distance, until_colors=None, delay=None, backwards=False):
+def drive_distance(distance, until_colors=None, delay=None, backwards=False, speed_multiplier=1):
     current_distance = US_SENSOR.get_value()
     target_distance = current_distance - distance if not backwards else current_distance + distance
-    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards)
+    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier)
     return abs(current_distance - dist), color
