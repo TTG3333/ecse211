@@ -31,8 +31,8 @@ DISTANCE_PER_CUBE = 2.5 + 0.8
 HALF_WALL = 12
 
 # Motor speeds, in dps
-BASE_SPEED = -300
-TURN_SPEED = 300
+BASE_SPEED = -100
+TURN_SPEED = 100
 
 # E-Stop Handling
 STOP_ROOM = False
@@ -87,6 +87,7 @@ def handle_room():
     if not COLOR_CERTAINTY or color.is_certain():
         if str(color) == 'Red':
             print("Restricted room detected, backing up.")
+            turn_angle(185, direction='right', until_colors=["Black"])
             return False
 
     # Not in a restricted room
@@ -123,7 +124,7 @@ def handle_room():
             break
     
     offset = GYRO_SENSOR.get_abs_measure() - zero
-    print(offset)
+
     turn_angle(abs(offset), direction='right' if offset < 0 else 'left')
 
     return delivered
