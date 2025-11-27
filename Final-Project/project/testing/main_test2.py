@@ -104,6 +104,7 @@ def main():
 if __name__ == "__main__":
     # Wait for all initialization of sensors.
     wait_ready_sensors()
+    sleep(2)  # Small delay to ensure stability
 
     # Starts listening to the Emergency Stop
     threading.excepthook = handle_crash
