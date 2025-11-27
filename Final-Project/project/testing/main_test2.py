@@ -107,12 +107,14 @@ def main():
         if (deliveries < 2 or restricteds < 1):
             follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
             turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+        else: 
+            break
 
     # Fastest path to the blue area
     if current_pos == 3: 
         # Case 1 - end after 3 rooms
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
-        follow_line()
+        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         follow_line(until_distance=END_ROOM_DISTANCE)
         turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
