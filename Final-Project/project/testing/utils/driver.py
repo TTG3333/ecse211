@@ -31,12 +31,11 @@ POLLING_SPEED = 0.02
 COLOR_CERTAINTY = True
 
 ## Adaptive Speed
-ADAPTIVE_SPEED = True
 DISTANCE_ERROR = 5
-ADAPTIVE_PERCENT = 0.5
+ADAPTIVE_PERCENT = 0.25
 
 ## dNoise Derivative Behavior
-MAX_SLOPE = 20
+MAX_SLOPE = 30
 
 # ---------------------------------------------------- #
 
@@ -66,7 +65,10 @@ def stop_moving():
 
 # ---------------------------------------------------- #
 
-def drive_straight(until_distance=None, until_colors=None, delay=None, backwards=False, speed_multiplier=1):
+def drive_straight(
+        until_distance=None, until_colors=None, delay=None, 
+        backwards=False, speed_multiplier=1, adaptive_speed=True
+):
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
     mult = 1 if not backwards else -1
@@ -85,7 +87,7 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
                 if (not backwards and noiser.get() < until_distance) or (backwards and noiser.get() > until_distance):
                     break
                 
-                if ADAPTIVE_SPEED:
+                if adaptive_speed:
                     diff = abs(noiser.get() - until_distance)
                     ratio = diff / DISTANCE_ERROR
                     if ratio < 1:
@@ -104,7 +106,10 @@ def drive_straight(until_distance=None, until_colors=None, delay=None, backwards
     else:
         return None, None
 
-def follow_line(until_distance=8, until_colors=None, delay=None, speed_multiplier=1):
+def follow_line(
+        until_distance=8, until_colors=None, delay=None, 
+        speed_multiplier=1, adaptive_speed=True
+):
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
 
@@ -122,7 +127,7 @@ def follow_line(until_distance=8, until_colors=None, delay=None, speed_multiplie
             if noiser.get() < until_distance:
                 break
 
-            if ADAPTIVE_SPEED:
+            if adaptive_speed:
                     diff = abs(noiser.get() - until_distance)
                     ratio = diff / DISTANCE_ERROR
                     if ratio < 1:
