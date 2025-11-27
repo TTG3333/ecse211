@@ -37,6 +37,10 @@ ROOMS               = [[82, 33], [33], [33], []]
 WALL_DISTANCE       = 8
 END_ROOM_DISTANCE   = 57.5
 
+# Speed Configuration
+LINE_FOLLOWER_MULT = 1.5
+LINE_FOLLOWER_END_MULT = 2
+
 # Initialization Configuration
 INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR, PACKAGE_MOTOR)
 # ---------------------------------------------------- #
@@ -86,11 +90,11 @@ def main():
     for line in ROOMS:
         for room_dist in line:
             # Follow the line and enter the room
-            follow_line(until_distance=room_dist)
+            follow_line(until_distance=room_dist, speed_multiplier=LINE_FOLLOWER_MULT)
             print(f"Package delivered: {room_procedure()}")
 
         # No more rooms in the line, navigate to the end of the line and turn left.
-        follow_line()
+        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
 
     # Navigate to the blue area
