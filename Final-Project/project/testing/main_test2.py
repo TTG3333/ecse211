@@ -2,7 +2,7 @@
     Another main test file
 '''
 
-from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, TouchSensor, wait_ready_sensors
+from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, TouchSensor, wait_ready_sensors, BP
 
 from utils.sounds   import play_clear, play_estop
 from utils.room     import init_r, handle_room, stop_room
@@ -73,6 +73,7 @@ def handle_crash(args):
     # Play Emergency Sound
     play_estop().wait_done()
 
+    BP.reset_all()
     _exit(1) # Propagate error to close program
 
 def main():
