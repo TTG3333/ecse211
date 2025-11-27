@@ -62,7 +62,7 @@ def room_procedure():
     delivery_status = handle_room()
 
     # Turn back to exit the room
-    turn_angle(177, direction='right')
+    turn_angle(180, direction='right')
     drive_straight(until_distance=WALL_DISTANCE)
     
     return delivery_status

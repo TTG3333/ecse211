@@ -56,14 +56,6 @@ def _deliver_package():
     PACKAGE_MOTOR.set_position_relative(-degrees)
     sleep(degrees/90 + 0.25)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
 
-def _distance_to_wall(deg): # in cm
-    if deg < atan(2) * 180 / pi:
-        return HALF_WALL * sqrt(1 + tan(pi * deg / 180)**2)
-    elif deg < 180 - atan(2) * 180 / pi:
-        return 2*HALF_WALL * sqrt(1 + tan(pi * abs(90-deg) / 180)**2)
-    else:
-        return HALF_WALL * sqrt(1 + tan(pi * (180 - deg) / 180)**2)
-
 # ---------------------------------------------------- #
 
 def stop_room():
@@ -110,12 +102,12 @@ def handle_room():
 
         drive_straight(None, backwards=True, until_colors=["Yellow"])
         drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])
+
         if delivered:
             break
         current = desired
     
-    # offset = GYRO_SENSOR.get_abs_measure() - zero
-    offset = 0 - current
+    offset = GYRO_SENSOR.get_abs_measure() - zero
 
     turn_angle(abs(offset), direction='right' if offset < 0 else 'left')
 

@@ -23,7 +23,7 @@ POLLING_SPEED = 0.02
 COLOR_CERTAINTY = True
 
 ## Adaptive Speed
-ANGLE_ERROR = 10
+ANGLE_ERROR = 5
 ADAPTIVE_PERCENT = 0.25
 
 # E-Stop Handling
