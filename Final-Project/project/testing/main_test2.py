@@ -109,9 +109,19 @@ def main():
             turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
 
     # Fastest path to the blue area
-    # if current_pos == 3:
-    follow_line(until_distance=END_ROOM_DISTANCE)
-    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    if current_pos == 3: 
+        # Case 1 - end after 3 rooms
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line()
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
+        turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    elif current_pos == 4:
+        # Case 2 - end after 4 rooms
+        turn_until_combined(direction='right',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
+        turn_until_combined(direction='right', colors_list=[["Black"], ["White"]])
+    
     follow_line(until_colors=["Orange"])
     drive_straight(until_colors=["Blue"], delay=1.5)
 
