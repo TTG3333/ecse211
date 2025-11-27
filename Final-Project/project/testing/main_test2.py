@@ -65,12 +65,12 @@ def room_procedure():
     return delivered
 
 def handle_crash(args):
-    # Stop all movement
+    # Stop all movement and sound
     stop_moving(); stop_turning(); stop_room()
+    sa.stop_all()
 
     # Play Emergency Sound
-    sa.stop_all()
-    # play_estop().wait_done() # Play an emergency sound
+    play_estop().wait_done()
 
     raise args.exc_value # Propagate error to close program
 
