@@ -107,9 +107,6 @@ if __name__ == "__main__":
 
     # Starts listening to the Emergency Stop
     threading.excepthook = handle_crash
-    t1 = threading.Thread(target=main, daemon=True)
-    t1.start()
-    t2 = threading.Thread(target=estop_handler, daemon=True)
-    t2.start()
-    t1.join()
-    t2.join()
+    t = threading.Thread(target=estop_handler, daemon=True)
+    t.start()
+    main()
