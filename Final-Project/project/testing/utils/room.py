@@ -78,7 +78,7 @@ def handle_room():
     if not COLOR_CERTAINTY or color.is_certain():
         if str(color) == 'Red':
             print("Restricted room detected, backing up.")
-            return False
+            return "restricted"
 
     # Not in a restricted room
     zero = GYRO_SENSOR.get_abs_measure()
@@ -119,4 +119,4 @@ def handle_room():
 
     turn_angle(abs(offset), direction='right' if offset < 0 else 'left')
 
-    return delivered
+    return ("delivered" if delivered else "empty")

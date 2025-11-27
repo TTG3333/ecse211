@@ -59,15 +59,13 @@ def room_procedure():
     follow_line(until_colors=["Orange"])
     
     # Scan the room and deliver package if applicable
-    delivered = handle_room()
+    delivery_status = handle_room()
 
     # Turn back to exit the room
-    turn_angle(180, direction='right')
+    turn_angle(177, direction='right')
     drive_straight(until_distance=WALL_DISTANCE)
     
-    # Get back on the original path
-    turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
-    return delivered
+    return delivery_status
 
 def handle_crash(args):
     # Stop all movement and sound
@@ -86,20 +84,44 @@ def main():
     init_t(*INITIALIZER)
     init_r(*INITIALIZER)
 
+    # Variables to determine if can end task early
+    deliveries = 0
+    restricteds = 0
+    current_pos = 0
+
     # Navigate through all the rooms 
     for line in ROOMS:
         for room_dist in line:
             # Follow the line and enter the room
             follow_line(until_distance=room_dist, speed_multiplier=LINE_FOLLOWER_MULT)
-            print(f"Package delivered: {room_procedure()}")
+            # print(f"Package delivered: {room_procedure()}")
+            delivery_status = room_procedure()
+            deliveries += 1 if delivery_status == "delivered" else 0
+            restricteds += 1 if delivery_status == "restricted" else 0
+            current_pos += 1
+            if (deliveries < 2 or restricteds < 1):
+                # Get back on the original path
+                turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
 
         # No more rooms in the line, navigate to the end of the line and turn left.
-        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
-        turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+        if (deliveries < 2 or restricteds < 1):
+            follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
+            turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
 
-    # Navigate to the blue area
-    follow_line(until_distance=END_ROOM_DISTANCE)
-    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    # Fastest path to the blue area
+    if current_pos == 3: 
+        # Case 1 - end after 3 rooms
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line()
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
+        turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    elif current_pos == 4:
+        # Case 2 - end after 4 rooms
+        turn_until_combined(direction='right',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
+        turn_until_combined(direction='right', colors_list=[["Black"], ["White"]])
+    
     follow_line(until_colors=["Orange"])
     drive_straight(until_colors=["Blue"], delay=1.5)
 
