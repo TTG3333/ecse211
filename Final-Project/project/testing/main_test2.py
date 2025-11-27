@@ -10,7 +10,7 @@ from utils.driver   import init_d, follow_line, stop_moving, drive_straight
 from utils.turning  import init_t, turn_until_combined, stop_turning, turn_angle
 
 from time           import sleep
-from sys            import exit
+from os             import _exit
 
 import threading
 import simpleaudio  as sa
@@ -73,7 +73,7 @@ def handle_crash(args):
     # Play Emergency Sound
     play_estop().wait_done()
 
-    raise args.exc_value # Propagate error to close program
+    _exit(1) # Propagate error to close program
 
 def main():
     # Initializes all subsystems
