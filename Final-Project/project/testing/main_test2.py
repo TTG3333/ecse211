@@ -102,7 +102,8 @@ if __name__ == "__main__":
     # Navigate to the blue area
     follow_line(until_distance=END_ROOM_DISTANCE)
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
-    follow_line(until_colors=["Blue"], delay=3)
+    follow_line(until_colors=["Orange"])
+    drive_straight(until_colors=["Blue"], delay=0.5)
 
     # Play the clear sound and exit the program
     play_clear().wait_done()
