@@ -10,6 +10,7 @@ from utils.driver   import init_d, follow_line, stop_moving, drive_straight
 from utils.turning  import init_t, turn_until_combined, stop_turning, turn_angle
 
 from time           import sleep
+from sys            import exit
 
 import threading
 import simpleaudio  as sa
@@ -74,15 +75,7 @@ def handle_crash(args):
 
     raise args.exc_value # Propagate error to close program
 
-if __name__ == "__main__":
-    # Wait for all initialization of sensors.
-    wait_ready_sensors()
-
-    # Starts listening to the Emergency Stop
-    threading.excepthook = handle_crash
-    t = threading.Thread(target=estop_handler, daemon=True)
-    t.start()
-
+def main():
     # Initializes all subsystems
     init_d(*INITIALIZER)
     init_t(*INITIALIZER)
@@ -107,3 +100,16 @@ if __name__ == "__main__":
 
     # Play the clear sound and exit the program
     play_clear().wait_done()
+
+if __name__ == "__main__":
+    # Wait for all initialization of sensors.
+    wait_ready_sensors()
+
+    # Starts listening to the Emergency Stop
+    threading.excepthook = handle_crash
+    t1 = threading.Thread(target=main, daemon=True)
+    t1.start()
+    t2 = threading.Thread(target=estop_handler, daemon=True)
+    t2.start()
+    t1.join()
+    exit()
