@@ -22,6 +22,10 @@ POLLING_SPEED = 0.02
 ## Certainty Behavior
 COLOR_CERTAINTY = True
 
+## Adaptive Speed
+ANGLE_ERROR = 5
+ADAPTIVE_PERCENT = 0.25
+
 # E-Stop Handling
 STOP_TURNING = False
 
@@ -52,7 +56,7 @@ def stop_turning():
 
 # ---------------------------------------------------- #
 
-def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None):
+def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=True):
     t0 = monotonic()
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
@@ -63,6 +67,13 @@ def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None)
             current = abs(_get_rotation() - offset)
             if current > deg:
                 break
+
+            if adaptive_speed:
+                diff = abs(current - deg)
+                ratio = diff / ANGLE_ERROR
+                if ratio < 1:
+                    factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
+                    _begin_turn(i * factor)
             
             if until_colors:
                 color = Color(*COLOR_SENSOR.get_rgb())
@@ -83,12 +94,12 @@ def turn_90_deg(direction='left'):
 def turn_180_deg(direction='left'):
     turn_angle(180, direction)
 
-def turn_until(direction='left', until_colors=None, after_dt=0, delay=None):
-    turn_angle(360, direction, until_colors, after_dt, delay)
+def turn_until(direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=None):
+    turn_angle(360, direction, until_colors, after_dt, delay, adaptive_speed)
 
-def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None):
+def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None, adaptive_speed=None):
     for colors in colors_list:
-        turn_until(direction, until_colors=colors, after_dt=after_dt, delay=delay)
+        turn_until(direction, until_colors=colors, after_dt=after_dt, delay=delay, adaptive_speed=adaptive_speed)
 
 def stop():
     _begin_turn(0)
