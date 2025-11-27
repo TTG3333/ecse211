@@ -6,8 +6,8 @@ from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSe
 
 from utils.sounds   import play_clear, play_estop
 from utils.room     import init_r, handle_room, stop_room
-from utils.driver   import init_d, follow_line, stop_moving
-from utils.turning  import init_t, turn_until_combined, stop_turning
+from utils.driver   import init_d, follow_line, stop_moving, drive_straight
+from utils.turning  import init_t, turn_until_combined, stop_turning, turn_angle
 
 from time           import sleep
 
@@ -57,8 +57,8 @@ def room_procedure():
     delivered = handle_room()
 
     # Turn back to exit the room
-    turn_until(direction='right',  colors_list=[["Black"], ["White"]])
-    follow_line(until_distance=WALL_DISTANCE)
+    turn_angle(180, direction='right')
+    drive_straight(until_distance=WALL_DISTANCE)
     
     # Get back on the original path
     turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])

@@ -123,6 +123,7 @@ def handle_room():
         if delivered:
             break
     
-    drive_straight(None, backwards=True, until_colors=["White", "Black"])
+    offset = GYRO_SENSOR.get_abs_measure() - zero
+    turn_angle(abs(offset), direction='left' if offset < 0 else 'right')
 
     return delivered
