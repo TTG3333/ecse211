@@ -114,7 +114,8 @@ def handle_room():
             break
         current = desired
     
-    offset = GYRO_SENSOR.get_abs_measure() - zero
+    # offset = GYRO_SENSOR.get_abs_measure() - zero
+    offset = 0 - current
 
     turn_angle(abs(offset), direction='right' if offset < 0 else 'left')
 
