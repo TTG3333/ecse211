@@ -87,7 +87,6 @@ def handle_room():
     if not COLOR_CERTAINTY or color.is_certain():
         if str(color) == 'Red':
             print("Restricted room detected, backing up.")
-            turn_angle(185, direction='right', until_colors=["Black"])
             return False
 
     # Not in a restricted room
