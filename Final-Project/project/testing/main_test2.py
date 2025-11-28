@@ -116,15 +116,18 @@ def main():
     # Fastest path to the blue area
     if current_pos == 3: 
         # Case 1 - end after 3 rooms
-        for ele in [LINE_FOLLOWER_END_MULT, END_ROOM_DISTANCE]:
-            turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
-            follow_line(speed_multiplier=ele)
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
         
     elif current_pos == 4:
         # Case 2 - end after 4 rooms
-        for ele in [LINE_FOLLOWER_END_MULT, LINE_FOLLOWER_END_MULT, END_ROOM_DISTANCE]:
-            turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
-            follow_line(speed_multiplier=ele)
+        for i in range(2):
+            turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+            follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        follow_line(until_distance=END_ROOM_DISTANCE)
         
     # Final stretch
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
