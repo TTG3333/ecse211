@@ -94,12 +94,12 @@ def turn_90_deg(direction='left'):
 def turn_180_deg(direction='left'):
     turn_angle(180, direction)
 
-def turn_until(direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=None):
-    turn_angle(360, direction, until_colors, after_dt, delay, adaptive_speed)
+def turn_until(direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=None, max_angle=360):
+    turn_angle(max_angle, direction, until_colors, after_dt, delay, adaptive_speed)
 
-def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None, adaptive_speed=None):
+def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None, adaptive_speed=None, max_angle=360):
     for colors in colors_list:
-        turn_until(direction, until_colors=colors, after_dt=after_dt, delay=delay, adaptive_speed=adaptive_speed)
+        turn_until(direction, until_colors=colors, after_dt=after_dt, delay=delay, adaptive_speed=adaptive_speed, max_angle=max_angle)
 
 def stop():
     _begin_turn(0)
