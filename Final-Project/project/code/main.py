@@ -71,11 +71,8 @@ def handle_crash(args):
     # Stop all movement and sound
     stop_moving(); stop_turning(); stop_room()
     sa.stop_all()
-
-    # Play Emergency Sound
-    play_estop().wait_done()
-
     BP.reset_all()
+
     _exit(1) # Propagate error to close program
 
 def main():
