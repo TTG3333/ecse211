@@ -35,7 +35,7 @@ DISTANCE_ERROR = 5
 ADAPTIVE_PERCENT = 0.25
 
 ## dNoise Derivative Behavior
-MAX_SLOPE = 40
+MAX_SLOPE = 
 
 # ---------------------------------------------------- #
 

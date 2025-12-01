@@ -95,10 +95,10 @@ def handle_room():
             if str(color) == "Green":
                 print("Found green! Delivering")
                 delivered = True
-                drive_distance(8, backwards=True)
+                drive_distance(8, backwards=True, precision=True)
                 _deliver_package()
                 play_collect().wait_done()
-                drive_distance(8)
+                drive_distance(8, precision=True)
 
         drive_straight(None, backwards=True, until_colors=["Yellow"])
         drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])
