@@ -29,6 +29,9 @@ LEFT_MOTOR          = Motor("A")
 PACKAGE_MOTOR       = Motor("B")
 RIGHT_MOTOR         = Motor("D")
 
+# Initial Configuration
+SENSOR_POLL_SLEEP = 0.1
+
 # E-Stop Configuration
 ESTOP_POLL_SLEEP = 0.1
 
@@ -152,6 +155,8 @@ if __name__ == "__main__":
     # Wait for all initialization of sensors.
     wait_ready_sensors()
     sleep(2)  # Small delay to ensure stability
+    while US_SENSOR.get_value() == 0:
+        sleep(SENSOR_POLL_SLEEP)
 
     # Starts listening to the Emergency Stop
     threading.excepthook = handle_crash
