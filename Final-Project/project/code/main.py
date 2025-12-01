@@ -121,7 +121,7 @@ def main():
         follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT) # Until the end of the line
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
 
     # Fastest path to the blue area
     if current_pos == 3: 
@@ -129,7 +129,7 @@ def main():
         print("Navigating to end from Room 3")
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
         
     elif current_pos == 4:
         # Case 3 - end after 4 rooms
@@ -138,11 +138,11 @@ def main():
         follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
         
     # Final stretch
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
-    follow_line(until_colors=["Orange"])
+    follow_line(until_colors=["Orange"], speed_multiplier=LINE_FOLLOWER_END_MULT)
     drive_straight(until_colors=["Blue"], delay=1.5)
 
     # Play the clear sound and exit the program
