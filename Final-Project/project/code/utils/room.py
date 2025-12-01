@@ -18,8 +18,8 @@ from math           import pi, sqrt, tan, atan
 # Configurable settings
 
 # Turning Configurations
-START_ANGLE = -50
-END_ANGLE   = 50
+START_ANGLE = -40
+END_ANGLE   = 40
 ANGLE_STEP  = 5
 
 # Certainty Behavior

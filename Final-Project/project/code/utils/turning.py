@@ -56,7 +56,7 @@ def stop_turning():
 
 # ---------------------------------------------------- #
 
-def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=True):
+def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=True, angle_after_color=None):
     t0 = monotonic()
     offset = _get_rotation()
     i = 1 if direction.lower() == "left" else -1
@@ -78,7 +78,11 @@ def turn_angle(deg, direction='left', until_colors=None, after_dt=0, delay=None,
             if until_colors:
                 color = Color(*COLOR_SENSOR.get_rgb())
                 if str(color) in until_colors and (not COLOR_CERTAINTY or color.is_certain()):
-                    break
+                    if angle_after_color:
+                        until_colors = [] # Reset array for future checks
+                        deg = current + angle_after_color
+                    else:
+                        break
 
         sleep(POLLING_SPEED)
 
@@ -94,8 +98,8 @@ def turn_90_deg(direction='left'):
 def turn_180_deg(direction='left'):
     turn_angle(180, direction)
 
-def turn_until(direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=None, max_angle=360):
-    turn_angle(max_angle, direction, until_colors, after_dt, delay, adaptive_speed)
+def turn_until(direction='left', until_colors=None, after_dt=0, delay=None, adaptive_speed=None, max_angle=360, angle_after_color=None):
+    turn_angle(max_angle, direction, until_colors, after_dt, delay, adaptive_speed, angle_after_color)
 
 def turn_until_combined(direction='left', colors_list=None, after_dt=0, delay=None, adaptive_speed=None, max_angle=360):
     for colors in colors_list:
