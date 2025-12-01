@@ -79,12 +79,13 @@ def handle_room():
     # Start at -30, end at 30, sensor is clockwise
     delivered = False
     current = 0
-    for desired in range(START_ANGLE, END_ANGLE, ANGLE_STEP):
-        add        = desired - current
-        print(f"\n Currently at {current}, going to {desired} by turning {add} degrees")
 
-        turn_angle(abs(add), direction='left' if add < 0 else 'right')
-        #dist = _distance_to_wall(90 + desired)
+    turn_angle(abs(START_ANGLE), direction='left')
+    start = GYRO_SENSOR.get_abs_measure()
+
+    for _ in range(START_ANGLE, END_ANGLE, ANGLE_STEP):
+        current += ANGLE_STEP
+        turn_angle(abs(ANGLE_STEP), direction='right')
 
         # The square is at least 2 inches away from the wall
         _, color = drive_straight(None, until_colors=["White", "Green", "Black", "Blue"])
@@ -105,7 +106,10 @@ def handle_room():
 
         if delivered:
             break
-        current = desired
+        
+        # Relative at the end
+        if abs(start - GYRO_SENSOR.get_abs_measure()) > abs(START_ANGLE - END_ANGLE):
+            break
     
     offset = GYRO_SENSOR.get_abs_measure() - zero
 
