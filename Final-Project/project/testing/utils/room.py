@@ -29,10 +29,13 @@ COLOR_CERTAINTY = True
 BELT_CIRCUMFERENCE = 3.5 * pi
 DISTANCE_PER_CUBE = 2.5 + 0.8
 HALF_WALL = 12
+WHEEL_CIRCUMFERENCE = 4 * pi
+GREEN_SQUARE_DISTANCE = 8
 
 # Motor speeds, in dps
-BASE_SPEED = -100
-TURN_SPEED = 100
+BASE_SPEED = -200
+
+WAIT_AFTER_MOVE = 0.1
 
 # ---------------------------------------------------- #
 
@@ -55,6 +58,15 @@ def _deliver_package():
     PACKAGE_MOTOR.set_limits(dps=90)
     PACKAGE_MOTOR.set_position_relative(-degrees)
     sleep(degrees/90 + 0.25)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
+
+def _move_distance(distance, backwards=False):
+    direction = -1 if not backwards else 1
+    LEFT_MOTOR.set_limits(dps=abs(BASE_SPEED))
+    RIGHT_MOTOR.set_limits(dps=abs(BASE_SPEED))
+    degrees = distance / WHEEL_CIRCUMFERENCE * 360 * direction
+    LEFT_MOTOR.set_position_relative(degrees)
+    RIGHT_MOTOR.set_position_relative(degrees)
+    sleep(degrees / abs(BASE_SPEED) + WAIT_AFTER_MOVE)
 
 # ---------------------------------------------------- #
 
@@ -95,10 +107,10 @@ def handle_room():
             if str(color) == "Green":
                 print("Found green! Delivering")
                 delivered = True
-                drive_distance(8, backwards=True, precision=True)
+                _move_distance(GREEN_SQUARE_DISTANCE, backwards=True)
                 _deliver_package()
                 play_collect().wait_done()
-                drive_distance(8, precision=True)
+                _move_distance(GREEN_SQUARE_DISTANCE, backwards=False)
 
         drive_straight(None, backwards=True, until_colors=["Yellow"])
         drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])
