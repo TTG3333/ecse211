@@ -100,6 +100,8 @@ def drive_straight(
                     print(diff, factor)
 
                     _drive_straight(speed_multiplier * mult * factor)
+            else:
+                print(f"Rejected value {US_SENSOR.get_value()}")
 
 
         sleep(POLLING_SPEED)
