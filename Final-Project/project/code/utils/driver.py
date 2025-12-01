@@ -84,6 +84,7 @@ def drive_straight(
 
         if until_distance is not None:
             if noiser.add(US_SENSOR.get_value()):
+                print("Added")
                 if (not backwards and noiser.get() < until_distance) or (backwards and noiser.get() > until_distance):
                     break
                 
@@ -96,6 +97,7 @@ def drive_straight(
                     diff = max(diff, 0)
                     ratio = min(diff / DISTANCE_ERROR, 1.0)
                     factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
+                    print(diff, factor)
 
                     _drive_straight(speed_multiplier * mult * factor)
 
