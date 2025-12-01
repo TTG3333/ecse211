@@ -9,7 +9,7 @@
 
 from utils.color    import Color
 from utils.sounds   import play_collect
-from utils.driver   import drive_distance, drive_straight
+from utils.driver   import drive_distance, drive_straight, move_precise_distance
 from utils.turning  import turn_angle
 from time           import sleep
 from math           import pi, sqrt, tan, atan
@@ -29,6 +29,8 @@ COLOR_CERTAINTY = True
 BELT_CIRCUMFERENCE = 3.5 * pi
 DISTANCE_PER_CUBE = 2.5 + 1.6
 HALF_WALL = 12
+WHEEL_CIRCUMFERENCE = 4 * pi
+GREEN_SQUARE_DISTANCE = 8
 
 # Motor speeds, in dps
 BASE_SPEED = -100
@@ -95,10 +97,10 @@ def handle_room():
             if str(color) == "Green":
                 print("Found green! Delivering")
                 delivered = True
-                drive_distance(8, backwards=True, precision=True)
+                move_precise_distance(distance=8, backwards=True)
                 _deliver_package()
                 play_collect().wait_done()
-                drive_distance(8, precision=True)
+                move_precise_distance(distance=8)
 
         drive_straight(None, backwards=True, until_colors=["Yellow"])
         drive_straight(None, backwards=True, until_colors=["Orange", "White", "Black"])

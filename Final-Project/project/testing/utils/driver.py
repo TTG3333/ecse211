@@ -64,7 +64,6 @@ def stop_moving():
     RIGHT_MOTOR .set_dps(0)
 
 # ---------------------------------------------------- #
-
 def drive_straight(
         until_distance=None, until_colors=None, delay=None, 
         backwards=False, speed_multiplier=1, adaptive_speed=True,

@@ -9,6 +9,7 @@
 from time           import sleep
 from utils.color    import Color
 from utils.dnoise   import dNoise
+from math           import pi
 
 # ---------------------------------------------------- #
 # Configurable settings
@@ -26,6 +27,9 @@ TURNING_THRESHOLD_TOLERANCE = 20
 
 ## Polling Configurations
 POLLING_SPEED = 0.02
+
+# Measurements
+WHEEL_CIRCUMFERENCE = 4 * pi
 
 ## Certainty Behavior
 COLOR_CERTAINTY = True
@@ -156,6 +160,15 @@ def follow_line(
 
     stop()
 
+def move_precise_distance(distance, backwards=False):
+    direction = -1 if not backwards else 1
+    LEFT_MOTOR.set_limits(dps=abs(BASE_SPEED))
+    RIGHT_MOTOR.set_limits(dps=abs(BASE_SPEED))
+    degrees = distance / WHEEL_CIRCUMFERENCE * 360 * direction
+    LEFT_MOTOR.set_position_relative(degrees)
+    RIGHT_MOTOR.set_position_relative(degrees)
+    sleep(degrees / abs(BASE_SPEED))
+
 # -- Wrappers ----------------------
 def stop():
     _drive_straight(0)
@@ -168,3 +181,4 @@ def drive_distance(distance, until_colors=None, delay=None, backwards=False, spe
     target_distance = current_distance - distance if not backwards else current_distance + distance
     dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier, adaptive_speed=adaptive_speed, precision=precision)
     return abs(current_distance - dist), color
+

@@ -86,7 +86,6 @@ def main():
 
     # Variables to determine if can end task early
     deliveries = 0
-    restricteds = 0
     current_pos = 0
 
     # Navigate through all the rooms 
@@ -97,13 +96,13 @@ def main():
                 break
 
             # Follow the line and enter the room
+            print(f"Going to room at distance: {room_dist}")
             follow_line(until_distance=room_dist, speed_multiplier=LINE_FOLLOWER_MULT)
 
             delivery_status = room_procedure()
 
             # End position variable updates
             deliveries += 1 if delivery_status == "delivered" else 0
-            restricteds += 1 if delivery_status == "restricted" else 0
             current_pos += 1
 
             turn_until(direction='left', until_colors=["Black"], angle_after_color=TURNING_OVERSHOOT_ROOM)
@@ -111,6 +110,7 @@ def main():
         # No more rooms in the line, navigate to the end of the line and turn left.
         follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         if deliveries >= 2:
+            print("Scanned all rooms. Ending scan.")
             break
 
     # Fastest path to the blue area
