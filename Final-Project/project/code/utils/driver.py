@@ -167,7 +167,7 @@ def move_precise_distance(distance, backwards=False):
     degrees = distance / WHEEL_CIRCUMFERENCE * 360 * direction
     LEFT_MOTOR.set_position_relative(degrees)
     RIGHT_MOTOR.set_position_relative(degrees)
-    sleep(degrees / abs(BASE_SPEED))
+    sleep(abs(degrees / abs(BASE_SPEED)))
 
 # -- Wrappers ----------------------
 def stop():
