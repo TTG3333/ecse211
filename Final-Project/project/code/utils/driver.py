@@ -123,6 +123,7 @@ def follow_line(
         until_distance=8, until_colors=None, delay=None, 
         speed_multiplier=1, adaptive_speed=True
 ):
+    print(f"Going until {until_distance}")
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
 
@@ -137,15 +138,18 @@ def follow_line(
         _drive_offset(offset, speed_multiplier)
 
         if noiser.add(US_SENSOR.get_value()):
+            print(noiser.get())
+            print("Just read", noiser.get() < until_distance, noiser.get(), type(noiser.get()), until_distance, type(until_distance))
             if noiser.get() < until_distance:
+                print(f"breaking at {noiser.get()}")
                 break
 
             if adaptive_speed:
-                    diff = abs(noiser.get() - until_distance)
-                    ratio = diff / DISTANCE_ERROR
-                    if ratio < 1:
-                        factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
-                        _drive_straight(speed_multiplier * factor)
+                diff = abs(noiser.get() - until_distance)
+                ratio = diff / DISTANCE_ERROR
+                if ratio < 1:
+                    factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
+                    _drive_straight(speed_multiplier * factor)
 
         if until_colors:
             color = Color(*COLOR_SENSOR.get_rgb())
