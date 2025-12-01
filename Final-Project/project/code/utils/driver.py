@@ -88,11 +88,17 @@ def drive_straight(
                     break
                 
                 if adaptive_speed:
-                    diff = abs(noiser.get() - until_distance)
-                    ratio = diff / DISTANCE_ERROR
-                    if ratio < 1:
-                        factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
-                        _drive_straight(speed_multiplier * mult * factor)
+                    if not backwards:
+                        diff = noiser.get() - until_distance
+                    else:
+                        diff = until_distance - noiser.get()
+
+                    diff = max(diff, 0)
+                    ratio = min(diff / DISTANCE_ERROR, 1.0)
+                    factor = ADAPTIVE_PERCENT + (1.0 - ADAPTIVE_PERCENT) * ratio
+
+                    _drive_straight(speed_multiplier * mult * factor)
+
 
         sleep(POLLING_SPEED)
 
@@ -154,8 +160,8 @@ def stop():
 def drive_back(multiplier=1):
     _drive_straight(-multiplier)
 
-def drive_distance(distance, until_colors=None, delay=None, backwards=False, speed_multiplier=1):
+def drive_distance(distance, until_colors=None, delay=None, backwards=False, speed_multiplier=1, adaptive_speed=True):
     current_distance = US_SENSOR.get_value()
     target_distance = current_distance - distance if not backwards else current_distance + distance
-    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier)
+    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier, adaptive_speed=adaptive_speed)
     return abs(current_distance - dist), color
