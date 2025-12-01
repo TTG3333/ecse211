@@ -26,9 +26,6 @@ COLOR_CERTAINTY = True
 ANGLE_ERROR = 5
 ADAPTIVE_PERCENT = 0.25
 
-# E-Stop Handling
-STOP_TURNING = False
-
 # ---------------------------------------------------- #
 
 def init_t(color, gyro, ultrasonic, right_m, left_m, package_m):

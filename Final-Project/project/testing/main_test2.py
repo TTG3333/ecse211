@@ -98,7 +98,7 @@ def main():
             # Check if it already delivered all the packages
             if deliveries >= 2:
                 break
-            
+
             # Follow the line and enter the room
             follow_line(until_distance=room_dist, speed_multiplier=LINE_FOLLOWER_MULT)
 
@@ -114,8 +114,8 @@ def main():
                 turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
 
         # No more rooms in the line, navigate to the end of the line and turn left.
+        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         if (deliveries < 2 or restricteds < 1):
-            follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
             turn_until_combined(direction='left', colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
         else: 
             break

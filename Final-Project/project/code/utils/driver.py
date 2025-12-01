@@ -35,7 +35,7 @@ DISTANCE_ERROR = 5
 ADAPTIVE_PERCENT = 0.25
 
 ## dNoise Derivative Behavior
-MAX_SLOPE = 
+MAX_SLOPE = 100 # High tolerance
 
 # ---------------------------------------------------- #
 
@@ -67,7 +67,8 @@ def stop_moving():
 
 def drive_straight(
         until_distance=None, until_colors=None, delay=None, 
-        backwards=False, speed_multiplier=1, adaptive_speed=True
+        backwards=False, speed_multiplier=1, adaptive_speed=True,
+        precision = False
 ):
     noiser = dNoise(MAX_SLOPE)
     noiser.add(US_SENSOR.get_value())
@@ -84,7 +85,6 @@ def drive_straight(
 
         if until_distance is not None:
             if noiser.add(US_SENSOR.get_value()):
-                print("Added")
                 if (not backwards and noiser.get() < until_distance) or (backwards and noiser.get() > until_distance):
                     break
                 
@@ -100,9 +100,8 @@ def drive_straight(
                     print(diff, factor)
 
                     _drive_straight(speed_multiplier * mult * factor)
-            else:
-                print(f"Rejected value {US_SENSOR.get_value()}")
-
+            elif precision:
+                stop() # Yield until valid value
 
         sleep(POLLING_SPEED)
 
@@ -164,8 +163,8 @@ def stop():
 def drive_back(multiplier=1):
     _drive_straight(-multiplier)
 
-def drive_distance(distance, until_colors=None, delay=None, backwards=False, speed_multiplier=1, adaptive_speed=True):
+def drive_distance(distance, until_colors=None, delay=None, backwards=False, speed_multiplier=1, adaptive_speed=True, precision=False):
     current_distance = US_SENSOR.get_value()
     target_distance = current_distance - distance if not backwards else current_distance + distance
-    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier, adaptive_speed=adaptive_speed)
+    dist, color = drive_straight(until_distance=target_distance, until_colors=until_colors, delay=delay, backwards=backwards, speed_multiplier=speed_multiplier, adaptive_speed=adaptive_speed, precision=precision)
     return abs(current_distance - dist), color
