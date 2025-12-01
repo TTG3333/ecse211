@@ -27,7 +27,7 @@ COLOR_CERTAINTY = True
 
 # Measurements, all in cm
 BELT_CIRCUMFERENCE = 3.5 * pi
-DISTANCE_PER_CUBE = 2.5 + 0.8
+DISTANCE_PER_CUBE = 2.5 + 1.6
 HALF_WALL = 12
 
 # Motor speeds, in dps
