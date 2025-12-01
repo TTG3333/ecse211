@@ -95,6 +95,10 @@ def main():
     # Navigate through all the rooms 
     for line in ROOMS:
         for room_dist in line:
+            # Check if it already delivered all the packages
+            if deliveries >= 2:
+                break
+            
             # Follow the line and enter the room
             follow_line(until_distance=room_dist, speed_multiplier=LINE_FOLLOWER_MULT)
 
