@@ -41,6 +41,9 @@ END_ROOM_DISTANCE   = 57.5
 LINE_FOLLOWER_MULT = 1.1
 LINE_FOLLOWER_END_MULT = 1.3
 
+# Angle Configurations
+TURNING_MAX_OVERSHOOT = 10
+
 # Initialization Configuration
 INITIALIZER         = (COLOR_SENSOR, GYRO_SENSOR, US_SENSOR, LEFT_MOTOR, RIGHT_MOTOR, PACKAGE_MOTOR)
 # ---------------------------------------------------- #
@@ -101,33 +104,33 @@ def main():
 
             if (deliveries < 2 or restricteds < 1):
                 # Get back on the original path
-                turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+                turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
 
         # No more rooms in the line, navigate to the end of the line and turn left.
         if (deliveries < 2 or restricteds < 1):
             follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
-            turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+            turn_until_combined(direction='left', colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
         else: 
             break
 
     # Fastest path to the blue area
     if current_pos == 3: 
         # Case 1 - end after 3 rooms
-        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
         follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
-        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
         follow_line(until_distance=END_ROOM_DISTANCE)
         
     elif current_pos == 4:
         # Case 2 - end after 4 rooms
         for i in range(2):
-            turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+            turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
             follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
-        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
+        turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
         follow_line(until_distance=END_ROOM_DISTANCE)
         
     # Final stretch
-    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
+    turn_until_combined(direction='left', colors_list=[["Black"], ["White"]], max_angle=90+TURNING_MAX_OVERSHOOT)
     follow_line(until_colors=["Orange"])
     drive_straight(until_colors=["Blue"], delay=1.5)
 
