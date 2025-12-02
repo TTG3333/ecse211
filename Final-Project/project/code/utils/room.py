@@ -7,7 +7,6 @@
     Before using, please use wait_ready_sensors in another file.
 '''
 
-from utils.color    import Color
 from utils.sounds   import play_collect
 from utils.driver   import drive_distance, drive_straight, move_precise_distance
 from utils.turning  import turn_angle
@@ -86,7 +85,8 @@ def handle_room():
     start = GYRO_SENSOR.get_abs_measure()
 
     for offset in ANGLE_OFFSETS: # The square is at least 2 inches away from the wall
-        _, color = drive_straight(None, until_colors=["White", "Green", "Black", "Blue"])
+        drive_straight(None, until_colors=["Yellow"]) # Clear the orange
+        _, color = drive_straight(None, until_colors=["White", "Green", "Black", "Blue", "Orange"])
 
         # If green square detected
         if not COLOR_CERTAINTY or color.is_certain():

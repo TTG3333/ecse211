@@ -1,6 +1,6 @@
-'''
-    Another main test file
-'''
+"""
+Main program to run the final project robot.
+"""
 
 from utils.brick    import Motor, EV3GyroSensor, EV3UltrasonicSensor, EV3ColorSensor, TouchSensor, wait_ready_sensors, BP
 
@@ -43,6 +43,7 @@ END_ROOM_DISTANCE   = 57.5
 # Speed Configuration
 LINE_FOLLOWER_MULT      = 1.35
 LINE_FOLLOWER_END_MULT  = 1.5
+EMPTY_SPEED_MULT        = 1.75
 
 # Angle Configurations
 TURNING_OVERSHOOT_ROOM = 10
@@ -68,7 +69,7 @@ def room_procedure():
     delivery_status = handle_room()
 
     # Turn back to exit the room
-    turn_angle(175, direction='right')
+    turn_angle(175, direction='right', until_colors=["Black"])
     drive_straight(until_distance=WALL_DISTANCE)
     
     return delivery_status
@@ -121,17 +122,17 @@ def main():
     if current_pos == 2: 
         # Case 1 - end after 2 rooms
         print("Navigating to end from Room 2")
-        follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT) # Until the end of the line
+        follow_line(speed_multiplier=EMPTY_SPEED_MULT) # Until the end of the line
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=EMPTY_SPEED_MULT)
 
     # Fastest path to the blue area
     if current_pos == 3: 
         # Case 2 - end after 3 rooms
         print("Navigating to end from Room 3")
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=EMPTY_SPEED_MULT)
         
     elif current_pos == 4:
         # Case 3 - end after 4 rooms
@@ -139,11 +140,11 @@ def main():
         follow_line(speed_multiplier=LINE_FOLLOWER_END_MULT)
         turn_until_combined(direction='left',   colors_list=[["Black"], ["White"]])
         print("Landing on End Room Line")
-        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=LINE_FOLLOWER_END_MULT)
+        follow_line(until_distance=END_ROOM_DISTANCE, speed_multiplier=EMPTY_SPEED_MULT)
         
     # Final stretch
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
-    follow_line(until_colors=["Orange"], speed_multiplier=LINE_FOLLOWER_END_MULT)
+    follow_line(until_colors=["Orange"], speed_multiplier=EMPTY_SPEED_MULT)
     drive_straight(until_colors=["Blue"], delay=1.5)
 
     # Play the clear sound and exit the program
