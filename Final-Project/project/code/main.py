@@ -43,7 +43,8 @@ END_ROOM_DISTANCE   = 57.5
 # Speed Configuration
 LINE_FOLLOWER_MULT      = 1.6
 LINE_FOLLOWER_END_MULT  = 1.65
-EMPTY_SPEED_MULT        = 2
+EMPTY_SPEED_MULT        = 2.1
+LAST_STRETCH_MULT       = 1.8
 
 # Angle Configurations
 TURNING_OVERSHOOT_ROOM = 10
@@ -144,7 +145,7 @@ def main():
         
     # Final stretch
     turn_until_combined(direction='left', colors_list=[["Black"], ["White"]])
-    follow_line(until_colors=["Orange"], speed_multiplier=EMPTY_SPEED_MULT)
+    follow_line(until_colors=["Orange"], speed_multiplier=LAST_STRETCH_MULT)
     drive_straight(until_colors=["Blue"], delay=1.5)
 
     # Play the clear sound and exit the program
