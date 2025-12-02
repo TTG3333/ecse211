@@ -27,14 +27,13 @@ COLOR_CERTAINTY = True
 
 # Measurements, all in cm
 BELT_CIRCUMFERENCE = 3.5 * pi
-DISTANCE_PER_CUBE = 2.5 + 1.8
+DISTANCE_PER_CUBE = 2.5 + 2
 HALF_WALL = 12
 WHEEL_CIRCUMFERENCE = 4 * pi
 GREEN_SQUARE_DISTANCE = 8
 
 # Motor speeds, in dps
-BASE_SPEED = -100
-TURN_SPEED = 100
+PACKAGE_SPEED = 100
 
 # ---------------------------------------------------- #
 
@@ -54,9 +53,9 @@ def _deliver_package():
     degrees = DISTANCE_PER_CUBE / BELT_CIRCUMFERENCE * 360
 
     # Move the belt motor
-    PACKAGE_MOTOR.set_limits(dps=90)
+    PACKAGE_MOTOR.set_limits(dps=PACKAGE_SPEED)
     PACKAGE_MOTOR.set_position_relative(-degrees)
-    sleep(degrees/90 + 0.25)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
+    sleep(degrees/PACKAGE_SPEED + 0.2)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
 
 # ---------------------------------------------------- #
 
