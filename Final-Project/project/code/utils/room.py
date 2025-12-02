@@ -17,7 +17,7 @@ from math           import pi
 # Configurable settings
 
 # Turning Configurations
-TURN_ANGLES = [-45, -37] + list(range(-30, 31, 6)) + [37, 45]
+TURN_ANGLES = [-46, -37] + list(range(-30, 31, 6)) + [37, 46]
 START_ANGLE = TURN_ANGLES[0]
 END_ANGLE   = TURN_ANGLES[-1]
 ANGLE_OFFSETS = [TURN_ANGLES[i+1] - TURN_ANGLES[i] for i in range(len(TURN_ANGLES)-1)] + [0] # Don't turn after the last ray
@@ -78,7 +78,6 @@ def handle_room():
     zero = GYRO_SENSOR.get_abs_measure()
     print(f"Entered room, starting scan from angle {zero} degrees.")
 
-    # Start at -30, end at 30, sensor is clockwise
     delivered = False
 
     turn_angle(abs(START_ANGLE), direction='left')
