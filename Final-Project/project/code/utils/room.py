@@ -54,7 +54,7 @@ def _deliver_package():
 
     # Move the belt motor
     PACKAGE_MOTOR.set_limits(dps=PACKAGE_SPEED)
-    PACKAGE_MOTOR.set_position_relative(-degrees)
+    PACKAGE_MOTOR.set_position_relative(degrees)
     sleep(degrees/PACKAGE_SPEED + 0.2)  # Wait for the movement to complete, the wait_is_stopped doesn't seem to work reliably
 
 # ---------------------------------------------------- #
