@@ -41,9 +41,9 @@ WALL_DISTANCE       = 8
 END_ROOM_DISTANCE   = 57.5
 
 # Speed Configuration
-LINE_FOLLOWER_MULT      = 1.6
+LINE_FOLLOWER_MULT      = 1.5
 LINE_FOLLOWER_END_MULT  = 1.65
-EMPTY_SPEED_MULT        = 2.1
+EMPTY_SPEED_MULT        = 2
 LAST_STRETCH_MULT       = 1.8
 
 # Angle Configurations
