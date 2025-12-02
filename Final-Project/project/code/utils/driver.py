@@ -15,8 +15,8 @@ from math           import pi
 # Configurable settings
 
 ## Speed Configurations
-BASE_SPEED      = 350
-ADJUST_SPEED    = 55
+BASE_SPEED      = 375
+ADJUST_SPEED    = 60
 
 ## Color Configurations
 WHITE_CONSTANT = 255
